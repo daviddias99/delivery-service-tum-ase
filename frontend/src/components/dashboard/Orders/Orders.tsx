@@ -7,6 +7,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Title from 'components/common/Title/Title';
 
+import './styles.scss'
+
 // Generate Order Data
 function createData(
   id: number,
@@ -61,8 +63,9 @@ function preventDefault(event: React.MouseEvent) {
 
 export default function Orders() {
   return (
-    <React.Fragment>
+    <div id="recent-orders">
       <Title>Recent Orders</Title>
+      <h4>Example subtitle to demonstrate SASS</h4>
       <Table size="small">
         <TableHead>
           <TableRow>
@@ -88,6 +91,6 @@ export default function Orders() {
       <Link color="primary" href="#" onClick={preventDefault} sx={{ mt: 3 }}>
         See more orders
       </Link>
-    </React.Fragment>
+    </div>
   );
 }
