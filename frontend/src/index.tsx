@@ -4,7 +4,7 @@ import Dashboard from 'pages/Dashboard/Dashboard';
 import reportWebVitals from './reportWebVitals';
 
 /* Global styles */
-import 'assets/styles/index.scss';
+import 'assets/styles/common.scss';
 
 ReactDOM.render(
   <React.StrictMode>
