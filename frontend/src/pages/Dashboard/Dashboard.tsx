@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -20,6 +20,8 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
 import Deposits from 'components/dashboard/Deposits/Deposits';
 import Orders from 'components/dashboard/Orders/Orders';
+
+import api from 'services/api';
 
 function Copyright(props: any) {
   return (
@@ -87,10 +89,16 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const mdTheme = createTheme();
 
 function DashboardContent() {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
+  useEffect(
+    () => {
+      api.login({username: 'user'}, (a) => console.log(a));
+    }
+  )
 
   return (
     <ThemeProvider theme={mdTheme}>
