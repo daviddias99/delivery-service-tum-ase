@@ -18,8 +18,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
-import Deposits from 'components/Deposits/Deposits';
-import Orders from 'components/Orders/Orders';
+import Deposits from 'components/dashboard/Deposits/Deposits';
+import Orders from 'components/dashboard/Orders/Orders';
 
 function Copyright(props: any) {
   return (
