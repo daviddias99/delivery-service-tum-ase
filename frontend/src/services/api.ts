@@ -23,7 +23,7 @@ const routes = {
  * makes an unauthenticated request.
  */
 
-type RestMethod = "GET" | "POST" | "PUT" | "DELETE" | "get" | "post" | "put" | "delete";
+type RestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'get' | 'post' | 'put' | 'delete';
 
 type RequestResponse = {
   status: string,
@@ -31,11 +31,11 @@ type RequestResponse = {
   error?: any
 }
 
-const request = (path: string, method: RestMethod, data: any, callback: (a: RequestResponse) => any) => {
-  
+const request = (path: string, method: RestMethod, data: any, callback: (_res: RequestResponse) => any) => {
+
   path = path.startsWith('/') ? path : '/' + path;
   path = path.endsWith('/') ? path : path + '/';
-  
+
   const headers = {};
 
   // TODO: Add authorization headers here
@@ -59,7 +59,8 @@ const request = (path: string, method: RestMethod, data: any, callback: (a: Requ
   }
 };
 
-const asyncRequest = async (path: string, method: RestMethod, data: any, callback: (a: RequestResponse) => any) => {
+// eslint-disable-next-line no-unused-vars
+const asyncRequest = async (path: string, method: RestMethod, data: any) => {
   path = path.startsWith('/') ? path : '/' + path;
   path = path.endsWith('/') ? path : path + '/';
 
@@ -83,10 +84,10 @@ const asyncRequest = async (path: string, method: RestMethod, data: any, callbac
  * the app and the server.
  */
 const api = {
-  login: (data: any, callback: (a: RequestResponse) => any) => {
+  login: (data: any, callback: (_res: RequestResponse) => any) => {
     request(routes.login, 'post', data, callback);
   },
-  logout: (callback: (a: RequestResponse) => any) => {
+  logout: (callback: (_res: RequestResponse) => any) => {
     request(routes.logout, 'post', null, callback);
   },
 };

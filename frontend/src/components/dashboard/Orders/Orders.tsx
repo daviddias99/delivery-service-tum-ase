@@ -7,7 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Title from 'components/common/Title/Title';
 
-import './styles.scss'
+import './styles.scss';
 
 // Generate Order Data
 function createData(
@@ -61,7 +61,7 @@ function preventDefault(event: React.MouseEvent) {
   event.preventDefault();
 }
 
-export default function Orders() {
+const Orders = () => {
   return (
     <div id="recent-orders">
       <Title>Recent Orders</Title>
@@ -77,13 +77,23 @@ export default function Orders() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {rows.map((row: any) => (
             <TableRow key={row.id}>
-              <TableCell>{row.date}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.shipTo}</TableCell>
-              <TableCell>{row.paymentMethod}</TableCell>
-              <TableCell align="right">{`$${row.amount}`}</TableCell>
+              <TableCell>
+                {row.date}
+              </TableCell>
+              <TableCell>
+                {row.name}
+              </TableCell>
+              <TableCell>
+                {row.shipTo}
+              </TableCell>
+              <TableCell>
+                {row.paymentMethod}
+              </TableCell>
+              <TableCell align="right">
+                {`$${row.amount}`}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -93,4 +103,6 @@ export default function Orders() {
       </Link>
     </div>
   );
-}
+};
+
+export default Orders;

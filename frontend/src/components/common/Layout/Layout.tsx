@@ -1,4 +1,4 @@
-import { useEffect, useState, FunctionComponent } from 'react';
+import React, { useEffect, useState, FunctionComponent } from 'react';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -79,7 +79,7 @@ const Layout: FunctionComponent = ({ children }) => {
     () => {
       api.login({ username: 'user' }, (a) => console.log(a));
     }
-  )
+  );
 
   return (
     <ThemeProvider theme={mdTheme}>
@@ -133,9 +133,13 @@ const Layout: FunctionComponent = ({ children }) => {
             </IconButton>
           </Toolbar>
           <Divider />
-          <List>{mainListItems}</List>
+          <List>
+            {mainListItems}
+          </List>
           <Divider />
-          <List>{secondaryListItems}</List>
+          <List>
+            {secondaryListItems}
+          </List>
         </Drawer>
         <Box
           component="main"
@@ -154,6 +158,6 @@ const Layout: FunctionComponent = ({ children }) => {
       </Box>
     </ThemeProvider>
   );
-}
+};
 
 export default Layout;

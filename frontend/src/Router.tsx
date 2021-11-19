@@ -6,11 +6,10 @@ import routes from 'routes';
 import Dashboard from 'pages/Dashboard/Dashboard';
 
 type PrivateRouteProps = {
-  path: string
   children: ReactElement,
 }
 
-const PrivateRoute: FunctionComponent<PrivateRouteProps> = ({ children, path }) => {
+const PrivateRoute: FunctionComponent<PrivateRouteProps> = ({ children }) => {
 
   const loggedIn = true; // Later use Redux to fetch logged in status
 
@@ -21,21 +20,23 @@ const PrivateRoute: FunctionComponent<PrivateRouteProps> = ({ children, path }) 
 
 const Router = () => {
 
+  // eslint-disable-next-line no-unused-vars
   const loggedIn = true; // Later use Redux to fetch logged in status
 
   return (
     <BrowserRouter>
       <Routes>
 
-        <Route path={routes.delivery.def}/>
+        <Route path={routes.delivery.def} />
 
         <Route path="/" element={<Navigate to={routes.dashboard.def} />} />
 
         <Route path={routes.dashboard.def} element={
-          <PrivateRoute path={routes.dashboard.def}>
+          <PrivateRoute>
             <Dashboard />
           </PrivateRoute>
-        } />
+        }
+        />
 
       </Routes>
     </BrowserRouter>

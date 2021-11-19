@@ -7,7 +7,7 @@ function preventDefault(event: React.MouseEvent) {
   event.preventDefault();
 }
 
-export default function Deposits() {
+const Deposits = () => {
   return (
     <React.Fragment>
       <Title>Recent Deposits</Title>
@@ -24,4 +24,6 @@ export default function Deposits() {
       </div>
     </React.Fragment>
   );
-}
+};
+
+export default Deposits;

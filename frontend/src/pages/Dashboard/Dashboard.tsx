@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -8,30 +8,31 @@ import Link from '@mui/material/Link';
 import Deposits from 'components/dashboard/Deposits/Deposits';
 import Orders from 'components/dashboard/Orders/Orders';
 
-import Layout from 'components/common/Layout/Layout'
+import Layout from 'components/common/Layout/Layout';
 
 import api from 'services/api';
 
-function Copyright(props: any) {
+const Copyright = (props: any) => {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
         Your Website
-      </Link>{' '}
+      </Link>
+      {' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
   );
-}
+};
 
-function DashboardContent() {
+const Dashboard = () => {
 
   useEffect(
     () => {
       api.login({ username: 'user' }, (a) => console.log(a));
     }
-  )
+  );
 
   return (
     <Layout>
@@ -74,8 +75,6 @@ function DashboardContent() {
       </Container>
     </Layout>
   );
-}
+};
 
-export default function Dashboard() {
-  return <DashboardContent />;
-}
+export default Dashboard;

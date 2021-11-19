@@ -1,4 +1,4 @@
-const route = (def: string, ref?: (...args: any[]) => string ) => ({
+const route = (def: string, ref?: (..._args: any[]) => string ) => ({
   def: def,
   ref: ref || (() => def),
 });
