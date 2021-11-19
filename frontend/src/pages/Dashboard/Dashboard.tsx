@@ -96,7 +96,7 @@ function DashboardContent() {
 
   useEffect(
     () => {
-      api.login({username: 'user'}, (a) => console.log(a));
+      api.login({ username: 'user' }, (a) => console.log(a));
     }
   )
 

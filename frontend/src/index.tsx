@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Dashboard from 'pages/Dashboard/Dashboard';
 import reportWebVitals from './reportWebVitals';
+import Router from './Router';
 
 /* Global styles */
 import 'assets/styles/common.scss';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Dashboard />
+    <Router />
   </React.StrictMode>,
   document.getElementById('root')
 );
