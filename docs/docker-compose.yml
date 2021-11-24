@@ -1,0 +1,10 @@
+version: '3.1'
+services:
+  mongo:
+    image: mongo
+    ports:
+      - '27017:27017'
+
+
+#command:
+#docker-compose -f <PATH TO YML> up -d
