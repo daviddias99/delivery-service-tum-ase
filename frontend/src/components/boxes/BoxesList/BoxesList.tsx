@@ -2,10 +2,9 @@ import * as React from 'react';
 import { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 
-import Title from 'components/common/Title/Title';
 import { Box } from 'types';
 
-import { columns } from './helper';
+import { boxesTableColumns } from './helper';
 
 import './styles.scss';
 
@@ -20,13 +19,12 @@ const BoxesList = ({ boxes }: BoxesListProps) => {
 
   return (
     <div id="boxes-list" >
-      <Title>Boxes</Title>
       <DataGrid
         autoHeight={true}
         pageSize={pageSize}
         onPageSizeChange={setPageSize}
         rowsPerPageOptions={[5, 10, 15]}
-        columns={columns}
+        columns={boxesTableColumns}
         rows={boxes}
         hideFooterSelectedRowCount={true}
       />

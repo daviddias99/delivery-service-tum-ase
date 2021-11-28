@@ -1,9 +1,5 @@
-
-enum BoxStatus {
-  FREE = 'free',
-  ASSIGNED = 'assigned',
-  FULL = 'full',
-}
+type BoxStatus = 'free' | 'assigned' | 'active';
+type DeliveryStatus = 'ordered' | 'dispatched' | 'delivered' | 'collected';
 
 type Box = {
   id: string,
@@ -14,14 +10,27 @@ type Box = {
     city: string,
     postalCode: string
   }
-  status: string
+  status: BoxStatus
+}
+
+type Delivery = {
+  id: string,
+  deliverer: {
+    name: string,
+    id: string,
+  },
+  customer: {
+    name: string,
+    id: string,
+  },
+  status: DeliveryStatus,
+  statusUpdate: string
 }
 
 export type {
-  Box
-};
-
-export {
-  BoxStatus
+  Box,
+  BoxStatus,
+  Delivery,
+  DeliveryStatus,
 };
 

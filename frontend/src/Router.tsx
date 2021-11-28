@@ -5,6 +5,7 @@ import routes from 'routes';
 
 import Dashboard from 'pages/Dashboard/Dashboard';
 import Boxes from 'pages/Boxes/Boxes';
+import Box from 'pages/Box/Box';
 
 type PrivateRouteProps = {
   children: ReactElement,
@@ -42,6 +43,13 @@ const Router = () => {
         <Route path={routes.boxes.def} element={
           <PrivateRoute>
             <Boxes />
+          </PrivateRoute>
+        }
+        />
+
+        <Route path={routes.box.def} element={
+          <PrivateRoute>
+            <Box />
           </PrivateRoute>
         }
         />

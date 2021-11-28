@@ -18,6 +18,12 @@ const routes = {
   boxes: route(
     '/box',
   ),
+
+  box: route(
+    '/box/:boxId',
+    (boxId) => (`/box/${boxId}`)
+  ),
+
 };
 
 export default routes;

@@ -2,34 +2,19 @@ import * as React from 'react';
 import Chip from '@mui/material/Chip';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
+import { getBoxStatusColor, toUpperCase } from 'utils';
 
-const getColumnColor = (value: string) => {
-
-  switch (value) {
-    case 'assigned':
-      return 'info';
-    case 'full':
-      return 'warning';
-    case 'free':
-      return 'success';
-    default:
-      break;
-  }
-};
-
-const columns = [
+const boxesTableColumns = [
   { field: 'id', headerName: 'ID', width: 90, flex: 0.4 },
-
   {
     field: 'name',
     headerName: 'Name',
     flex: 0.5,
-
   },
   {
     field: 'status',
     headerName: 'Status',
-    renderCell: (params: any) => (<Chip size="small" label={params.row.status.charAt(0).toUpperCase() + params.row.status.slice(1)} color={getColumnColor(params.row.status)} />)
+    renderCell: (params: any) => (<Chip size="small" label={toUpperCase(params.row.status)} color={getBoxStatusColor(params.row.status)} />)
   },
   {
     field: 'address',
@@ -40,6 +25,7 @@ const columns = [
   {
     field: 'addressComp',
     sortable: false,
+    filterable: false,
     headerName: 'Address Complement',
     valueGetter: (params: any) => params.row.address.addressLine2,
     flex: 0.3,
@@ -73,4 +59,4 @@ const columns = [
   },
 ];
 
-export { columns };
+export { boxesTableColumns };
