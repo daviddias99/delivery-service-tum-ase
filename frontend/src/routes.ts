@@ -14,6 +14,10 @@ const routes = {
     '/delivery/:deliveryId',
     (deliveryId) => (`/researcher/${deliveryId}`)
   ),
+
+  boxes: route(
+    '/box',
+  ),
 };
 
 export default routes;

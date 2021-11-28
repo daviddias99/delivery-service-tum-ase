@@ -1,7 +1,6 @@
 import * as React from 'react';
-// import cx from 'classnames';
-// import { Link } from 'react-router-dom';
-import Link from '@mui/material/Link';
+import cx from 'classnames';
+import { Link } from 'react-router-dom';
 import { ListItem, ListItemIcon, ListItemText } from '@mui/material';
 
 import './styles.scss';
@@ -15,7 +14,7 @@ type SidebarMenuProps = {
 const SidebarMenuItem = ({ title, icon, link }: SidebarMenuProps) => {
   const selected: boolean = window.location.pathname === link;
   return (
-    <Link href={link} underline={selected ? 'always' : 'none'} color="inherit">
+    <Link to={link} className={cx('sidebarmenu-link', { selected })}>
       <ListItem button>
         <ListItemIcon>
           {icon}

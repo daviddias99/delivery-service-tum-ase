@@ -102,6 +102,7 @@ const Layout: FunctionComponent = ({ children }) => {
             overflow: 'auto',
           }}
         >
+          <Toolbar />
           {children}
         </Box>
       </Box>
