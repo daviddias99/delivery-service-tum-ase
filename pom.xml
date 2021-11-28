@@ -29,6 +29,7 @@
         <module>delivery-service</module>
         <module>delivery-service</module>
         <module>service-communication</module>
+        <module>box-service</module>
     </modules>
 
 
