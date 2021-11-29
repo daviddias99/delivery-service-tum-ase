@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
@@ -36,7 +35,6 @@ const Dashboard = () => {
 
   return (
     <Layout>
-      <Toolbar />
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
         <Grid container spacing={3}>
           {/* Chart */}
