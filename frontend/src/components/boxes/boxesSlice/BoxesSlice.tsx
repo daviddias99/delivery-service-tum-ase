@@ -1,16 +1,6 @@
-import React, { useEffect } from 'react';
-import Container from '@mui/material/Container';
-import Paper from '@mui/material/Paper';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import {Box} from '../../../types';
 
-import Title from 'components/common/Title/Title';
-import Layout from 'components/common/Layout/Layout';
-import BoxesList from 'components/boxes/BoxesList/BoxesList';
-
-import api from 'services/api';
-import { Box } from 'types';
-import { ManageBoxes } from 'components/boxes/boxManagement/Manage';
-
-// TODO: delete
 export const boxesStub: Box[] = [
 
   { id: 'bfZPwGdetxUlGgpb', name: 'Allen Blair', address: { addressLine1: '1752 Onhop Pike', addressLine2: '7', city: 'Jopnifes', postalCode: '5352-457' }, status: 'active' },
@@ -33,25 +23,30 @@ export const boxesStub: Box[] = [
   { id: 'TEtFGGPyTJgzWVyy', name: 'Dorothy Bryan', address: { addressLine1: '1045 Vapfa Circle', addressLine2: '10', city: 'Kojawureg', postalCode: '6959-638' }, status: 'assigned' },
 ];
 
-const Boxes = () => {
 
-  useEffect(
-    () => {
-      api.login({ username: 'user' }, (a) => console.log(a));
-    }
-  );
 
-  return (
-    <Layout>
-      <Container maxWidth={false} sx={{ mt: 4, mb: 4 }}>
-        <Paper sx={{ p: '2em', display: 'flex', flexDirection: 'column' }}>
-          <ManageBoxes />
-          <Title>Boxes</Title>
-          <BoxesList boxes={boxesStub} />
-        </Paper>
-      </Container>
-    </Layout>
-  );
+const initialState = {
+  boxesList: boxesStub as any,
+  boxesSelected: [] as any,
 };
 
-export default Boxes;
+
+export const boxSlice = createSlice({
+  name: 'box',
+  initialState,
+  reducers: {
+    updateBox: (state, action) => {
+      state.boxesList = action.payload;
+    },
+
+    updateSelectedBox: (state, action) => {
+      state.boxesSelected = action.payload;
+    },
+  },
+});
+
+
+export const {updateBox, updateSelectedBox} = boxSlice.actions;
+export const boxesList = (state: any) => state.boxes.boxesList;
+export const selectedBoxes = (state: any) => state.boxes.boxesSelected;
+export default boxSlice.reducer;
