@@ -16,7 +16,7 @@ public class BoxController {
     @Autowired
     private BoxService boxService;
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<BoxDto> addBox(@RequestBody BoxDto boxDto){
         return ResponseEntity.ok(boxService.save(boxDto));
     }
@@ -31,7 +31,7 @@ public class BoxController {
         return ResponseEntity.ok(boxService.deleteBox(id));
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
     public ResponseEntity<List<BoxDto>> listBoxes(){
         List<BoxDto> data = boxService.getAll();
         return ResponseEntity.ok(data);
