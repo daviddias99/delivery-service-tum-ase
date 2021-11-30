@@ -12,7 +12,6 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class Box {
 
     @Id
-    @Indexed(unique = true)
     @Field("id")
     private String id;
 
