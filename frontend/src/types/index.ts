@@ -1,4 +1,4 @@
-type BoxStatus = 'free' | 'assigned' | 'active'| 'inactive' ;
+type BoxStatus = 'free' | 'assigned' | 'active' | 'inactive';
 type DeliveryStatus = 'ordered' | 'dispatched' | 'delivered' | 'collected';
 
 type Box = {
