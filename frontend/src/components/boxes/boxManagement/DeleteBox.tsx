@@ -1,18 +1,18 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import {updateBox, updateSelectedBox, selectedBoxes, boxesList} from '../boxesSlice/BoxesSlice';
-import {useState} from 'react';
+import {updateBoxes, updateSelectedBox, selectedBoxes, boxesList} from '../boxesSlice/BoxesSlice';
 import * as React from 'react';
-import { Alert, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
+import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Box } from 'types';
 
 
 
 
 export const DeleteBox = () => {
   const [open, setOpen] = React.useState(false);
-  const list: any[] = useSelector(boxesList);
-  const selected: any[] = useSelector(selectedBoxes);
+  const list: Box[] = useSelector(boxesList);
+  const selected: Box[] = useSelector(selectedBoxes);
   const dispatch = useDispatch();
   const handleClickOpen = () => {
     setOpen(true);
@@ -26,10 +26,13 @@ export const DeleteBox = () => {
     selected.forEach( element => {
       const index = newList.indexOf(element);
       if (index > -1) {
-        newList.splice(index, 1);
+        //newList.splice(index, 1);
+        const box = {...newList[index]};
+        box.status = 'inactive';
+        newList[index]= box;
       }
     });
-    dispatch(updateBox(newList));
+    dispatch(updateBoxes(newList));
     dispatch(updateSelectedBox([]));
     handleClose();
 

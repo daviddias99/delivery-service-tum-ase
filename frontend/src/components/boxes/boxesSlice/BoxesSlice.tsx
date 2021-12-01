@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import {Box} from '../../../types';
+import {createSlice } from '@reduxjs/toolkit';
+import {Box} from 'types/index';
 
 export const boxesStub: Box[] = [
 
@@ -26,16 +26,16 @@ export const boxesStub: Box[] = [
 
 
 const initialState = {
-  boxesList: boxesStub as any,
-  boxesSelected: [] as any,
+  boxesList: boxesStub as Box[],
+  boxesSelected: [] as Box[],
 };
 
 
-export const boxSlice = createSlice({
+export const boxesSlice = createSlice({
   name: 'box',
   initialState,
   reducers: {
-    updateBox: (state, action) => {
+    updateBoxes: (state, action) => {
       state.boxesList = action.payload;
     },
 
@@ -46,7 +46,7 @@ export const boxSlice = createSlice({
 });
 
 
-export const {updateBox, updateSelectedBox} = boxSlice.actions;
+export const {updateBoxes, updateSelectedBox} = boxesSlice.actions;
 export const boxesList = (state: any) => state.boxes.boxesList;
 export const selectedBoxes = (state: any) => state.boxes.boxesSelected;
-export default boxSlice.reducer;
+export default boxesSlice.reducer;

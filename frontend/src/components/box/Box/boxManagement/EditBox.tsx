@@ -1,11 +1,13 @@
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Grid} from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, TextField } from '@mui/material';
 import * as React from 'react';
+import EditIcon from '@mui/icons-material/Edit';
+import { boxInfo, updateBox } from 'components/box/Box/boxSlice/boxSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { Box } from 'types';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { boxesList, updateBoxes } from '../boxesSlice/BoxesSlice';
-
-const AddBox = () => {
+const EditBox = () => {
+  const dispatch = useDispatch();
+  const box = useSelector(boxInfo) as Box;
   const [open, setOpen] = useState(false);
   const [name, setName] = useState(' ');
   const [address, setAdress] = useState(' ');
@@ -19,24 +21,30 @@ const AddBox = () => {
   const handleClose = () => {
     setOpen(false);
   };
-  const list = useSelector(boxesList);
-  const dispatch = useDispatch();
 
-  const AddClicked = () => {
-    dispatch(updateBoxes([...list, { id: '1', name: name, address: { addressLine1: address, addressLine2: co, city: city, postalCode: postalCode }, status: 'free' }]));
+  const EditClicked = () => {
+    // copy the value from the store to change them.
+    const newBox = {...box};
+    const addressInfo = {...newBox.address};
+
+    newBox.name = name;
+    addressInfo.addressLine1 = address;
+    addressInfo.addressLine2 = co;
+    addressInfo.city = city;
+    addressInfo.postalCode = postalCode;
+    newBox.address= addressInfo;
+    dispatch(updateBox(newBox));
     handleClose();
   };
 
   return (
-    <div style={{display: 'inline-block'}}>
-      <Button variant="contained" color="success" sx={{mr: 6}} startIcon={<AddIcon />} onClick={handleClickOpen}>
-        Add box
-      </Button>
+    <React.Fragment>
+      <Button variant="contained" style={{ float: 'right'}} endIcon={<EditIcon />} onClick={handleClickOpen}>Edit</Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Add box</DialogTitle>
+        <DialogTitle>Edit box Information</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To add a new box, please fill these information.
+            Edit the following Cells.
           </DialogContentText>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
@@ -113,16 +121,15 @@ const AddBox = () => {
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           <Button onClick={() => {
-            AddClicked();
+            EditClicked();
           }}
           >
-            Add
+            Edit
           </Button>
         </DialogActions>
       </Dialog>
-
-    </div>
+    </React.Fragment>
   );
 };
 
-export default AddBox;
+export default EditBox;

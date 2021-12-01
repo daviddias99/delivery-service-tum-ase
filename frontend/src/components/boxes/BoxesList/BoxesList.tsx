@@ -10,20 +10,23 @@ import './styles.scss';
 import { useSelector, useDispatch } from 'react-redux';
 
 
-import {updateBox, updateSelectedBox, boxesList} from '../boxesSlice/BoxesSlice';
+import { updateSelectedBox, boxesList, selectedBoxes } from '../boxesSlice/BoxesSlice';
 
-export type BoxesListProps = {
-  boxes: Box[]
-};
 
-const BoxesList = ({ boxes }: BoxesListProps) => {
+const BoxesList = () => {
 
   const [pageSize, setPageSize] = useState(10);
   const list = useSelector(boxesList);
+  const selectedList = useSelector(selectedBoxes);
+  const selectionModel = ((selectedList: Box[]) => {
+    const list: any[] =[];
+    selectedList.forEach(element => {
+      list.push(element.id);
+    });
+    return list;
+  }
+  );
   const dispatch = useDispatch();
-  const [selectedRows, setSelectedRows] = React.useState([]);
-
-  // @ts-ignore
   return (
     <div id="boxes-list" >
       <DataGrid
@@ -41,8 +44,8 @@ const BoxesList = ({ boxes }: BoxesListProps) => {
             selectedIDs.has(row.id),
           );
           dispatch(updateSelectedBox(selectedRows));
-          setSelectedRows(selectedRows);
         }}
+        selectionModel={selectionModel(selectedList)}
         disableSelectionOnClick
       />
     </div>

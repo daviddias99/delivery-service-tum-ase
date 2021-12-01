@@ -7,6 +7,7 @@ import { Box, Delivery } from 'types';
 import { getBoxStatusColor, toUpperCase } from 'utils';
 
 import './styles.scss';
+import EditBox from './boxManagement/EditBox';
 
 type BoxProps = {
   box: Box,
@@ -22,6 +23,7 @@ const BoxComponent = ({ box, deliveries }: BoxProps) => {
         <span>
           {box.name}
         </span>
+        <EditBox />
         <Chip className="boxStatus" size="small" label={toUpperCase(box.status)} color={getBoxStatusColor(box.status)} />
       </h3>
       <h6 className="subTitle">

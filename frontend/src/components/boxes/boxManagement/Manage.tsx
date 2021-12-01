@@ -1,3 +1,4 @@
+import { AppBar, Toolbar, IconButton, Box } from '@mui/material';
 import * as React from 'react';
 import AddBox from './AddBox';
 import DeleteBox from './DeleteBox';
@@ -7,8 +8,22 @@ export const ManageBoxes = () => {
 
   return (
     <div style={{whiteSpace: 'nowrap'}}>
-      <AddBox />
-      <DeleteBox />
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+            >
+            </IconButton>
+            <AddBox />
+            <DeleteBox />
+          </Toolbar>
+        </AppBar>
+      </Box>
     </div>
   );
 
