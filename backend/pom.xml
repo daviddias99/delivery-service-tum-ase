@@ -22,7 +22,7 @@
 
 
     <modules>
-        <module>account-service</module>
+        <module>user-service</module>
         <module>service-parent</module>
         <module>config-server</module>
         <module>eureka-server</module>
@@ -30,6 +30,9 @@
         <module>delivery-service</module>
         <module>service-communication</module>
         <module>box-service</module>
+        <module>hystrix-dashboard</module>
+        <module>gateway-server</module>
+        <module>hystrix-dashboard</module>
     </modules>
 
 
