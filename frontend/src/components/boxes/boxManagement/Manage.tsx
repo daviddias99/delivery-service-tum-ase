@@ -1,13 +1,15 @@
 import { AppBar, Toolbar, IconButton, Box } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { selectedBoxes } from '../boxesSlice/BoxesSlice';
+
 import * as React from 'react';
 import AddBox from './AddBox';
 import DeleteBox from './DeleteBox';
 
 
 export const ManageBoxes = () => {
-
   return (
-    <div style={{whiteSpace: 'nowrap'}}>
+    <div style={{ whiteSpace: 'nowrap' }} >
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
           <Toolbar>
@@ -20,7 +22,7 @@ export const ManageBoxes = () => {
             >
             </IconButton>
             <AddBox />
-            <DeleteBox />
+            {useSelector(selectedBoxes).length > 0 && <DeleteBox />}
           </Toolbar>
         </AppBar>
       </Box>
@@ -28,7 +30,7 @@ export const ManageBoxes = () => {
   );
 
 }
-;
+  ;
 
 
 export default ManageBoxes;

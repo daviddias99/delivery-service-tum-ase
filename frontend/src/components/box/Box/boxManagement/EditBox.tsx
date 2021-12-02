@@ -9,11 +9,11 @@ const EditBox = () => {
   const dispatch = useDispatch();
   const box = useSelector(boxInfo) as Box;
   const [open, setOpen] = useState(false);
-  const [name, setName] = useState(' ');
-  const [address, setAdress] = useState(' ');
-  const [co, setCo] = useState(' ');
-  const [city, setCity] = useState(' ');
-  const [postalCode, setPostalCode] = useState(' ');
+  const [name, setName] = useState(box.name);
+  const [address, setAdress] = useState(box.address.addressLine1);
+  const [co, setCo] = useState(box.address.addressLine2);
+  const [city, setCity] = useState(box.address.city);
+  const [postalCode, setPostalCode] = useState(box.address.postalCode);
   const handleClickOpen = () => {
     setOpen(true);
   };

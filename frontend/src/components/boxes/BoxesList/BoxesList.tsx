@@ -18,12 +18,12 @@ const BoxesList = () => {
   const [pageSize, setPageSize] = useState(10);
   const list = useSelector(boxesList);
   const selectedList = useSelector(selectedBoxes);
-  const selectionModel = ((selectedList: Box[]) => {
-    const list: any[] =[];
-    selectedList.forEach(element => {
-      list.push(element.id);
+  const selectionModel = ((selectedBoxList: Box[]) => {
+    const selectedIds: any[] =[];
+    selectedBoxList.forEach(element => {
+      selectedIds.push(element.id);
     });
-    return list;
+    return selectedIds;
   }
   );
   const dispatch = useDispatch();

@@ -1,13 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import {updateBoxes, updateSelectedBox, selectedBoxes, boxesList} from '../boxesSlice/BoxesSlice';
+import { updateBoxes, updateSelectedBox, selectedBoxes, boxesList } from '../boxesSlice/BoxesSlice';
 import * as React from 'react';
-import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle} from '@mui/material';
+import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box } from 'types';
-
-
-
 
 export const DeleteBox = () => {
   const [open, setOpen] = React.useState(false);
@@ -23,13 +20,13 @@ export const DeleteBox = () => {
   };
   const deleteClicked = () => {
     const newList = [...list];
-    selected.forEach( element => {
+    selected.forEach(element => {
       const index = newList.indexOf(element);
       if (index > -1) {
         //newList.splice(index, 1);
-        const box = {...newList[index]};
+        const box = { ...newList[index] };
         box.status = 'inactive';
-        newList[index]= box;
+        newList[index] = box;
       }
     });
     dispatch(updateBoxes(newList));
@@ -39,7 +36,7 @@ export const DeleteBox = () => {
   };
 
   return (
-    <div style={{display: 'inline-block'}}>
+    <div style={{ display: 'inline-block' }} >
       <Button variant="contained" color="secondary" startIcon={<DeleteIcon />} onClick={handleClickOpen}>
         Delete
       </Button>
@@ -54,7 +51,7 @@ export const DeleteBox = () => {
             <Button onClick={handleClose}>Cancel</Button>
           </>
         )
-          :(
+          : (
             <React.Fragment>
               <DialogContent>
                 <Alert severity="warning">Are you sure!</Alert>

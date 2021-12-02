@@ -22,9 +22,9 @@ const Boxes = () => {
     <Layout>
       <Container maxWidth={false} sx={{ mt: 4, mb: 4 }}>
         <Paper sx={{ p: '2em', display: 'flex', flexDirection: 'column' }}>
-          <ManageBoxes />
           <Title>Boxes</Title>
           <BoxesList />
+          <ManageBoxes />
         </Paper>
       </Container>
     </Layout>
