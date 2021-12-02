@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import listReducer from 'components/boxes/boxesSlice/BoxesSlice';
-import boxReducer from 'components/box/Box/boxSlice/boxSlice';
+import listReducer from 'redux/slices/boxes/boxesSlice';
+import boxReducer from 'redux/slices/box/boxSlice';
 
 export const store = configureStore({
   reducer: {

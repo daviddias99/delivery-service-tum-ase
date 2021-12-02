@@ -1,6 +1,6 @@
 import { AppBar, Toolbar, IconButton, Box } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { selectedBoxes } from '../boxesSlice/BoxesSlice';
+import { selectedBoxes } from '../../../redux/slices/boxes/boxesSlice';
 
 import * as React from 'react';
 import AddBox from './AddBox';

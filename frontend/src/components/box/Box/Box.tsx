@@ -1,13 +1,13 @@
 import * as React from 'react';
 import Chip from '@mui/material/Chip';
-import CurrentDeliveriesTable from './CurrentDeliveriesTable';
-import PastDeliveriesTable from './PastDeliveriesTable';
+import CurrentDeliveriesTable from './CurrentDeliveriesTable/CurrentDeliveriesTable';
+import PastDeliveriesTable from './PastDeliveriesTable/PastDeliveriesTable';
 import { Box, Delivery } from 'types';
 
 import { getBoxStatusColor, toUpperCase } from 'utils';
 
 import './styles.scss';
-import EditBox from './boxManagement/EditBox';
+import EditBox from './EditBox/EditBox';
 
 type BoxProps = {
   box: Box,
