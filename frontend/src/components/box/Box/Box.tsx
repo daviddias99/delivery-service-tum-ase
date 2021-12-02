@@ -8,6 +8,7 @@ import { getBoxStatusColor, toUpperCase } from 'utils';
 
 import './styles.scss';
 import EditBox from './EditBox/EditBox';
+import BoxAddress from 'components/common/BoxAddress/BoxAddress';
 
 type BoxProps = {
   box: Box,
@@ -30,23 +31,11 @@ const BoxComponent = ({ box, deliveries }: BoxProps) => {
         {box.id}
       </h6>
 
-      <section className="address">
-        <h4 className="sectionTitle">
-          Address:
-        </h4>
+      <h4 className="sectionTitle">
+        Address:
+      </h4>
 
-        <div className="addressFields">
-          <p>
-            {`${box.address.addressLine1}${box.address.addressLine2 && ', '}${box.address.addressLine2 ? box.address.addressLine2 : ''}`}
-          </p>
-          <p>
-            {box.address.postalCode}
-          </p>
-          <p>
-            {box.address.city}
-          </p>
-        </div>
-      </section>
+      <BoxAddress address={box.address} />
 
       <section className="currentStatus">
         <h4 className="sectionTitle">

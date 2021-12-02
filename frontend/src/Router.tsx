@@ -6,6 +6,7 @@ import routes from 'routes';
 import Dashboard from 'pages/Dashboard/Dashboard';
 import Boxes from 'pages/Boxes/Boxes';
 import Box from 'pages/Box/Box';
+import Delivery from 'pages/Delivery/Delivery';
 
 type PrivateRouteProps = {
   children: ReactElement,
@@ -28,9 +29,6 @@ const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
-
-        <Route path={routes.delivery.def} />
-
         <Route path="/" element={<Navigate to={routes.dashboard.def} />} />
 
         <Route path={routes.dashboard.def} element={
@@ -50,6 +48,13 @@ const Router = () => {
         <Route path={routes.box.def} element={
           <PrivateRoute>
             <Box />
+          </PrivateRoute>
+        }
+        />
+
+        <Route path={routes.delivery.def} element={
+          <PrivateRoute>
+            <Delivery />
           </PrivateRoute>
         }
         />

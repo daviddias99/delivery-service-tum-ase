@@ -23,7 +23,7 @@ const commonTableColumns = [
     field: 'dateUpdated',
     headerName: 'Date updated',
     type: 'dateTime',
-    valueGetter: (params: any) => params.row.statusUpdate && new Date(params.row.statusUpdate),
+    valueGetter: (params: any) => params.row.statusHistory[0] && params.row.statusHistory[0].statusUpdate && new Date(params.row.statusHistory[0].statusUpdate),
     flex: 0.5,
   },
   {
@@ -32,9 +32,9 @@ const commonTableColumns = [
     flex: 0.1,
     sortable: false,
     disableColumnMenu: true,
-    renderCell: (_params: any) => {
+    renderCell: (params: any) => {
       return (
-        <Link to="/">
+        <Link to={`/delivery/${params.row.id}`}>
           <Button className="viewDeliveryButton" >View</Button>
         </Link>
       );
@@ -49,7 +49,7 @@ currentDeliveriesTableColumns.splice(3, 0,
   {
     field: 'status',
     headerName: 'Status',
-    renderCell: (params: any) => (<Chip size="small" label={toUpperCase(params.row.status)} sx={{backgroundColor: getDeliveryStatusColor(params.row.status)}} />)
+    renderCell: (params: any) => (<Chip size="small" label={toUpperCase(params.row.statusHistory[0].status)} sx={{backgroundColor: getDeliveryStatusColor(params.row.statusHistory[0].status)}} />)
   },
 );
 

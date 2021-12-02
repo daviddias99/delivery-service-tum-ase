@@ -28,7 +28,7 @@ const PastDeliveriesTable = ({ deliveries }: Props) => {
         onPageSizeChange={setPageSize}
         rowsPerPageOptions={[5, 10, 15]}
         columns={pastDeliveriesTableColumns}
-        rows={deliveries.filter((delivery: Delivery) => delivery.status === 'collected')}
+        rows={deliveries.filter((delivery: Delivery) => delivery.statusHistory[0] && delivery.statusHistory[0].status === 'collected')}
         hideFooterSelectedRowCount={true}
         sortModel={sortModel}
       />
