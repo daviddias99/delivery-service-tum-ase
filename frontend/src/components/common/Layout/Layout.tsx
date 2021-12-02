@@ -6,12 +6,12 @@ import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
 import MenuIcon from '@mui/icons-material/Menu';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import Sidebar from './Sidebar/Sidebar';
 
 import api from 'services/api';
+import { Button } from '@mui/material';
+import LoginModal from './LoginModal/LoginModal';
 
 const drawerWidth: number = 240;
 
@@ -40,6 +40,7 @@ const AppBar = styled(MuiAppBar, {
 const mdTheme = createTheme();
 
 const Layout: FunctionComponent = ({ children }) => {
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [open, setOpen] = useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -80,13 +81,11 @@ const Layout: FunctionComponent = ({ children }) => {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Dashboard
+              ASE - Delivery
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+            <Button sx={{borderColor: 'white', color: 'white'}} variant="outlined" onClick={() => setLoginModalOpen(true)}>Login</Button>
+
+            <LoginModal open={loginModalOpen} setOpen={setLoginModalOpen} />
           </Toolbar>
         </AppBar>
         <Sidebar open={open} toggleDrawer={toggleDrawer} />
