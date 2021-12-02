@@ -32,7 +32,7 @@ const commonTableColumns = [
     flex: 0.1,
     sortable: false,
     disableColumnMenu: true,
-    renderCell: (params: any) => {
+    renderCell: (_params: any) => {
       return (
         <Link to="/">
           <Button className="viewDeliveryButton" >View</Button>
