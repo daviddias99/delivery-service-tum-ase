@@ -1,11 +1,10 @@
-import { currentDeliveriesTableColumns } from './helper';
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { Delivery } from 'types';
 
-
-import './styles.scss';
+import { currentDeliveriesTableColumns } from '../helper';
 import { dateSortDsc } from 'utils';
+import './styles.scss';
 
 type Props = {
   deliveries: Delivery[],
@@ -23,6 +22,7 @@ const CurrentDeliveriesTable = ({ deliveries }: Props) => {
   return (
     <div className="currentDeliveries">
       <DataGrid
+        className="myDataTable"
         hideFooter={true}
         autoHeight={true}
         sortModel={sortModel}

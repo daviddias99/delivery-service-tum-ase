@@ -1,9 +1,8 @@
-import { pastDeliveriesTableColumns } from './helper';
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { Delivery } from 'types';
 
-
+import { pastDeliveriesTableColumns } from '../helper';
 import './styles.scss';
 
 type Props = {
@@ -23,6 +22,7 @@ const PastDeliveriesTable = ({ deliveries }: Props) => {
   return (
     <div className="currentDeliveries">
       <DataGrid
+        className="myDataTable"
         autoHeight={true}
         pageSize={pageSize}
         onPageSizeChange={setPageSize}

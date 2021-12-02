@@ -6,7 +6,7 @@ import Box from 'components/box/Box/Box';
 
 import api from 'services/api';
 import { useSelector } from 'react-redux';
-import { boxDeliveries, boxInfo } from 'components/box/Box/boxSlice/boxSlice';
+import { boxDeliveries, boxInfo } from 'redux/slices/box/boxSlice';
 
 
 

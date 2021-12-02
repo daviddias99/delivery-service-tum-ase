@@ -29,8 +29,8 @@ const deliveries: Delivery[] = [
 ];
 
 const initialState = {
-  boxInfo: box as Box,
-  deliveries: deliveries as Delivery[],
+  boxInfo: box,
+  deliveries: deliveries,
 };
 
 export const boxSlice = createSlice({
@@ -48,4 +48,4 @@ export const {updateBox} = boxSlice.actions;
 export const boxInfo = (state:any) => state.box.boxInfo;
 export const boxDeliveries = (state: any) => state.box.deliveries;
 
-export default boxSlice.reducer ;
+export default boxSlice.reducer;

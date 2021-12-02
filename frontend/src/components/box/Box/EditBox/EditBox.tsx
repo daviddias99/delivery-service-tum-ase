@@ -1,10 +1,13 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, TextField } from '@mui/material';
 import * as React from 'react';
-import EditIcon from '@mui/icons-material/Edit';
-import { boxInfo, updateBox } from 'components/box/Box/boxSlice/boxSlice';
-import { useSelector, useDispatch } from 'react-redux';
-import { Box } from 'types';
 import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, TextField } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+
+import { boxInfo, updateBox } from 'redux/slices/box/boxSlice';
+import { Box } from 'types';
+
 const EditBox = () => {
   const dispatch = useDispatch();
   const box = useSelector(boxInfo) as Box;

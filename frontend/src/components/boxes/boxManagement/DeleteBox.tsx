@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { updateBoxes, updateSelectedBox, selectedBoxes, boxesList } from '../boxesSlice/BoxesSlice';
+import { updateBoxes, updateSelectedBox, selectedBoxes, boxesList } from '../../../redux/slices/boxes/boxesSlice';
 import * as React from 'react';
 import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
