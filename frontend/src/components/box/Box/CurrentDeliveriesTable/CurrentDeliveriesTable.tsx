@@ -29,9 +29,9 @@ const CurrentDeliveriesTable = ({ deliveries }: Props) => {
         rowsPerPageOptions={[5, 10, 15]}
         columns={currentDeliveriesTableColumns}
         rows={deliveries
-          .filter((delivery: Delivery) => delivery.status !== 'collected')
+          .filter((delivery: Delivery) => delivery.statusHistory[0] && delivery.statusHistory[0].status !== 'collected')
           .sort(
-            (del1: Delivery, del2: Delivery) => dateSortDsc(new Date(del1.statusUpdate), new Date(del2.statusUpdate))
+            (del1: Delivery, del2: Delivery) => dateSortDsc(new Date(del1.statusHistory[0].statusUpdate), new Date(del2.statusHistory[0].statusUpdate))
           )
         }
         hideFooterSelectedRowCount={true}

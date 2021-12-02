@@ -12,7 +12,7 @@ const routes = {
 
   delivery: route(
     '/delivery/:deliveryId',
-    (deliveryId) => (`/researcher/${deliveryId}`)
+    (deliveryId) => (`/delivery/${deliveryId}`)
   ),
 
   boxes: route(
