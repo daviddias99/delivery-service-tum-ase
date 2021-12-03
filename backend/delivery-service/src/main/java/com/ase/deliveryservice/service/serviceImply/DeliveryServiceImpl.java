@@ -2,6 +2,8 @@ package com.ase.deliveryservice.service.serviceImply;
 
 
 import com.ase.client.UserServiceClient;
+import com.ase.client.com.ase.contract.ResponseMessage;
+import com.ase.client.com.ase.contract.UserDto;
 import com.ase.deliveryservice.dto.DeliveryDto;
 import com.ase.deliveryservice.entity.Delivery;
 import com.ase.deliveryservice.repository.DeliveryRepository;
@@ -10,6 +12,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 @Slf4j
@@ -26,14 +32,94 @@ public class DeliveryServiceImpl  implements DeliveryService {
     private UserServiceClient userServiceClient;
 
 
+    @Autowired
+    private ResponseMessage responseMessage;
+
+
+
 
     @Override
-    public DeliveryDto save(DeliveryDto deliveryDto) {
-        Delivery temptDelivery = modelMapper.map(deliveryDto, Delivery.class);
-        temptDelivery = deliveryRepository.save(temptDelivery);
-        deliveryDto.setId(temptDelivery.getId());
-        return deliveryDto;
+    public String createTrackingId() {
+
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        String newTrackingId= Long.toString(random.nextLong(10_000_000_000L, 100_000_000_000L));
+
+        if (deliveryRepository.findByTrackingId(newTrackingId) !=null){
+            log.warn("Tracking number is already in use");
+            return createTrackingId();
+        }
+
+        return newTrackingId;
     }
+
+
+    //RETURN STATUS AND MESSAGE INSTEAD OF DTO!!!!
+    @Override
+    public ResponseMessage save(DeliveryDto deliveryDto) {
+        Delivery newDelivery = modelMapper.map(deliveryDto, Delivery.class);
+
+        //check if target box is already in use
+
+
+        //create random 11-digit tracking number
+        String newTrackingId = createTrackingId();
+        newDelivery.setTrackingId(newTrackingId);
+
+        newDelivery = deliveryRepository.save(newDelivery);
+
+        deliveryDto.setId(newDelivery.getId());
+        deliveryDto.setTrackingId(newDelivery.getTrackingId());
+        responseMessage.setResponseMessage("Delivery is successfully created!");
+        responseMessage.setResponseType(1);
+
+        return responseMessage;
+    }
+
+
+    @Override
+    public DeliveryDto getById(String id) {
+        Delivery delivery = deliveryRepository.getById(id);
+
+        if(delivery.equals(null)){
+
+            return null;
+        }
+        return modelMapper.map(delivery, DeliveryDto.class);
+    }
+
+    @Override
+    public ResponseMessage deleteDelivery(String id) {
+        if(deliveryRepository.existsById(id)){
+            deliveryRepository.deleteById(id);
+            responseMessage.setResponseType(1);
+            responseMessage.setResponseMessage("Delivery is deleted!");
+        }
+        else{
+            responseMessage.setResponseType(0);
+            responseMessage.setResponseMessage("This delivery isn't present in they system");
+        }
+
+        return responseMessage;
+
+
+    }
+
+
+    @Override
+    public List<DeliveryDto> getAll() {
+        List<Delivery> data = deliveryRepository.findAll();
+        return Arrays.asList(modelMapper.map(data, DeliveryDto[].class));
+    }
+
+
+
+
+
+
+
+
+
+
 
 
 }

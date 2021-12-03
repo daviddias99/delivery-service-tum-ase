@@ -8,5 +8,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DeliveryRepository extends MongoRepository<Delivery,String> {
+
+    public Delivery findByTrackingId(String trackingId);
+
+    public Delivery getById(String id);
+
 }
 
