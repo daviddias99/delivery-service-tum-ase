@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Chip from '@mui/material/Chip';
-import CurrentDeliveriesTable from './CurrentDeliveriesTable/CurrentDeliveriesTable';
-import PastDeliveriesTable from './PastDeliveriesTable/PastDeliveriesTable';
+import CurrentDeliveriesTable from 'components/common/DeliveriesTable/CurrentDeliveriesTable/CurrentDeliveriesTable';
+import PastDeliveriesTable from 'components/common/DeliveriesTable/PastDeliveriesTable/PastDeliveriesTable';
 import { Box, Delivery } from 'types';
 
 import { getBoxStatusColor, toUpperCase } from 'utils';
