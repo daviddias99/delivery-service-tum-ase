@@ -1,6 +1,5 @@
 package com.ase.authservice.controller;
 
-import com.ase.authservice.entity.User;
 import com.ase.authservice.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,10 +9,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Base64;
 
 @RestController
@@ -29,20 +31,30 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-    public ResponseEntity<String> authenticateUser (String authorization,
-                                                    HttpServletRequest request) throws Exception{
-        String headerString = request.getHeader("Authorization").substring("Basic".length()).trim();
+    @PostMapping
+    public ResponseEntity<String> authenticateUser(@RequestHeader String authorization,
+                                                   HttpServletRequest request) throws Exception {
+
+        // decodes request header and splits into username/pw
+        String headerString = authorization.substring("Basic".length()).trim();
         String decoded = new String(Base64.getDecoder().decode(headerString));
         String username = decoded.split(":", 2)[0];
         String password = decoded.split(":", 2)[1];
 
+        // get user by given username
         UserDetails user = authService.loadUserByUsername(username);
-        if(user == null){
+        if (user == null) {
             throw new BadCredentialsException("1000");
         }
+
+        // authenticate using authManager and token of username and password
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUsername(), password);
         Authentication auth = authManager.authenticate(token);
-        return null;
+
+        // TODO: Something to do with the 'request' argument and HttpServletResponse, no idea how to use it, no idea how to work the authManager either.
+        // refer to exercise 6 mission 4 for further details
+
+        return ResponseEntity.ok("");
     }
 
 }
