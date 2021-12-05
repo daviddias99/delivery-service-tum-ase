@@ -37,5 +37,10 @@ public class BoxController {
         return ResponseEntity.ok(data);
     }
 
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<String> updateProfile(@RequestBody BoxDto boxDto, @PathVariable String id) {
+        String responseMessage = boxService.updateBox(boxDto,id);
+        return ResponseEntity.ok(responseMessage);
+    }
 
 }

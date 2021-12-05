@@ -11,7 +11,11 @@ public interface BoxService {
 
     BoxDto getById(String id);
 
+    boolean isAddressExists(String address);
+
     List<BoxDto> getAll();
 
     Boolean deleteBox(String id);
+
+    String updateBox(BoxDto boxDto, String id);
 }
