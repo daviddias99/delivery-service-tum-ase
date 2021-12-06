@@ -2,11 +2,13 @@ package com.ase.authservice.controller;
 
 import com.ase.authservice.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Base64;
 
 @RestController
@@ -32,7 +33,7 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping
-    public ResponseEntity<String> authenticateUser(@RequestHeader String authorization,
+    public ResponseEntity<String> authenticateUser(@RequestHeader("Authorization") String authorization,
                                                    HttpServletRequest request) throws Exception {
 
         // decodes request header and splits into username/pw
@@ -48,13 +49,24 @@ public class AuthController {
         }
 
         // authenticate using authManager and token of username and password
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUsername(), password);
-        Authentication auth = authManager.authenticate(token);
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user, password, user.getAuthorities());
+        Authentication auth = null;
+
+        try{
+            auth = authManager.authenticate(token);
+            SecurityContextHolder.getContext().setAuthentication(auth);
+            //TODO: Jwt token thing
+            return ResponseEntity.ok("");
+        } catch (BadCredentialsException e){
+            e.printStackTrace();
+            return new ResponseEntity<>("Email or password is incorrect", HttpStatus.BAD_REQUEST);
+        } catch (Exception ex){
+            ex.printStackTrace();
+            return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
         // TODO: Something to do with the 'request' argument and HttpServletResponse, no idea how to use it, no idea how to work the authManager either.
         // refer to exercise 6 mission 4 for further details
-
-        return ResponseEntity.ok("");
     }
 
 }

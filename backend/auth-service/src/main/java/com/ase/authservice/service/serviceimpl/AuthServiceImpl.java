@@ -24,19 +24,15 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
-        boolean enabled = true;
-        boolean accountNonExpired = true;
-        boolean credentialsNonExpired = true;
-        boolean accountNonLocked = true;
+
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found!");
+        }
 
         org.springframework.security.core.userdetails.User springUser =
                 new org.springframework.security.core.userdetails.User(
                         user.getUsername(),
                         user.getPassword(),
-                        enabled,
-                        accountNonExpired,
-                        credentialsNonExpired,
-                        accountNonLocked,
                         AuthorityUtils.NO_AUTHORITIES);
 
         return springUser;
