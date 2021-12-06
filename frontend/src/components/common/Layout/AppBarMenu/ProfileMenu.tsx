@@ -57,7 +57,7 @@ const ProfileMenu = () => {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <MenuItem>
-          <Link to={'/customer/orders/1'}>
+          <Link to={'/customer/1/orders'}>
             <ShoppingCartOutlinedIcon />
             {' '}
             My Orders

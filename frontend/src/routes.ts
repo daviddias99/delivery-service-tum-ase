@@ -25,8 +25,8 @@ const routes = {
   ),
 
   customer: route(
-    '/customer/orders/:customerId',
-    (customerId) => (`/customer/${customerId}`)
+    '/customer/:customerId/orders',
+    (customerId) => (`/customer/${customerId}/orders`)
   ),
 
 };
