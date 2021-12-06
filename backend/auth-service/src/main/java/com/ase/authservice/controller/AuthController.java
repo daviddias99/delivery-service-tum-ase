@@ -32,6 +32,8 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
+
+    //TODO: delegate to service
     @PostMapping
     public ResponseEntity<String> authenticateUser(@RequestHeader("Authorization") String authorization,
                                                    HttpServletRequest request) throws Exception {
@@ -64,9 +66,6 @@ public class AuthController {
             ex.printStackTrace();
             return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        // TODO: Something to do with the 'request' argument and HttpServletResponse, no idea how to use it, no idea how to work the authManager either.
-        // refer to exercise 6 mission 4 for further details
     }
 
 }
