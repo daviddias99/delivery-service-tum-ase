@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 @Slf4j
 @Service(value = "boxService")
@@ -39,6 +40,15 @@ public class BoxServiceImpl implements BoxService {
     }
 
     @Override
+    public boolean isAddressExists(String address) {
+        if(boxRepository.findByAddress(address.toLowerCase()) == null){
+            return false;
+        }
+        return true;
+    }
+
+
+    @Override
     public List<BoxDto> getAll() {
         List<Box> data = boxRepository.findAll();
         return Arrays.asList(modelMapper.map(data, BoxDto[].class));
@@ -47,9 +57,27 @@ public class BoxServiceImpl implements BoxService {
     @Override
     public Boolean deleteBox(String id) {
         if(boxRepository.existsById(id)){
-            boxRepository.deleteById(id);
+            Box dbBox = boxRepository.getById(id);
+            dbBox.setStatus("inactive");
+            boxRepository.save(dbBox);
             return true;
         }
         return false;
+    }
+
+    @Override
+    public String updateBox(BoxDto boxDto, String id) {
+        Box dbBox = boxRepository.getById(id);
+        if(!boxDto.getAddress().equals(dbBox.getAddress())){
+            if(isAddressExists(boxDto.getAddress())){
+                return "Address already in use!";
+            }
+        }
+
+        dbBox.setAddress(boxDto.getAddress());
+        dbBox.setDelivery(boxDto.getDelivery());
+        dbBox.setStatus(boxDto.getStatus());
+        boxRepository.save(dbBox);
+        return "updated!";
     }
 }
