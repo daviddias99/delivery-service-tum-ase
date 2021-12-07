@@ -8,6 +8,13 @@ type BoxAddress = {
   postalCode: string
 }
 
+type Customer = {
+  id:string,
+  name: string,
+  email: string,
+  phoneNumber: string,
+};
+
 type Box = {
   id: string,
   name: string,
@@ -43,5 +50,6 @@ export type {
   BoxAddress,
   Delivery,
   DeliveryStatus,
+  Customer,
 };
 

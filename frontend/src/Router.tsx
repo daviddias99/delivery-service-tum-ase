@@ -7,6 +7,7 @@ import Homepage from 'pages/Homepage/Homepage';
 import Boxes from 'pages/Boxes/Boxes';
 import Box from 'pages/Box/Box';
 import Delivery from 'pages/Delivery/Delivery';
+import Orders from 'pages/Customer/Orders';
 
 type PrivateRouteProps = {
   children: ReactElement,
@@ -15,7 +16,6 @@ type PrivateRouteProps = {
 const PrivateRoute: FunctionComponent<PrivateRouteProps> = ({ children }) => {
 
   const loggedIn = true; // Later use Redux to fetch logged in status
-
   return loggedIn
     ? children
     : <Navigate to="/login" />;
@@ -55,6 +55,12 @@ const Router = () => {
         <Route path={routes.delivery.def} element={
           <PrivateRoute>
             <Delivery />
+          </PrivateRoute>
+        }
+        />
+        <Route path={routes.customer.def} element={
+          <PrivateRoute>
+            <Orders></Orders>
           </PrivateRoute>
         }
         />

@@ -9,6 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Sidebar from './Sidebar/Sidebar';
 import AppLogo from 'components/common/Layout/AppLogo/AppLogo'; // Import using relative path
 import Image from 'assets/images/bg-blured.jpg'; // Import using relative path
+import ProfileMenu from 'components/common/Layout/AppBarMenu/ProfileMenu';
 
 const drawerWidth: number = 240;
 
@@ -19,7 +20,7 @@ interface AppBarProps extends MuiAppBarProps {
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
 })<AppBarProps & { hassidebar: boolean }>(({ theme, open, hassidebar }) => ({
-  zIndex: hassidebar ? theme.zIndex.drawer + 1 : 0,
+  zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(['width', 'margin'], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -42,7 +43,7 @@ type LayoutProps = {
 }
 
 const Layout = ({ hasSidebar, children }: LayoutProps) => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(hasSidebar);
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -70,6 +71,9 @@ const Layout = ({ hasSidebar, children }: LayoutProps) => {
               <MenuIcon />
             </IconButton>}
           <AppLogo />
+          <IconButton color="inherit">
+            <ProfileMenu />
+          </IconButton>
         </Toolbar>
       </AppBar>
       {hasSidebar && <Sidebar open={open} toggleDrawer={toggleDrawer} />}

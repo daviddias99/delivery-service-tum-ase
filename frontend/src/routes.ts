@@ -24,6 +24,11 @@ const routes = {
     (boxId) => (`/box/${boxId}`)
   ),
 
+  customer: route(
+    '/customer/:customerId/orders',
+    (customerId) => (`/customer/${customerId}/orders`)
+  ),
+
 };
 
 export default routes;
