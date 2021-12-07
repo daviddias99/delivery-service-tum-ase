@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 import routes from 'routes';
 
-import Dashboard from 'pages/Dashboard/Dashboard';
+import Homepage from 'pages/Homepage/Homepage';
 import Boxes from 'pages/Boxes/Boxes';
 import Box from 'pages/Box/Box';
 import Delivery from 'pages/Delivery/Delivery';
@@ -33,7 +33,7 @@ const Router = () => {
 
         <Route path={routes.dashboard.def} element={
           <PrivateRoute>
-            <Dashboard />
+            <Homepage />
           </PrivateRoute>
         }
         />

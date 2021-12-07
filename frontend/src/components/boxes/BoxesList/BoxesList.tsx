@@ -32,6 +32,7 @@ const BoxesList = () => {
       <DataGrid
         autoHeight={true}
         pageSize={pageSize}
+        className={'myDataTable'}
         onPageSizeChange={setPageSize}
         rowsPerPageOptions={[5, 10, 15]}
         columns={boxesTableColumns}

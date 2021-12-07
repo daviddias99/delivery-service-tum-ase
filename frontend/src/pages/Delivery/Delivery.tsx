@@ -8,7 +8,7 @@ import { box } from 'redux/slices/box/boxSlice';
 
 const DeliveryPage = () => {
   return (
-    <Layout>
+    <Layout hasSidebar={true}>
       <Container maxWidth={false} sx={{ mt: 4, mb: 4 }}>
         <Paper sx={{ p: '2em', display: 'flex', flexDirection: 'column' }}>
           <Delivery delivery={deliveries[2]} box={box} />
