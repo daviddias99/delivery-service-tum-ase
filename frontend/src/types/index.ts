@@ -37,6 +37,10 @@ type Delivery = {
     name: string,
     id: string,
   },
+  box: {
+    name: string,
+    id: string,
+  },
   statusHistory: {
     status: DeliveryStatus,
     statusUpdate: string,

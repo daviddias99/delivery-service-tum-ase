@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import * as React from 'react';
 
 import Chip from '@mui/material/Chip';
@@ -5,7 +6,7 @@ import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { getDeliveryStatusColor, toUpperCase } from 'utils';
 
-const commonTableColumns = [
+const commonTableColumns = (showBox: boolean) => [
   { field: 'id', headerName: 'Delivery ID', width: 90, flex: 0.4 },
   {
     field: 'cName',
@@ -17,6 +18,12 @@ const commonTableColumns = [
     field: 'dName',
     headerName: 'Deliverer',
     valueGetter: (params: any) => params.row.deliverer.name,
+    flex: 0.5,
+  },
+  showBox && {
+    field: 'bName',
+    headerName: 'Box',
+    valueGetter: (params: any) => params.row.box.name,
     flex: 0.5,
   },
   {
@@ -42,15 +49,18 @@ const commonTableColumns = [
   },
 ];
 
-const pastDeliveriesTableColumns: any[] = [...commonTableColumns];
-const currentDeliveriesTableColumns: any[] = [...commonTableColumns];
+const pastDeliveriesTableColumns: (showBox: boolean) => any[] = (showBox) => [...commonTableColumns(showBox)];
+const currentDeliveriesTableColumns: (showBox: boolean) => any[] = (showBox) => {
+  const temp: any[] = [...commonTableColumns(showBox)];
+  temp.splice(4, 0,
+    {
+      field: 'status',
+      headerName: 'Status',
+      renderCell: (params: any) => (<Chip size="small" label={toUpperCase(params.row.statusHistory[0].status)} sx={{ backgroundColor: getDeliveryStatusColor(params.row.statusHistory[0].status) }} />)
+    },
+  );
 
-currentDeliveriesTableColumns.splice(3, 0,
-  {
-    field: 'status',
-    headerName: 'Status',
-    renderCell: (params: any) => (<Chip size="small" label={toUpperCase(params.row.statusHistory[0].status)} sx={{backgroundColor: getDeliveryStatusColor(params.row.statusHistory[0].status)}} />)
-  },
-);
+  return temp;
+};
 
 export { currentDeliveriesTableColumns, pastDeliveriesTableColumns };
