@@ -15,6 +15,10 @@ const routes = {
     (deliveryId) => (`/delivery/${deliveryId}`)
   ),
 
+  deliveries: route(
+    '/delivery/',
+  ),
+
   boxes: route(
     '/box',
   ),

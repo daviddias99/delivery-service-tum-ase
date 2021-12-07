@@ -1,15 +1,14 @@
 import { Divider } from '@mui/material';
 import React from 'react';
-import {Customer, Delivery} from 'types';
-import CurrentDeliveriesTable from 'components/common/DeliveriesTable/CurrentDeliveriesTable/CurrentDeliveriesTable';
-import PastDeliveriesTable from 'components/common/DeliveriesTable/PastDeliveriesTable/PastDeliveriesTable';
+import { Customer, Delivery } from 'types';
+import { CurrentDeliveriesTable, PastDeliveriesTable } from 'components/common/DeliveriesTable/DeliveriesTable';
 import './styles.scss';
 type CustomerProps = {
-    customer: Customer,
-    deliveries: Delivery []
+  customer: Customer,
+  deliveries: Delivery[]
 }
 
-const Orders = ({customer, deliveries}: CustomerProps) => {
+const Orders = ({ customer, deliveries }: CustomerProps) => {
   return (
     <div id="customer">
       <div id="customerInfo">
@@ -34,13 +33,13 @@ const Orders = ({customer, deliveries}: CustomerProps) => {
           Active deliveries:
         </h4>
 
-        <CurrentDeliveriesTable deliveries={deliveries} />
+        <CurrentDeliveriesTable deliveries={deliveries} showBox={true} />
 
         <h4 className="sectionTitle">
           Past deliveries:
         </h4>
 
-        <PastDeliveriesTable deliveries={deliveries} />
+        <PastDeliveriesTable deliveries={deliveries} showBox={true} />
 
       </section >
     </div>

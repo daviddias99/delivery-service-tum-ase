@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Chip from '@mui/material/Chip';
-import CurrentDeliveriesTable from 'components/common/DeliveriesTable/CurrentDeliveriesTable/CurrentDeliveriesTable';
-import PastDeliveriesTable from 'components/common/DeliveriesTable/PastDeliveriesTable/PastDeliveriesTable';
+import { CurrentDeliveriesTable, PastDeliveriesTable } from 'components/common/DeliveriesTable/DeliveriesTable';
 import { Box, Delivery } from 'types';
 
 import { getBoxStatusColor, toUpperCase } from 'utils';
@@ -42,13 +41,13 @@ const BoxComponent = ({ box, deliveries }: BoxProps) => {
           Status:
         </h4>
 
-        <CurrentDeliveriesTable deliveries={deliveries} />
+        <CurrentDeliveriesTable deliveries={deliveries} showBox={false} />
 
         <h4 className="sectionTitle">
           Past deliveries:
         </h4>
 
-        <PastDeliveriesTable deliveries={deliveries} />
+        <PastDeliveriesTable deliveries={deliveries} showBox={false} />
 
       </section >
 

@@ -5,6 +5,7 @@ import routes from 'routes';
 
 import Homepage from 'pages/Homepage/Homepage';
 import Boxes from 'pages/Boxes/Boxes';
+import Deliveries from 'pages/Deliveries/Deliveries';
 import Box from 'pages/Box/Box';
 import Delivery from 'pages/Delivery/Delivery';
 import Orders from 'pages/Customer/Orders';
@@ -52,6 +53,13 @@ const Router = () => {
         }
         />
 
+        <Route path={routes.deliveries.def} element={
+          <PrivateRoute>
+            <Deliveries />
+          </PrivateRoute>
+        }
+        />
+
         <Route path={routes.delivery.def} element={
           <PrivateRoute>
             <Delivery />
@@ -60,7 +68,7 @@ const Router = () => {
         />
         <Route path={routes.customer.def} element={
           <PrivateRoute>
-            <Orders></Orders>
+            <Orders />
           </PrivateRoute>
         }
         />
