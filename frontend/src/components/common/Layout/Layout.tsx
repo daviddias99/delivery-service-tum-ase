@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Sidebar from './Sidebar/Sidebar';
 import AppLogo from 'components/common/Layout/AppLogo/AppLogo'; // Import using relative path
-import Image from 'assets/images/bg-blured.jpg'; // Import using relative path
+import Image from 'assets/images/bg-blured_small.jpg'; // Import using relative path
 import ProfileMenu from 'components/common/Layout/AppBarMenu/ProfileMenu';
 
 const drawerWidth: number = 240;
