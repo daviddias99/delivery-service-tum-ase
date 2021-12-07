@@ -39,7 +39,7 @@ const OrdersPage = () => {
 
 
   return (
-    <Layout>
+    <Layout hasSidebar={true}>
       <Container maxWidth={false} sx={{ mt: 4, mb: 4 }}>
         <Paper sx={{ p: '2em', display: 'flex', flexDirection: 'column' }}>
           <Title>Orders Overview</Title>

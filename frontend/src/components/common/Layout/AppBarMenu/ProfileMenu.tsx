@@ -1,5 +1,5 @@
 import React from 'react';
-import {Avatar, Box, Divider, IconButton, Menu, MenuItem, Tooltip, Paper} from '@mui/material';
+import {Avatar, Box, IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { Link } from 'react-router-dom';
 
