@@ -29,7 +29,8 @@ const deliveries: Delivery[] = [
         'status': 'ordered',
         'statusUpdate': '2021-11-16T22:39:10+02:00'
       }
-    ]
+    ],
+    'description': 'Your package from the ASE department store.'
   },
   {
     'id': 'fb5413fd-0774-54df-b3a2-e613fffe545c',
@@ -63,7 +64,8 @@ const deliveries: Delivery[] = [
         'status': 'ordered',
         'statusUpdate': '2021-11-16T22:39:10+02:00'
       }
-    ]
+    ],
+    'description': 'Your package from the ASE department store.'
   },
   {
     'id': '59f51c1b-6517-55fe-8759-dd98a217e4ca',
@@ -101,7 +103,8 @@ const deliveries: Delivery[] = [
         'status': 'ordered',
         'statusUpdate': '2021-11-16T22:39:10+02:00'
       }
-    ]
+    ],
+    'description': 'Your package from the ASE department store.'
   },
   {
     'id': '7a89b21e-6f0a-5298-808e-7ba8703248eb',
@@ -131,7 +134,8 @@ const deliveries: Delivery[] = [
         'status': 'ordered',
         'statusUpdate': '2021-11-16T22:39:10+02:00'
       }
-    ]
+    ],
+    'description': 'Your package from the ASE department store.'
   },
   {
     'id': '0c0c869c-2992-55bb-bb95-68b89ab91aab',
@@ -157,7 +161,8 @@ const deliveries: Delivery[] = [
         'status': 'ordered',
         'statusUpdate': '2021-11-16T22:39:10+02:00'
       }
-    ]
+    ],
+    'description': 'Your package from the ASE department store.'
   },
   {
     'id': 'cd8767af-8944-5922-badd-118eca82327c',
@@ -183,7 +188,8 @@ const deliveries: Delivery[] = [
         'status': 'collected',
         'statusUpdate': '2021-03-18T03:39:55+01:00'
       }
-    ]
+    ],
+    'description': 'Your package from the ASE department store.'
   },
   {
     'id': '56ac63a1-5b93-5cf4-9654-9b27ac84ce2c',
@@ -209,7 +215,8 @@ const deliveries: Delivery[] = [
         'status': 'collected',
         'statusUpdate': '2021-09-02T02:33:46+02:00'
       }
-    ]
+    ],
+    'description': 'Your package from the ASE department store.'
   },
   {
     'id': 'f146284d-60dd-5a9b-883e-431a70f831be',
@@ -235,7 +242,8 @@ const deliveries: Delivery[] = [
         'status': 'collected',
         'statusUpdate': '2021-11-23T03:38:00+01:00'
       }
-    ]
+    ],
+    'description': 'Your package from the ASE department store.'
   },
   {
     'id': '04cf6adf-4c17-542c-aa57-34cd7659bf4d',
@@ -261,7 +269,8 @@ const deliveries: Delivery[] = [
         'status': 'collected',
         'statusUpdate': '2021-08-25T02:58:56+02:00'
       }
-    ]
+    ],
+    'description': 'Your package from the ASE department store.'
   },
   {
     'id': 'c6b7563b-e38c-5f4d-8b18-381f1f07c1c4',
@@ -287,7 +296,8 @@ const deliveries: Delivery[] = [
         'status': 'collected',
         'statusUpdate': '2021-03-29T11:15:34+02:00'
       }
-    ]
+    ],
+    'description': 'Your package from the ASE department store.'
   },
   {
     'id': '9e7ddcf8-6e69-5e77-8cc4-a160185c8b33',
@@ -313,7 +323,8 @@ const deliveries: Delivery[] = [
         'status': 'collected',
         'statusUpdate': '2021-11-21T18:27:18+01:00'
       }
-    ]
+    ],
+    'description': 'Your package from the ASE department store.'
   }
 ]
   ;

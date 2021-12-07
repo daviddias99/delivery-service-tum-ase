@@ -11,16 +11,19 @@ import { Grid } from '@mui/material';
 import BoxAddress from 'components/common/BoxAddress/BoxAddress';
 import DeliveryStatusStepper from '../DeliveryStatusStepper/DeliveryStatusStepper';
 
+import { boxInfo } from 'redux/slices/box/boxSlice';
+import { deliveryInfo } from 'redux/slices/delivery/deliverySlice';
+import { useSelector } from 'react-redux';
+
 import { getDeliveryStatusColor, toUpperCase } from 'utils';
 
 import './styles.scss';
+import EditDelivery from '../deliveryManagement/EditDelivery';
 
-type DeliveryProps = {
-  delivery: Delivery,
-  box: Box,
-};
+const DeliveryComponent = () => {
 
-const DeliveryComponent = ({ delivery, box }: DeliveryProps) => {
+  const delivery: Delivery = useSelector(deliveryInfo);
+  const box: Box = useSelector(boxInfo);
 
   const latestStatus = delivery.statusHistory[0];
 
@@ -31,6 +34,7 @@ const DeliveryComponent = ({ delivery, box }: DeliveryProps) => {
         <span>
           {delivery.id}
         </span>
+        <EditDelivery />
         <Chip className="boxStatus" size="small" label={toUpperCase(latestStatus.status)} sx={{ backgroundColor: getDeliveryStatusColor(latestStatus.status) }} />
       </h3>
       <h6 className="subTitle">
@@ -46,7 +50,9 @@ const DeliveryComponent = ({ delivery, box }: DeliveryProps) => {
                   Details:
                 </h4>
 
-                <p>Your package from the ASE department store.</p>
+                <p>
+                  {delivery.description}
+                </p>
               </section>
             </Grid>
             <Grid item xs={12}>

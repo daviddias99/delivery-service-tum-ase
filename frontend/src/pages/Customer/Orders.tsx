@@ -41,7 +41,8 @@ const deliveries: Delivery[] = [
         'status': 'ordered',
         'statusUpdate': '2021-11-16T22:39:10+02:00'
       }
-    ]
+    ],
+    'description': 'Your package from the ASE department store.'
   },
   {
     'id': '59f51c1b-6517-55fe-8759-dd98a217e4ca',
@@ -79,7 +80,8 @@ const deliveries: Delivery[] = [
         'status': 'ordered',
         'statusUpdate': '2021-11-16T22:39:10+02:00'
       }
-    ]
+    ],
+    'description': 'Your package from the ASE department store.'
   },
   {
     'id': '7a89b21e-6f0a-5298-808e-7ba8703248eb',
@@ -109,7 +111,8 @@ const deliveries: Delivery[] = [
         'status': 'ordered',
         'statusUpdate': '2021-11-16T22:39:10+02:00'
       }
-    ]
+    ],
+    'description': 'Your package from the ASE department store.'
   }
 ];
 

@@ -45,6 +45,7 @@ type Delivery = {
     status: DeliveryStatus,
     statusUpdate: string,
   }[]
+  description: string;
 }
 
 

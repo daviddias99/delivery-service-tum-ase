@@ -4,7 +4,7 @@ import Paper from '@mui/material/Paper';
 
 import Title from 'components/common/Title/Title';
 import DeliveriesList from 'components/deliveries/DeliveriesList';
-import ManageDeliveries from 'components/deliveries/deliveryManagement/Manage';
+import ManageDeliveries from 'components/delivery/deliveryManagement/Manage';
 import Layout from 'components/common/Layout/Layout';
 
 import api from 'services/api';
