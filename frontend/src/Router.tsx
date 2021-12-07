@@ -52,6 +52,13 @@ const Router = () => {
         }
         />
 
+        <Route path={routes.deliveries.def} element={
+          <PrivateRoute>
+            <Boxes />
+          </PrivateRoute>
+        }
+        />
+
         <Route path={routes.delivery.def} element={
           <PrivateRoute>
             <Delivery />
