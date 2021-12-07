@@ -10,7 +10,7 @@ import Badge from '@mui/material/Badge';
 import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Sidebar from './Sidebar/Sidebar';
-
+import ProfileMenu from 'components/common/Layout/AppBarMenu/ProfileMenu';
 import api from 'services/api';
 
 const drawerWidth: number = 240;
@@ -86,6 +86,7 @@ const Layout: FunctionComponent = ({ children }) => {
               <Badge badgeContent={4} color="secondary">
                 <NotificationsIcon />
               </Badge>
+              <ProfileMenu />
             </IconButton>
           </Toolbar>
         </AppBar>
