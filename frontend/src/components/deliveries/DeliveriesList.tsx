@@ -1,13 +1,11 @@
 import * as React from 'react';
 
 import { CurrentDeliveriesTable, PastDeliveriesTable } from 'components/common/DeliveriesTable/DeliveriesTable';
-import { Delivery } from 'types';
+import { deliveriesList } from 'redux/slices/delivery/deliveriesSlice';
+import { useSelector } from 'react-redux';
 
-type DeliveriesListProps = {
-  deliveries: Delivery[]
-}
-
-const DeliveriesList = ({ deliveries }: DeliveriesListProps) => {
+const DeliveriesList = () => {
+  const deliveries = useSelector(deliveriesList);
 
   return (
     <div id="boxes-list" >

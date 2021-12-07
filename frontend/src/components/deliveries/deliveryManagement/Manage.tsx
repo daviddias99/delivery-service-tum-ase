@@ -1,13 +1,9 @@
 import { AppBar, Toolbar, IconButton, Box } from '@mui/material';
-import { useSelector } from 'react-redux';
-import { selectedBoxes } from '../../../redux/slices/boxes/boxesSlice';
-
 import * as React from 'react';
-import AddBox from './AddBox';
-import DeleteBox from './DeleteBox';
+import AddDelivery from './AddDelivery';
 
 
-export const ManageBoxes = () => {
+export const ManageDeliveries = () => {
   return (
     <div style={{ whiteSpace: 'nowrap' }} >
       <Box sx={{ flexGrow: 1 }}>
@@ -21,15 +17,13 @@ export const ManageBoxes = () => {
               sx={{ mr: 2 }}
             >
             </IconButton>
-            <AddBox />
-            {useSelector(selectedBoxes).length > 0 && <DeleteBox />}
+            <AddDelivery />
           </Toolbar>
         </AppBar>
       </Box>
     </div>
   );
-
 };
 
 
-export default ManageBoxes;
+export default ManageDeliveries;

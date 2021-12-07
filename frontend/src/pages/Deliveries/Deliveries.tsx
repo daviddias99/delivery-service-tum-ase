@@ -4,10 +4,10 @@ import Paper from '@mui/material/Paper';
 
 import Title from 'components/common/Title/Title';
 import DeliveriesList from 'components/deliveries/DeliveriesList';
+import ManageDeliveries from 'components/deliveries/deliveryManagement/Manage';
 import Layout from 'components/common/Layout/Layout';
 
 import api from 'services/api';
-import deliveries from 'redux/slices/box/deliveriesStub';
 
 
 const Deliveries = () => {
@@ -23,7 +23,8 @@ const Deliveries = () => {
       <Container maxWidth={false} sx={{ mt: 4, mb: 4 }}>
         <Paper sx={{ p: '2em', display: 'flex', flexDirection: 'column' }}>
           <Title>Deliveries</Title>
-          <DeliveriesList deliveries={deliveries} />
+          <ManageDeliveries />
+          <DeliveriesList />
         </Paper>
       </Container>
     </Layout>
