@@ -1,10 +1,15 @@
 package com.ase.authservice.service;
 
 import com.ase.client.com.ase.contract.UserDto;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
+
+import javax.servlet.http.HttpServletRequest;
 
 public interface AuthService extends UserDetailsService {
 
     UserDto register(UserDto user);
 
+    public ResponseEntity<String> authenticateUser(String authorization,
+                                                   HttpServletRequest request) throws Exception;
 }
