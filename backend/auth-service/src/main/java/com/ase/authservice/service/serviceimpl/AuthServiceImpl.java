@@ -54,7 +54,6 @@ public class AuthServiceImpl implements AuthService {
                 new org.springframework.security.core.userdetails.User(
                         user.getUsername(),
                         user.getPassword(),
-                        //TODO: Setup role authorities
                         getAuthorities(user));
 
         return springUser;
