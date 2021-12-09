@@ -1,10 +1,10 @@
 package com.ase.authservice.service.serviceimpl;
 
+import com.ase.authservice.dto.UserDto;
 import com.ase.authservice.entity.User;
 import com.ase.authservice.jwt.JwtUtil;
 import com.ase.authservice.repository.UserRepository;
 import com.ase.authservice.service.AuthService;
-import com.ase.client.com.ase.contract.UserDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,17 +13,19 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Collection;
+import java.util.List;
 
 @Component
 public class AuthServiceImpl implements AuthService {
@@ -53,9 +55,17 @@ public class AuthServiceImpl implements AuthService {
                         user.getUsername(),
                         user.getPassword(),
                         //TODO: Setup role authorities
-                        AuthorityUtils.NO_AUTHORITIES);
+                        getAuthorities(user));
 
         return springUser;
+    }
+
+    public Collection<? extends GrantedAuthority> getAuthorities(User user) {
+        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
+
+        list.add(new SimpleGrantedAuthority("ROLE_" + user.getUsername()));
+
+        return list;
     }
 
     @Override

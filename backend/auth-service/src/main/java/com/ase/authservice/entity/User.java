@@ -32,4 +32,6 @@ public class User {
     @Indexed(unique = true)
     private String email;
 
+    @Field("role")
+    private String role;
 }
