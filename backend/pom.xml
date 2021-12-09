@@ -33,6 +33,7 @@
         <module>hystrix-dashboard</module>
         <module>gateway-server</module>
         <module>hystrix-dashboard</module>
+        <module>auth-service</module>
     </modules>
 
 
