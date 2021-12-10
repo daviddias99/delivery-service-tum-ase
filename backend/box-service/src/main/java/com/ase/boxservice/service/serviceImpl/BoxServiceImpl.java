@@ -2,6 +2,7 @@ package com.ase.boxservice.service.serviceImpl;
 
 import com.ase.boxservice.dto.BoxDto;
 import com.ase.boxservice.entity.Box;
+import com.ase.boxservice.entity.BoxStatus;
 import com.ase.boxservice.repository.BoxRepository;
 import com.ase.boxservice.service.BoxService;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,7 @@ public class BoxServiceImpl implements BoxService {
     @Transactional
     public BoxDto save(BoxDto boxDto) {
         Box tempBox = modelMapper.map(boxDto, Box.class);
+        tempBox.setStatus(BoxStatus.free);
         tempBox = boxRepository.save(tempBox);
         boxDto.setId(tempBox.getId());
         return boxDto;
@@ -37,14 +39,6 @@ public class BoxServiceImpl implements BoxService {
     public BoxDto getById(String id) {
         Box tempBox = boxRepository.getById(id);
         return modelMapper.map(tempBox, BoxDto.class);
-    }
-
-    @Override
-    public boolean isAddressExists(String address) {
-        if(boxRepository.findByAddress(address.toLowerCase()) == null){
-            return false;
-        }
-        return true;
     }
 
 
@@ -58,7 +52,7 @@ public class BoxServiceImpl implements BoxService {
     public Boolean deleteBox(String id) {
         if(boxRepository.existsById(id)){
             Box dbBox = boxRepository.getById(id);
-            dbBox.setStatus("inactive");
+            dbBox.setStatus(BoxStatus.inactive);
             boxRepository.save(dbBox);
             return true;
         }
@@ -67,17 +61,16 @@ public class BoxServiceImpl implements BoxService {
 
     @Override
     public String updateBox(BoxDto boxDto, String id) {
+        /*
         Box dbBox = boxRepository.getById(id);
-        if(!boxDto.getAddress().equals(dbBox.getAddress())){
-            if(isAddressExists(boxDto.getAddress())){
-                return "Address already in use!";
-            }
-        }
 
         dbBox.setAddress(boxDto.getAddress());
         dbBox.setDelivery(boxDto.getDelivery());
         dbBox.setStatus(boxDto.getStatus());
         boxRepository.save(dbBox);
         return "updated!";
+
+         */
+        return "update will be re-designed!";
     }
 }
