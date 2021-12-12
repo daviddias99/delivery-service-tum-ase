@@ -10,8 +10,8 @@ type delivererProps = {
 
 const deliveries = ({ deliverer, deliveries }: delivererProps) => {
   return (
-    <div id="customer">
-      <div id="customerInfo">
+    <div id="deliverer">
+      <div id="delivererInfo">
         <h3 className="subTitle">
           Deliverer Information:
         </h3>
