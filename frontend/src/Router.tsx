@@ -6,6 +6,7 @@ import routes from 'routes';
 import Homepage from 'pages/Homepage/Homepage';
 import Boxes from 'pages/Boxes/Boxes';
 import Deliveries from 'pages/Deliveries/Deliveries';
+import DeliveriesOverview from 'pages/Deliverer/DeliveriesOverview';
 import Box from 'pages/Box/Box';
 import Delivery from 'pages/Delivery/Delivery';
 import Orders from 'pages/Customer/Orders';
@@ -72,7 +73,12 @@ const Router = () => {
           </PrivateRoute>
         }
         />
-
+        <Route path={routes.deliverer.def} element={
+          <PrivateRoute>
+            <DeliveriesOverview />
+          </PrivateRoute>
+        }
+        />
       </Routes>
     </BrowserRouter>
   );

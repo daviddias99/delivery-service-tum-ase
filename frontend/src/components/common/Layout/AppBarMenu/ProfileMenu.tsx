@@ -63,6 +63,13 @@ const ProfileMenu = () => {
             My Orders
           </Link>
         </MenuItem>
+        <MenuItem>
+          <Link to={'/deliverer/1/deliveries'}>
+            <ShoppingCartOutlinedIcon />
+            {' '}
+            My Deliveries
+          </Link>
+        </MenuItem>
       </Menu>
     </React.Fragment>
   );
