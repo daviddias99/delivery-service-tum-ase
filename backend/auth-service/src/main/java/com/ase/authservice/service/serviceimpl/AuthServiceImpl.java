@@ -18,6 +18,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +43,9 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired
+    private BCryptPasswordEncoder encoder;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
@@ -53,7 +57,7 @@ public class AuthServiceImpl implements AuthService {
         org.springframework.security.core.userdetails.User springUser =
                 new org.springframework.security.core.userdetails.User(
                         user.getUsername(),
-                        user.getPassword(),
+                        encoder.encode(user.getPassword()),
                         getAuthorities(user));
 
         return springUser;
@@ -62,7 +66,7 @@ public class AuthServiceImpl implements AuthService {
     public Collection<? extends GrantedAuthority> getAuthorities(User user) {
         List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
 
-        list.add(new SimpleGrantedAuthority("ROLE_" + user.getUsername()));
+        list.add(new SimpleGrantedAuthority("ROLE_" + user.getRole().toUpperCase()));
 
         return list;
     }
@@ -99,7 +103,9 @@ public class AuthServiceImpl implements AuthService {
 
         try{
             auth = authManager.authenticate(token);
+
             SecurityContextHolder.getContext().setAuthentication(auth);
+
             final String jwt = jwtUtil.generateToken(user);
 
             return new ResponseEntity<>(jwt, HttpStatus.OK);

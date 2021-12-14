@@ -22,13 +22,24 @@ public class AuthController {
 
 
     @PostMapping
-    public ResponseEntity<String> login(@RequestHeader("Authorization") String authorization, HttpServletRequest request) throws Exception{
+    public ResponseEntity<String> login(@RequestHeader("Authorization") String authorization, HttpServletRequest request) throws Exception {
         return authService.authenticateUser(authorization, request);
     }
 
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<UserDto> register (@RequestBody UserDto userDto){
+    public ResponseEntity<UserDto> register(@RequestBody UserDto userDto) {
         return ResponseEntity.ok(authService.register(userDto));
     }
+
+    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    public ResponseEntity<UserDto> testAdd() {
+        return ResponseEntity.ok(authService.register(new UserDto("", "test1", "test1", "bob", "bob", "bob@bob.bob", "user")));
+    }
+
+    @RequestMapping(value = "/testtoken", method = RequestMethod.GET)
+    public ResponseEntity<String> checkToken() {
+        return ResponseEntity.ok("token valid");
+    }
+
 }
