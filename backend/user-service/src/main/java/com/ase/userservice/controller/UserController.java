@@ -30,9 +30,9 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "/{username}", method = RequestMethod.GET)
-    public ResponseEntity<UserDto> getOne(@PathVariable String username) {
-        return ResponseEntity.ok(userService.getByUsername(username));
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity<UserDto> getOne(@PathVariable String id) {
+        return ResponseEntity.ok(userService.getById(id));
     }
 
 

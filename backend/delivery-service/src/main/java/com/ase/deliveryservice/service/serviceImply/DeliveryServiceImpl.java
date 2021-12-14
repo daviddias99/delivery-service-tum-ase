@@ -2,6 +2,7 @@ package com.ase.deliveryservice.service.serviceImply;
 
 
 import com.ase.client.UserServiceClient;
+import com.ase.client.com.ase.contract.NotificationServiceClient;
 import com.ase.client.com.ase.contract.ResponseMessage;
 import com.ase.deliveryservice.dto.DeliveryDto;
 import com.ase.deliveryservice.entity.Delivery;
@@ -38,6 +39,9 @@ public class DeliveryServiceImpl  implements DeliveryService {
 
     @Autowired
     private ResponseMessage responseMessage;
+
+    @Autowired
+    private NotificationServiceClient notificationServiceClient;
 
 
 
@@ -84,6 +88,8 @@ public class DeliveryServiceImpl  implements DeliveryService {
         deliveryDto.setId(newDelivery.getId());
         deliveryDto.setTrackingNumber(newDelivery.getTrackingNumber());
         responseMessage.setResponseMessage("Delivery is successfully created!");
+        //notificationServiceClient.sendEmail()
+
         responseMessage.setResponseType(1);
 
         return responseMessage;

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient("user-service")
 public interface UserServiceClient {
 
-    @RequestMapping(value = "/user/{username}")
-    public ResponseEntity<UserDto> getOne(@PathVariable String username);
+    @RequestMapping(value = "/user/{id}")
+    public ResponseEntity<UserDto> getOne(@PathVariable String id);
 
 }
