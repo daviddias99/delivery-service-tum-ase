@@ -13,9 +13,19 @@ public interface DeliveryService {
 
     public DeliveryDto getById(String id);
 
+    public DeliveryDto getByTrackingNumber(String TrackingNumber);
+
     public ResponseMessage deleteDelivery(String id);
 
     public List<DeliveryDto> getAll();
+
+
+    public List<DeliveryDto> getAllByDelivererId(String delivererId);
+
+
+    public List<DeliveryDto> getByCustomerId(String id);
+
+    public List<DeliveryDto> getByBoxId(String id);
 
 }
 

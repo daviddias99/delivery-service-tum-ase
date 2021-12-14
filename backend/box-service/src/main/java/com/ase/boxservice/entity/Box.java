@@ -15,14 +15,14 @@ public class Box {
     @Field("id")
     private String id;
 
+    @Field("name")
+    private String name;
+
     @Field("status")
-    private String status;
+    private BoxStatus status;
 
     @Field("address")
-    private String address;
-
-    @Field("delivery")
-    private String delivery;
+    private BoxAddress address;
 
 }
 

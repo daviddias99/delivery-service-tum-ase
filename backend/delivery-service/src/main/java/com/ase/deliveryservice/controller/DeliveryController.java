@@ -5,12 +5,14 @@ import com.ase.client.com.ase.contract.ResponseMessage;
 import com.ase.client.com.ase.contract.UserDto;
 import com.ase.deliveryservice.dto.DeliveryDto;
 import com.ase.deliveryservice.service.DeliveryService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/delivery")
 public class DeliveryController {
@@ -25,6 +27,8 @@ public class DeliveryController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<ResponseMessage> addDelivery(@RequestBody DeliveryDto deliveryDto){
 
+        log.warn("add method is up");
+
         responseMessage = deliveryService.save(deliveryDto);
 
         if(responseMessage.getResponseType()==0){
@@ -35,7 +39,6 @@ public class DeliveryController {
 
 
     }
-
 
 
     @RequestMapping(value = "/{deliveryId}", method = RequestMethod.GET)
@@ -59,17 +62,40 @@ public class DeliveryController {
     }
 
 
-
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public ResponseEntity<List<DeliveryDto>> listUsers() {
+    public ResponseEntity<List<DeliveryDto>> listDelivery() {
         List<DeliveryDto> data = deliveryService.getAll();
         return ResponseEntity.ok(data);
     }
 
 
 
+    @RequestMapping(value = "/all/deliverer/{delivererId}", method = RequestMethod.GET)
+    public ResponseEntity<List<DeliveryDto>> getAllDeliveriesByDelivererId(@PathVariable String delivererId) {
+        List<DeliveryDto> data = deliveryService.getAllByDelivererId(delivererId);
+        return ResponseEntity.ok(data);
+    }
+
+    @RequestMapping(value = "/all/box/{boxId}", method = RequestMethod.GET)
+    public ResponseEntity<List<DeliveryDto>> getAllDeliveriesByBoxId(@PathVariable String boxId) {
+        List<DeliveryDto> data = deliveryService.getByBoxId(boxId);
+        return ResponseEntity.ok(data);
+    }
 
 
+    @RequestMapping(value = "/all/customer/{customerId}", method = RequestMethod.GET)
+    public ResponseEntity<List<DeliveryDto>> getAllDeliveriesByCustomerId(@PathVariable String customerId) {
+        List<DeliveryDto> data = deliveryService.getByCustomerId(customerId);
+        return ResponseEntity.ok(data);
+    }
+
+
+
+
+    @RequestMapping(value = "track/{trackingNumber}", method = RequestMethod.GET)
+    public ResponseEntity<DeliveryDto> getByTrackingId(@PathVariable String trackingNumber) {
+        return ResponseEntity.ok(deliveryService.getByTrackingNumber(trackingNumber));
+    }
 
 
 

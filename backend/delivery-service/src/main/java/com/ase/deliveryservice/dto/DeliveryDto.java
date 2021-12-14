@@ -1,14 +1,16 @@
 package com.ase.deliveryservice.dto;
 
 
-import com.ase.client.com.ase.contract.UserDto;
+import com.ase.deliveryservice.entity.Box;
 import com.ase.deliveryservice.entity.Status;
+import com.ase.deliveryservice.entity.User;
+import com.ase.deliveryservice.entity.DeliveryStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Field;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -17,13 +19,18 @@ public class DeliveryDto {
 
     private String id;
 
-    private String receiverId;
+    private User customer;
 
-    private String delivererId;
+    private User deliverer;
 
-    private String targetBoxId;
+    private User dispatcher;
 
-    private Status status;
+    private Box box;
 
-    private String trackingId;
+    private List<Status> statusHistory;
+
+    private String trackingNumber;
+
+    private String description;
+
 }

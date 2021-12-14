@@ -11,7 +11,6 @@ public interface BoxService {
 
     BoxDto getById(String id);
 
-    boolean isAddressExists(String address);
 
     List<BoxDto> getAll();
 
