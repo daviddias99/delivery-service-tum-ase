@@ -22,6 +22,11 @@ public interface DeliveryService {
 
     public List<DeliveryDto> getAllByDelivererId(String delivererId);
 
+
+    public List<DeliveryDto> getByCustomerId(String id);
+
+    public List<DeliveryDto> getByBoxId(String id);
+
 }
 
 

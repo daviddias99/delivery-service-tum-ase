@@ -137,6 +137,22 @@ public class DeliveryServiceImpl  implements DeliveryService {
         return Arrays.asList(modelMapper.map(deliveries, DeliveryDto[].class));
     }
 
+    @Override
+    public List<DeliveryDto> getByCustomerId(String id) {
+        List<Delivery> deliveries = deliveryRepository.getAllByCustomer_Id(id);
+        if(deliveries.isEmpty())
+            return null;
+        return Arrays.asList(modelMapper.map(deliveries, DeliveryDto[].class));
+    }
+
+    @Override
+    public List<DeliveryDto> getByBoxId(String id) {
+        List<Delivery> deliveries = deliveryRepository.getAllByBox_Id(id);
+        if(deliveries.isEmpty())
+            return null;
+        return Arrays.asList(modelMapper.map(deliveries, DeliveryDto[].class));
+    }
+
 
     @Override
     public DeliveryDto getByTrackingNumber(String TrackingNumber) {

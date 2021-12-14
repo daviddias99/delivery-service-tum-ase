@@ -61,16 +61,16 @@ public class BoxServiceImpl implements BoxService {
 
     @Override
     public String updateBox(BoxDto boxDto, String id) {
-        /*
+
+
         Box dbBox = boxRepository.getById(id);
 
+        dbBox.setName(boxDto.getName());
         dbBox.setAddress(boxDto.getAddress());
-        dbBox.setDelivery(boxDto.getDelivery());
         dbBox.setStatus(boxDto.getStatus());
+
         boxRepository.save(dbBox);
         return "updated!";
 
-         */
-        return "update will be re-designed!";
     }
 }

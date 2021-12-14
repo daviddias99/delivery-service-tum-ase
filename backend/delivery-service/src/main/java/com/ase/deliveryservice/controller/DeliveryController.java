@@ -70,11 +70,25 @@ public class DeliveryController {
 
 
 
-    @RequestMapping(value = "/list/{delivererId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/all/deliverer/{delivererId}", method = RequestMethod.GET)
     public ResponseEntity<List<DeliveryDto>> getAllDeliveriesByDelivererId(@PathVariable String delivererId) {
         List<DeliveryDto> data = deliveryService.getAllByDelivererId(delivererId);
         return ResponseEntity.ok(data);
     }
+
+    @RequestMapping(value = "/all/box/{boxId}", method = RequestMethod.GET)
+    public ResponseEntity<List<DeliveryDto>> getAllDeliveriesByBoxId(@PathVariable String boxId) {
+        List<DeliveryDto> data = deliveryService.getByBoxId(boxId);
+        return ResponseEntity.ok(data);
+    }
+
+
+    @RequestMapping(value = "/all/customer/{customerId}", method = RequestMethod.GET)
+    public ResponseEntity<List<DeliveryDto>> getAllDeliveriesByCustomerId(@PathVariable String customerId) {
+        List<DeliveryDto> data = deliveryService.getByCustomerId(customerId);
+        return ResponseEntity.ok(data);
+    }
+
 
 
 

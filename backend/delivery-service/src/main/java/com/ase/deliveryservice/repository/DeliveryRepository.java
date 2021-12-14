@@ -19,5 +19,11 @@ public interface DeliveryRepository extends MongoRepository<Delivery,String> {
 
     public List<Delivery> getAllByDeliverer_Id(String id);
 
+    public List<Delivery> getAllByBox_Id(String id);
+
+    public List<Delivery> getAllByCustomer_Id(String id);
+
+
+
 }
 
