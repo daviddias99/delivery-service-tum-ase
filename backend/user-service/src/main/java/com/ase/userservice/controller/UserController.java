@@ -3,6 +3,7 @@ package com.ase.userservice.controller;
 
 import com.ase.userservice.service.UserService;
 import com.ase.client.com.ase.contract.UserDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@Slf4j
 // @CrossOrigin(origins = ApiPaths.LOCAL_CLIENT_BASE_PATH, maxAge = 3600)
 @RequestMapping("/user")
 public class UserController {
@@ -32,6 +34,7 @@ public class UserController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<UserDto> getOne(@PathVariable String id) {
+        log.warn("User:getOne method is on. ID:"+id);
         return ResponseEntity.ok(userService.getById(id));
     }
 

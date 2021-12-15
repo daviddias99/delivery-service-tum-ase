@@ -4,6 +4,8 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +15,7 @@ import java.util.List;
 @Document(collection = "delivery")
 public class Delivery {
 
-    @Id
-    @Field("id")
+    @MongoId(value = FieldType.OBJECT_ID)
     private String id;
 
     //https://stackoverflow.com/questions/47803934/spring-boot-mongo-how-to-refer-to-document-in-other-collections-from-a-collect
