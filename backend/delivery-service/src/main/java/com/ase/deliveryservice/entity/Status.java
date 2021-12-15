@@ -1,8 +1,12 @@
 package com.ase.deliveryservice.entity;
 
+
 import lombok.Data;
 
-public enum Status {
-    ordered, dispatched, delivered, collected;
+@Data
+public class Status {
 
+    private DeliveryStatus deliveryStatus;
+
+    private String statusUpdate;
 }

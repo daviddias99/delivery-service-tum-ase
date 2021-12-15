@@ -1,0 +1,27 @@
+server:
+  port: 8507
+
+eureka:
+  client:
+    instance:
+      hostname: localhost
+    serviceUrl:
+      defaultZone: http://localhost:8500/eureka/
+
+
+
+spring:
+  mail:
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: 'true'
+          auth: 'true'
+    host: smtp.gmail.com
+    username: asedeliveryy@gmail.com
+    password: ***REMOVED***
+    port: '587'
+    smtp:
+      ssl:
+        trust: smtp.gmail.com

@@ -34,6 +34,7 @@
         <module>gateway-server</module>
         <module>hystrix-dashboard</module>
         <module>auth-service</module>
+        <module>notification-service</module>
     </modules>
 
 

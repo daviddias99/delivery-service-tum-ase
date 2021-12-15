@@ -2,9 +2,11 @@ package com.ase.boxservice.service.serviceImpl;
 
 import com.ase.boxservice.dto.BoxDto;
 import com.ase.boxservice.entity.Box;
+import com.ase.boxservice.entity.BoxStatus;
 import com.ase.boxservice.repository.BoxRepository;
 import com.ase.boxservice.service.BoxService;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,7 @@ public class BoxServiceImpl implements BoxService {
     @Transactional
     public BoxDto save(BoxDto boxDto) {
         Box tempBox = modelMapper.map(boxDto, Box.class);
+        tempBox.setStatus(BoxStatus.free);
         tempBox = boxRepository.save(tempBox);
         boxDto.setId(tempBox.getId());
         return boxDto;
@@ -35,16 +38,8 @@ public class BoxServiceImpl implements BoxService {
 
     @Override
     public BoxDto getById(String id) {
-        Box tempBox = boxRepository.getById(id);
+        Box tempBox = boxRepository.findById(new ObjectId(id));
         return modelMapper.map(tempBox, BoxDto.class);
-    }
-
-    @Override
-    public boolean isAddressExists(String address) {
-        if(boxRepository.findByAddress(address.toLowerCase()) == null){
-            return false;
-        }
-        return true;
     }
 
 
@@ -56,9 +51,10 @@ public class BoxServiceImpl implements BoxService {
 
     @Override
     public Boolean deleteBox(String id) {
-        if(boxRepository.existsById(id)){
-            Box dbBox = boxRepository.getById(id);
-            dbBox.setStatus("inactive");
+        ObjectId objectId = new ObjectId(id);
+        if(boxRepository.existsById(objectId)){
+            Box dbBox = boxRepository.findById(objectId);
+            dbBox.setStatus(BoxStatus.inactive);
             boxRepository.save(dbBox);
             return true;
         }
@@ -67,17 +63,16 @@ public class BoxServiceImpl implements BoxService {
 
     @Override
     public String updateBox(BoxDto boxDto, String id) {
-        Box dbBox = boxRepository.getById(id);
-        if(!boxDto.getAddress().equals(dbBox.getAddress())){
-            if(isAddressExists(boxDto.getAddress())){
-                return "Address already in use!";
-            }
-        }
 
+
+        Box dbBox = boxRepository.findById(new ObjectId(id));
+
+        dbBox.setName(boxDto.getName());
         dbBox.setAddress(boxDto.getAddress());
-        dbBox.setDelivery(boxDto.getDelivery());
         dbBox.setStatus(boxDto.getStatus());
+
         boxRepository.save(dbBox);
         return "updated!";
+
     }
 }
