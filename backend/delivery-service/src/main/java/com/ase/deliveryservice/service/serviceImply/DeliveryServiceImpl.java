@@ -2,8 +2,10 @@ package com.ase.deliveryservice.service.serviceImply;
 
 
 import com.ase.client.UserServiceClient;
-import com.ase.client.com.ase.contract.NotificationServiceClient;
+import com.ase.client.com.ase.contract.EmailDto;
+import com.ase.client.NotificationServiceClient;
 import com.ase.client.com.ase.contract.ResponseMessage;
+import com.ase.client.com.ase.contract.UserDto;
 import com.ase.deliveryservice.dto.DeliveryDto;
 import com.ase.deliveryservice.entity.Delivery;
 import com.ase.deliveryservice.entity.DeliveryStatus;
@@ -11,6 +13,7 @@ import com.ase.deliveryservice.entity.Status;
 import com.ase.deliveryservice.repository.DeliveryRepository;
 import com.ase.deliveryservice.service.DeliveryService;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,6 +64,9 @@ public class DeliveryServiceImpl  implements DeliveryService {
     }
 
 
+
+
+
     //RETURN STATUS AND MESSAGE INSTEAD OF DTO!!!!
     @Override
     public ResponseMessage save(DeliveryDto deliveryDto) {
@@ -88,7 +94,9 @@ public class DeliveryServiceImpl  implements DeliveryService {
         deliveryDto.setId(newDelivery.getId());
         deliveryDto.setTrackingNumber(newDelivery.getTrackingNumber());
         responseMessage.setResponseMessage("Delivery is successfully created!");
-        //notificationServiceClient.sendEmail()
+
+        //Method call will be activated later:
+        //prepareSendEmail(deliveryDto); //prepare and send e-mail
 
         responseMessage.setResponseType(1);
 
@@ -98,7 +106,7 @@ public class DeliveryServiceImpl  implements DeliveryService {
 
     @Override
     public DeliveryDto getById(String id) {
-        Delivery delivery = deliveryRepository.getById(id);
+        Delivery delivery = deliveryRepository.findById(new ObjectId(id));
 
         if(delivery.equals(null)){
 
@@ -111,8 +119,9 @@ public class DeliveryServiceImpl  implements DeliveryService {
 
     @Override
     public ResponseMessage deleteDelivery(String id) {
-        if(deliveryRepository.existsById(id)){
-            deliveryRepository.deleteById(id);
+        ObjectId objectId = new ObjectId(id);
+        if(deliveryRepository.existsById(objectId)){
+            deliveryRepository.deleteById(objectId);
             responseMessage.setResponseType(1);
             responseMessage.setResponseMessage("Delivery is deleted!");
         }
@@ -157,6 +166,32 @@ public class DeliveryServiceImpl  implements DeliveryService {
         if(deliveries.isEmpty())
             return null;
         return Arrays.asList(modelMapper.map(deliveries, DeliveryDto[].class));
+    }
+
+    @Override
+    public EmailDto prepareSendEmail(DeliveryDto deliveryDto) {
+        EmailDto emailDto = new EmailDto();
+
+        UserDto receiver = userServiceClient.getOne(deliveryDto.getCustomer().getId()).getBody();
+
+        if(receiver==null){
+            log.warn("The user is null. Id is probably wrong!");
+            return null;
+        }
+
+
+        String header = "Information about your delivery ";
+        String content = "<p>Hi," + receiver.getFirstName() + receiver.getSurname() +
+                "</p>" + "<p>We've received your delivery. You can track your delivery with the following tracking-number: </p>"
+                + deliveryDto.getTrackingNumber() +"<p>Kind Regards</p>";
+
+        emailDto.setReceiver(receiver.getEmail());
+        emailDto.setHeader(header);
+        emailDto.setContent(content);
+
+        Boolean response = notificationServiceClient.sendEmail(emailDto).getBody().booleanValue();
+
+        return emailDto;
     }
 
 

@@ -6,6 +6,7 @@ import com.ase.boxservice.entity.BoxStatus;
 import com.ase.boxservice.repository.BoxRepository;
 import com.ase.boxservice.service.BoxService;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,7 @@ public class BoxServiceImpl implements BoxService {
 
     @Override
     public BoxDto getById(String id) {
-        Box tempBox = boxRepository.getById(id);
+        Box tempBox = boxRepository.findById(new ObjectId(id));
         return modelMapper.map(tempBox, BoxDto.class);
     }
 
@@ -50,8 +51,9 @@ public class BoxServiceImpl implements BoxService {
 
     @Override
     public Boolean deleteBox(String id) {
-        if(boxRepository.existsById(id)){
-            Box dbBox = boxRepository.getById(id);
+        ObjectId objectId = new ObjectId(id);
+        if(boxRepository.existsById(objectId)){
+            Box dbBox = boxRepository.findById(objectId);
             dbBox.setStatus(BoxStatus.inactive);
             boxRepository.save(dbBox);
             return true;
@@ -63,7 +65,7 @@ public class BoxServiceImpl implements BoxService {
     public String updateBox(BoxDto boxDto, String id) {
 
 
-        Box dbBox = boxRepository.getById(id);
+        Box dbBox = boxRepository.findById(new ObjectId(id));
 
         dbBox.setName(boxDto.getName());
         dbBox.setAddress(boxDto.getAddress());

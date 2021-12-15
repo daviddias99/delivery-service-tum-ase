@@ -6,6 +6,7 @@ import com.ase.userservice.repository.UserRepository;
 import com.ase.userservice.service.UserService;
 import com.ase.client.com.ase.contract.UserDto;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getById(String id) {
-        User tempUser = userRepository.getById(id);
+
+        User tempUser = userRepository.findById(new ObjectId(id));
+
+        //log.warn("userr->",userRepository.getById(id).getEmail());
+
+        if(tempUser==null){
+            log.warn("user can't be found");
+            return null;
+        }
         return modelMapper.map(tempUser, UserDto.class);
     }
 
@@ -38,7 +47,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean deleteUser(String id) {
-        if(userRepository.existsById(id)){
+        if(userRepository.existsById(new ObjectId(id))){
             userRepository.deleteById(id);
             return true;
         }
@@ -72,7 +81,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String updateUser(UserDto tempUser,String id){
-        User dbUser = userRepository.getById(id);
+        User dbUser = userRepository.findById(new ObjectId(id));
 
         if(!dbUser.getEmail().equals(tempUser.getEmail()) ){ //check if e-mail is already used by another user
             if(this.isEmailExists(tempUser.getEmail())){
