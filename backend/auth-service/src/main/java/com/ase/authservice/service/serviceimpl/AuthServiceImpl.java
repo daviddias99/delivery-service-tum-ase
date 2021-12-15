@@ -1,10 +1,10 @@
 package com.ase.authservice.service.serviceimpl;
 
+import com.ase.authservice.dto.UserDto;
 import com.ase.authservice.entity.User;
 import com.ase.authservice.jwt.JwtUtil;
 import com.ase.authservice.repository.UserRepository;
 import com.ase.authservice.service.AuthService;
-import com.ase.client.com.ase.contract.UserDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,17 +13,20 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Collection;
+import java.util.List;
 
 @Component
 public class AuthServiceImpl implements AuthService {
@@ -40,6 +43,9 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired
+    private BCryptPasswordEncoder encoder;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
@@ -51,11 +57,18 @@ public class AuthServiceImpl implements AuthService {
         org.springframework.security.core.userdetails.User springUser =
                 new org.springframework.security.core.userdetails.User(
                         user.getUsername(),
-                        user.getPassword(),
-                        //TODO: Setup role authorities
-                        AuthorityUtils.NO_AUTHORITIES);
+                        encoder.encode(user.getPassword()),
+                        getAuthorities(user));
 
         return springUser;
+    }
+
+    public Collection<? extends GrantedAuthority> getAuthorities(User user) {
+        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
+
+        list.add(new SimpleGrantedAuthority("ROLE_" + user.getRole().toUpperCase()));
+
+        return list;
     }
 
     @Override
@@ -90,7 +103,9 @@ public class AuthServiceImpl implements AuthService {
 
         try{
             auth = authManager.authenticate(token);
+
             SecurityContextHolder.getContext().setAuthentication(auth);
+
             final String jwt = jwtUtil.generateToken(user);
 
             return new ResponseEntity<>(jwt, HttpStatus.OK);

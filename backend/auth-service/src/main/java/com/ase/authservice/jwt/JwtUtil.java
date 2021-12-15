@@ -1,18 +1,14 @@
 package com.ase.authservice.jwt;
 
-import com.ase.authservice.entity.User;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 @Component
@@ -23,7 +19,7 @@ public class JwtUtil {
 
     public String generateToken(UserDetails user){
         Map<String, Object> claims = new HashMap<>();
-        claims.put("roles", AuthorityUtils.NO_AUTHORITIES);
+        claims.put("roles", user.getAuthorities());
         return createToken(claims, user.getUsername());
     }
 
@@ -51,6 +47,7 @@ public class JwtUtil {
     private Date extractExpiration(String token){
         return extractClaim(token, Claims::getExpiration);
     }
+
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver){
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);

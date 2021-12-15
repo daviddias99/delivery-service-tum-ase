@@ -24,4 +24,9 @@ public class HystrixContoller {
     public String deliveryFallback(){
         return "Delivery Service is not available";
     }
+
+    @GetMapping("/auth")
+    public String authFallback(){
+        return "Authentication Service is not available";
+    }
 }

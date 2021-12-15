@@ -30,6 +30,11 @@ spring:
           predicates:
             - Path=/box/**
 
+        - id: auth-service
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/auth/**
+
 
 
 

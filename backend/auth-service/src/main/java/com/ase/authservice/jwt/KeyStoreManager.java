@@ -17,7 +17,7 @@ public class KeyStoreManager {
 
     private String keyAlias;
 
-    private char[] password = "password".toCharArray();
+    private char[] password = "Password1".toCharArray();
 
     public KeyStoreManager() throws KeyStoreException, IOException{
         loadKeyStore();
@@ -29,7 +29,7 @@ public class KeyStoreManager {
         FileInputStream fis = null;
 
         try{
-            File keystoreFile = ResourceUtils.getFile("classpath:auth.keystore");
+            File keystoreFile = new File("backend/auth-service/src/main/resources/auth.keystore");
             fis = new FileInputStream(keystoreFile);
             keyStore.load(fis,password);
             keyAlias = keyStore.aliases().nextElement();
