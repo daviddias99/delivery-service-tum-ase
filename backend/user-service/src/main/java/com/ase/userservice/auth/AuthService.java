@@ -1,10 +1,6 @@
-package com.ase.authservice.service.serviceimpl;
+package com.ase.userservice.auth;
 
-import com.ase.authservice.dto.UserDto;
-import com.ase.authservice.entity.User;
-import com.ase.authservice.jwt.JwtUtil;
-import com.ase.authservice.repository.UserRepository;
-import com.ase.authservice.service.AuthService;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,22 +26,16 @@ import java.util.Collection;
 import java.util.List;
 
 @Component
-public class AuthServiceImpl implements AuthService {
+public class AuthService implements UserDetailsService {
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private AuthenticationManager authManager;
-
-    @Autowired
-    private ModelMapper modelMapper;
-
-    @Autowired
-    private JwtUtil jwtUtil;
+    private UserAuthRepository userRepository;
 
     @Autowired
     private BCryptPasswordEncoder encoder;
+
+    @Autowired
+    private AuthenticationManager authManager;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -72,58 +62,15 @@ public class AuthServiceImpl implements AuthService {
         return list;
     }
 
-    @Override
-    @Transactional
-    public UserDto register(UserDto userDto) {
-        User tempUser = modelMapper.map(userDto, User.class);
-        tempUser = userRepository.save(tempUser);
-        userDto.setId(tempUser.getId());
-        return userDto;
-    }
-
-
-
-    public ResponseEntity<String> authenticateUser(String authorization,
-                                                   HttpServletRequest request) throws Exception {
-
-        // decodes request header and splits into username/pw
-        String headerString = authorization.substring("Basic".length()).trim();
-        String decoded = new String(Base64.getDecoder().decode(headerString));
-        String username = decoded.split(":", 2)[0];
-        String password = decoded.split(":", 2)[1];
-
-        // get user by given username
-        UserDetails user = loadUserByUsername(username);
-        if (user == null) {
-            throw new BadCredentialsException("1000");
-        }
-
-        // authenticate using authManager and token of username and password
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user, password, user.getAuthorities());
-        Authentication auth = null;
-
-        try{
-            auth = authManager.authenticate(token);
-
-            SecurityContextHolder.getContext().setAuthentication(auth);
-
-            final String jwt = jwtUtil.generateToken(user);
-
-            return new ResponseEntity<>(jwt, HttpStatus.OK);
-        } catch (BadCredentialsException e){
-            e.printStackTrace();
-            return new ResponseEntity<>("Email or password is incorrect", HttpStatus.BAD_REQUEST);
-        } catch (Exception ex){
-            ex.printStackTrace();
-            return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-
     public void setAuthentication(UserDetails user){
         User tempUser = userRepository.findByUsername(user.getUsername());
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user, tempUser.getPassword(), user.getAuthorities());
         Authentication auth = authManager.authenticate(token);
         SecurityContextHolder.getContext().setAuthentication(auth);
     }
+
+
+
+
+
 }

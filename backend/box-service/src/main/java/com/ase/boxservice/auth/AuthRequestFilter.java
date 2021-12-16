@@ -1,7 +1,6 @@
-package com.ase.authservice.filter;
+package com.ase.boxservice.auth;
 
-import com.ase.authservice.jwt.JwtUtil;
-import com.ase.authservice.service.AuthService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -38,7 +37,6 @@ public class AuthRequestFilter extends OncePerRequestFilter {
 
             if(!jwtUtil.verifyJwtSignature(jwt)){
                 response.sendError(HttpStatus.UNAUTHORIZED.value(), "Token Invalid");
-                return;
             }
 
             username = jwtUtil.extractUsername(jwt);
@@ -59,6 +57,7 @@ public class AuthRequestFilter extends OncePerRequestFilter {
                     authContext.getPrincipal(),
                     authContext.getCredentials(),
                     authContext.getAuthorities().toString()));
+
         }
         filterChain.doFilter(request, response);
     }
