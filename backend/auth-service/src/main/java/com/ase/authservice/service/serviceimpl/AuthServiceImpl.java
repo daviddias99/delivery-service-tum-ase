@@ -76,6 +76,7 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     public UserDto register(UserDto userDto) {
         User tempUser = modelMapper.map(userDto, User.class);
+        tempUser.setRole("user");
         tempUser = userRepository.save(tempUser);
         userDto.setId(tempUser.getId());
         return userDto;
