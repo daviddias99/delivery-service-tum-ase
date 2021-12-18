@@ -112,12 +112,14 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public String updateUser(UserDto tempUser,String id){
+    public ResponseMessage updateUser(UserDto tempUser,String id){
         User dbUser = userRepository.findById(new ObjectId(id));
-
+        ResponseMessage responseMessage = new ResponseMessage();
         if(!dbUser.getEmail().equals(tempUser.getEmail()) ){ //check if e-mail is already used by another user
             if(userRepository.existsByEmail(tempUser.getEmail().toLowerCase())){
-                return "This e-mail already is in use. Please enter a new one";
+                responseMessage.setResponseType(0);
+                responseMessage.setResponseMessage("This e-mail already is in use. Please enter a new one");
+                return responseMessage;
             }
         }
 
@@ -125,7 +127,9 @@ public class UserServiceImpl implements UserService {
         dbUser.setFirstName(tempUser.getFirstName());
         dbUser.setEmail(tempUser.getEmail().toLowerCase());
         userRepository.save(dbUser);
-        return "updated!";
+        responseMessage.setResponseType(1);
+        responseMessage.setResponseMessage("Successfull updated!");
+        return responseMessage;
 
     }
 

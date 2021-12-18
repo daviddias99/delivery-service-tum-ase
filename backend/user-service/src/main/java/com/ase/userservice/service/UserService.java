@@ -18,7 +18,7 @@ public interface UserService {
     Boolean deleteUser(String id);
 
 
-    String updateUser(UserDto user,String id);
+    ResponseMessage updateUser(UserDto user,String id);
 
     List<UserDto> getAllByRole(String role);
 
