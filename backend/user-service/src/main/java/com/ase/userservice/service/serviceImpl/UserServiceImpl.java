@@ -68,34 +68,39 @@ public class UserServiceImpl implements UserService {
         log.warn("UserService: save method is on");
         ResponseMessage saveResp = new ResponseMessage();
         userDto.setEmail(userDto.getEmail().toLowerCase());
+        userDto.setRole(role);
         if(userRepository.existsByUsername(userDto.getUsername())){
             saveResp.setResponseType(0);
-            saveResp.setResponseMessage("This e-mail already is in use. Please enter a new one");
+            saveResp.setResponseMessage("This username already is in use. Please enter a new one");
             return saveResp;
         }
 
         if(userRepository.existsByEmail(userDto.getEmail())){
             saveResp.setResponseType(1);
-            saveResp.setResponseMessage("This username already is in use. Please enter a new one");
+            saveResp.setResponseMessage("This e-mail already is in use. Please enter a new one");
             return saveResp;
 
         }
-        String token = "Bearer eyJhbGciOiJSUzI1NiJ9.eyJyb2xlcyI6W3sicm9sZSI6IlJPTEVfQ1VTVE9NRVIifV0sInN1YiI6InRlc3QxIiwiaXNzIjoiYXNlRGVsaXZlcnkiLCJpYXQiOjE2Mzk3NDYzNzEsImV4cCI6MTYzOTc2NDM3MX0.aMc6GH2WbreY-mfklq4t9Vn99mRbIQ7KZSAsfe6BZCi_5hTY_jwdpp5oP0163r5qDWxh0Tk4SsWGmhzjG6ZEYuJrYatVOTyKImPsZQJYo8lXlnvx70li4bVifr-oI_ixDgHviSlfILUXiJGqC9QPKsWUPELFlS8rQzhqAHoZb8dfm-c1uSJhYBjn498CXK9Ktl3fF_SMf5ArSibZ1p6cKyhR2a0SdMe5RjB-vGjmjQKTuPiohSQ-KJdGDNT4t7UnoldBmKj6WSEFruvYN0Ae4hX3uj5fJtF_YQNZwsIu9JdJIGmd7ilystB5bpVrHxfT8W_mjzeVLBIAg_nGWcmjXQ";
-        userDto.setRole(role);
-        UserDto dbUser = authServiceClient.register(token,userDto).getBody();
+
+        User tempuser = modelMapper.map(userDto, User.class);
 
         /*
+        //SAVE BY USING AUTH'S REGISTER METHOD
+        String token = "Bearer eyJhbGciOiJSUzI1NiJ9.eyJyb2xlcyI6W3sicm9sZSI6IlJPTEVfQ1VTVE9NRVIifV0sInN1YiI6InRlc3QxIiwiaXNzIjoiYXNlRGVsaXZlcnkiLCJpYXQiOjE2Mzk4MjIxMjgsImV4cCI6MTYzOTg0MDEyOH0.OsPDnG2AT6CSKHQXSWh0EUQ8ZvQ_ZrvsbizliHjX2kExQKhqG1z5Q-1Wu6IxQgVf1qSg56shzIun7n_dGnrprpG3NaPOBOkTDVe0kNfgjyeYpmKem77MjTnIfzSaZqUOjVM3y69JiN8ubTxW2gQ0jYZO_GihhHNbbfisJYH0wKl7A1QdgM0bLzAvindizXFDeag1gmHeijImt6lfu3aOM9T2GBJ4iSx8a6B4_zjFXTHGhiBQhr3dsDW2aIj_NHkBReqBYzP08Y4O2emSfjvisxLZtothb0FYMgF4304dUE3oJNLF-kav1oDR-W2AA4FoXDiHtW2E7An8RpP-zhw5Qw";
+        userDto.setRole(role);
+        UserDto dbUser = authServiceClient.register(token,userDto).getBody();
+        */
+
         try {
-            UserDto dbUser = authServiceClient.register(userDto).getBody();
+            userRepository.save(tempuser);
+            //UserDto dbUser = authServiceClient.register(userDto).getBody();
         }
         catch (Exception e){
-            log.warn("exception:",e.getStackTrace().);
-            log.warn("exception message:",e.getMessage());
+            log.warn("exception trace:",e.getStackTrace());
             saveResp.setResponseType(0);
             saveResp.setResponseMessage("Unexpected problem occured! Please try again layer");
             return saveResp;
         }
-*/
         saveResp.setResponseType(1);
         saveResp.setResponseMessage("Successfull registration!");
         return saveResp;
@@ -124,11 +129,14 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
+    public List<UserDto> getAllByRole(String role) {
 
+        List<User> users = userRepository.findAllByRole(role);
 
+        return Arrays.asList(modelMapper.map(users, UserDto[].class));
 
-
-
+    }
 
 
 }

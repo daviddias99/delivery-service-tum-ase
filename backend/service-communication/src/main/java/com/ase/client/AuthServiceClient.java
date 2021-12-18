@@ -13,6 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient("auth-service")
 public interface AuthServiceClient {
 
-    @RequestMapping(value = "/register",method = RequestMethod.POST)
-    public ResponseEntity<UserDto> register(@RequestHeader("Authorization") String authorizationToken, @RequestBody UserDto userDto);
+    @RequestMapping(value = "/auth/register",method = RequestMethod.POST)
+    public ResponseEntity<UserDto> register(@RequestHeader(value = "Authorization", required = true) String authorizationHeader, @RequestBody UserDto userDto);
 }

@@ -20,6 +20,8 @@ public interface UserService {
 
     String updateUser(UserDto user,String id);
 
+    List<UserDto> getAllByRole(String role);
+
 
 
 }

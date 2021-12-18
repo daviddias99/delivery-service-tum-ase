@@ -74,4 +74,23 @@ public class UserController {
     }
 
 
+    @RequestMapping(value = "dispatcher/all",  method = RequestMethod.GET)
+    public ResponseEntity<List<UserDto>> getAllDispatchers(){
+        List<UserDto> data = userService.getAllByRole("DISPATCHER");
+        return ResponseEntity.ok(data);
+    }
+
+    @RequestMapping(value = "customer/all",  method = RequestMethod.GET)
+    public ResponseEntity<List<UserDto>> getAllcustomers(){
+        List<UserDto> data = userService.getAllByRole("CUSTOMER");
+        return ResponseEntity.ok(data);
+    }
+
+    @RequestMapping(value = "deliverer/all",  method = RequestMethod.GET)
+    public ResponseEntity<List<UserDto>> getallDeliverers(){
+        List<UserDto> data = userService.getAllByRole("DELIVERER");
+        return ResponseEntity.ok(data);
+    }
+
+
 }
