@@ -1,0 +1,437 @@
+[
+  {
+    "_id": {
+      "$oid": "61bf5771c97b65ccce150b74"
+    },
+    "trackingCode": "aa0973a7-312a-54db-b1d5-130ed474921c",
+    "dispatcher": {
+      "id": {
+        "$oid": "61bf5a9999c953002403fe1e"
+      },
+      "uername": "dGarret9"
+    },
+    "box": {
+      "id": {
+        "$oid": "61bf075a8eacfd14e5630547"
+      },
+      "name": "Red Josephsplatz"
+    },
+    "deliverer": {
+      "id": {
+        "$oid": "61bf5a997939d10e8eb5efda"
+      },
+      "username": "jTaylorSwiftLover"
+    },
+    "customer": {
+      "id": {
+        "$oid": "61bf5a99b2f2079579480d38"
+      },
+      "username": "notFromHSM"
+    },
+    "statusHistory": [
+      {
+        "status": "dispatched",
+        "statusUpdate": "2021-11-17T22:39:10+02:00"
+      },
+      {
+        "status": "ordered",
+        "statusUpdate": "2021-11-16T22:39:10+02:00"
+      }
+    ],
+    "description": "Your package from the ASE department store."
+  },
+  {
+    "_id": {
+      "$oid": "61bf5771697d8c3e3ebe0b14"
+    },
+    "trackingCode": "4ff0874f-a852-59b7-a363-1ddc2284c992",
+    "dispatcher": {
+      "id": {
+        "$oid": "61bf5a994c0ae4a3a2ec4a8f"
+      },
+      "username": "superEsther"
+    },
+    "box": {
+      "id": {
+        "$oid": "61bf075a8eacfd14e5630549"
+      },
+      "name": "Tired Josephsplatz"
+    },
+    "deliverer": {
+      "id": {
+        "$oid": "61bf5a997939d10e8eb5efda"
+      },
+      "username": "jTaylorSwiftLover"
+    },
+    "customer": {
+      "id": {
+        "$oid": "61bf5a99fc3362a39034518c"
+      },
+      "username": "everybodyHatesChris"
+    },
+    "statusHistory": [
+      {
+        "status": "delivered",
+        "statusUpdate": "2021-11-18T22:39:10+02:00"
+      },
+      {
+        "status": "dispatched",
+        "statusUpdate": "2021-11-17T22:39:10+02:00"
+      },
+      {
+        "status": "ordered",
+        "statusUpdate": "2021-11-16T22:39:10+02:00"
+      }
+    ],
+    "description": "Your package from the ASE department store."
+  },
+  {
+    "_id": {
+      "$oid": "61bf5771225968bb765f4674"
+    },
+    "trackingCode": "9f372419-e6a0-5f0f-8b2c-7e3df965d519",
+    "dispatcher": {
+      "id": {
+        "$oid": "61bf5a994c0ae4a3a2ec4a8f"
+      },
+      "username": "superEsther"
+    },
+    "box": {
+      "id": {
+        "$oid": "61bf075a8eacfd14e5630548"
+      },
+      "name": "Competent Olympiazentrum"
+    },
+    "deliverer": {
+      "id": {
+        "$oid": "61bf5a990b34662c837c4001"
+      },
+      "username": "ericWithAK"
+    },
+    "customer": {
+      "id": {
+        "$oid": "61bf5a99b2f2079579480d38"
+      },
+      "username": "notFromHSM"
+    },
+    "statusHistory": [
+      {
+        "status": "collected",
+        "statusUpdate": "2021-11-19T22:39:10+02:00"
+      },
+      {
+        "status": "delivered",
+        "statusUpdate": "2021-11-18T22:39:10+02:00"
+      },
+      {
+        "status": "dispatched",
+        "statusUpdate": "2021-11-17T22:39:10+02:00"
+      },
+      {
+        "status": "ordered",
+        "statusUpdate": "2021-11-16T22:39:10+02:00"
+      }
+    ],
+    "description": "Your package from the ASE department store."
+  },
+  {
+    "_id": {
+      "$oid": "61bf57712ba602a5760459fb"
+    },
+    "trackingCode": "2ea766e9-1b8f-502f-821c-ad453066a417",
+    "dispatcher": {
+      "id": {
+        "$oid": "61bf5a9999c953002403fe1e"
+      },
+      "username": "dGarret9"
+    },
+    "box": {
+      "id": {
+        "$oid": "61bf075a8eacfd14e5630547"
+      },
+      "name": "Red Josephsplatz"
+    },
+    "deliverer": {
+      "id": {
+        "$oid": "61bf5a997939d10e8eb5efda"
+      },
+      "username": "jTaylorSwiftLover"
+    },
+    "customer": {
+      "_id": {
+        "$oid": "61bf5a99b2f2079579480d38"
+      },
+      "username": "notFromHSM"
+    },
+    "statusHistory": [
+      {
+        "status": "dispatched",
+        "statusUpdate": "2021-11-17T22:39:10+02:00"
+      },
+      {
+        "status": "ordered",
+        "statusUpdate": "2021-11-16T22:39:10+02:00"
+      }
+    ],
+    "description": "Your package from the ASE department store."
+  },
+  {
+    "_id": {
+      "$oid": "61bf57716013b968ffa5d8e6"
+    },
+    "trackingCode": "b57af4b5-7db3-587d-a2be-896b18eef242",
+    "dispatcher": {
+      "id": {
+        "$oid": "61bf5a994c0ae4a3a2ec4a8f"
+      },
+      "username": "superEsther"
+    },
+    "box": {
+      "id": {
+        "$oid": "61bf075a8eacfd14e5630549"
+      },
+      "name": "Tired Josephsplatz"
+    },
+    "deliverer": {
+      "id": {
+        "$oid": "61bf5a997939d10e8eb5efda"
+      },
+      "username": "jTaylorSwiftLover"
+    },
+    "customer": {
+      "id": {
+        "$oid": "61bf5a99b2f2079579480d38"
+      },
+      "username": "notFromHSM"
+    },
+    "statusHistory": [
+      {
+        "status": "ordered",
+        "statusUpdate": "2021-11-16T22:39:10+02:00"
+      }
+    ],
+    "description": "Your package from the ASE department store."
+  },
+  {
+    "_id": {
+      "$oid": "61bf5771d4a3d4ea4ee74322"
+    },
+    "trackingCode": "e108be0b-0eb7-560b-aa03-7f9e821db72a",
+    "dispatcher": {
+      "id": {
+        "$oid": "61bf5a994c0ae4a3a2ec4a8f"
+      },
+      "username": "superEsther"
+    },
+    "box": {
+      "id": {
+        "$oid": "61bf075a8eacfd14e5630550"
+      },
+      "name": "Super Sendlinger Tor"
+    },
+    "deliverer": {
+      "id": {
+        "$oid": "61bf5a990b34662c837c4001"
+      },
+      "username": "ericWithAK"
+    },
+    "customer": {
+      "_id": {
+        "$oid": "61bf5a99b2f2079579480d38"
+      },
+      "username": "notFromHSM"
+    },
+    "statusHistory": [
+      {
+        "status": "collected",
+        "statusUpdate": "2021-03-18T03:39:55+01:00"
+      }
+    ],
+    "description": "Your package from the ASE department store."
+  },
+  {
+    "_id": {
+      "$oid": "61bf57710188dcb29d1b3c9b"
+    },
+    "trackingCode": "69b62242-0c78-5470-9701-929b79fc1a79",
+    "dispatcher": {
+      "id": {
+        "$oid": "61bf5a9999c953002403fe1e"
+      },
+      "username": "dGarret9"
+    },
+    "box": {
+      "id": {
+        "$oid": "61bf075a8eacfd14e5630563"
+      },
+      "name": "Magenta München Hauptbahnhof"
+    },
+    "deliverer": {
+      "id": {
+        "$oid": "61bf5a997939d10e8eb5efda"
+      },
+      "username": "jTaylorSwiftLover"
+    },
+    "customer": {
+      "id": {
+        "$oid": "61bf5a99b2f2079579480d38"
+      },
+      "username": "notFromHSM"
+    },
+    "statusHistory": [
+      {
+        "status": "collected",
+        "statusUpdate": "2021-09-02T02:33:46+02:00"
+      }
+    ],
+    "description": "Your package from the ASE department store."
+  },
+  {
+    "_id": {
+      "$oid": "61bf577116b7c68943bc270b"
+    },
+    "trackingCode": "934f3bc0-0661-5dea-8062-c890439f96d4",
+    "dispatcher": {
+      "id": {
+        "$oid": "61bf5a994c0ae4a3a2ec4a8f"
+      },
+      "username": "superEsther"
+    },
+    "box": {
+      "id": {
+        "$oid": "61bf075a8eacfd14e5630562"
+      },
+      "name": "Tipsy Hohenzollernplatz"
+    },
+    "deliverer": {
+      "id": {
+        "$oid": "61bf5a997939d10e8eb5efda"
+      },
+      "username": "jTaylorSwiftLover"
+    },
+    "customer": {
+      "id": {
+        "$oid": "61bf5a99b2f2079579480d38"
+      },
+      "username": "notFromHSM"
+    },
+    "statusHistory": [
+      {
+        "status": "collected",
+        "statusUpdate": "2021-11-23T03:38:00+01:00"
+      }
+    ],
+    "description": "Your package from the ASE department store."
+  },
+  {
+    "_id": {
+      "$oid": "61bf5771958e053345846cd4"
+    },
+    "trackingCode": "0e50ac2b-434f-5911-bd3e-68169620fd18",
+    "dispatcher": {
+      "id": {
+        "$oid": "61bf5a9999c953002403fe1e"
+      },
+      "username": "dGarret9"
+    },
+    "box": {
+      "id": {
+        "$oid": "61bf075a8eacfd14e5630561"
+      },
+      "name": "Sad Sendlinger Tor"
+    },
+    "deliverer": {
+      "id": {
+        "$oid": "61bf5a997939d10e8eb5efda"
+      },
+      "username": "jTaylorSwiftLover"
+    },
+    "customer": {
+      "id": {
+        "$oid": "61bf5a99b2f2079579480d38"
+      },
+      "username": "notFromHSM"
+    },
+    "statusHistory": [
+      {
+        "status": "collected",
+        "statusUpdate": "2021-08-25T02:58:56+02:00"
+      }
+    ],
+    "description": "Your package from the ASE department store."
+  },
+  {
+    "_id": {
+      "$oid": "61bf5771530cec3e51e32cee"
+    },
+    "trackingCode": "347da1ec-c49d-5573-8e9d-fb8b3256834b",
+    "dispatcher": {
+      "id": {
+        "$oid": "61bf5a9999c953002403fe1e"
+      },
+      "username": "dGarret9"
+    },
+    "box": {
+      "id": {
+        "$oid": "61bf075a8eacfd14e5630561"
+      },
+      "name": "Sad Sendlinger Tor"
+    },
+    "deliverer": {
+      "id": {
+        "$oid": "61bf5a997939d10e8eb5efda"
+      },
+      "username": "jTaylorSwiftLover"
+    },
+    "customer": {
+      "id": {
+        "$oid": "61bf5a99b2f2079579480d38"
+      },
+      "username": "notFromHSM"
+    },
+    "statusHistory": [
+      {
+        "status": "collected",
+        "statusUpdate": "2021-03-29T11:15:34+02:00"
+      }
+    ],
+    "description": "Your package from the ASE department store."
+  },
+  {
+    "_id": {
+      "$oid": "61bf577159d2e9548a49d22e"
+    },
+    "trackingCode": "7af2fb7c-cff2-5460-a6ae-0d2b885ee4e3",
+    "dispatcher": {
+      "id": {
+        "$oid": "61bf5a994c0ae4a3a2ec4a8f"
+      },
+      "username": "superEsther"
+    },
+    "box": {
+      "id": {
+        "$oid": "61bf075a8eacfd14e5630554"
+      },
+      "name": "Surprising München Hauptbahnhof"
+    },
+    "deliverer": {
+      "id": {
+        "$oid": "61bf5a997939d10e8eb5efda"
+      },
+      "username": "jTaylorSwiftLover"
+    },
+    "customer": {
+      "id": {
+        "$oid": "61bf5a99b2f2079579480d38"
+      },
+      "username": "notFromHSM"
+    },
+    "statusHistory": [
+      {
+        "status": "collected",
+        "statusUpdate": "2021-11-21T18:27:18+01:00"
+      }
+    ],
+    "description": "Your package from the ASE department store."
+  }
+]

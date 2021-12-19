@@ -326,7 +326,6 @@ const deliveries: Delivery[] = [
     ],
     'description': 'Your package from the ASE department store.'
   }
-]
-  ;
+];
 
 export default deliveries;

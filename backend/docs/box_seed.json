@@ -1,0 +1,20 @@
+[
+  { "_id": {"$oid": "61bf075a8eacfd14e5630547"}, "name": "Red Josephsplatz", "address": { "addressLine1": "1752 Onhop Pike", "addressLine2": "7", "city": "Jopnifes", "postalCode": "5352-457" }, "status": "2" },
+  { "_id": {"$oid": "61bf075a8eacfd14e5630548"}, "name": "Competent Olympiazentrum", "address": { "addressLine1": "1802 Umari View", "addressLine2": "7", "city": "Isukemapo", "postalCode": "2232-629" }, "status": "free" },
+  { "_id": {"$oid": "61bf075a8eacfd14e5630549"}, "name": "Tired Josephsplatz", "address": { "addressLine1": "1621 Wopale Heights", "addressLine2": "11", "city": "Lehmutil", "postalCode": "1611-333" }, "status": "assigned" },
+  { "_id": {"$oid": "61bf075a8eacfd14e5630550"}, "name": "Super Sendlinger Tor", "address": { "addressLine1": "579 Ijirop View", "addressLine2": "11", "city": "Igigalo", "postalCode": "7636-686" }, "status": "assigned" },
+  { "_id": {"$oid": "61bf075a8eacfd14e5630551"}, "name": "Tired Theresienstraße", "address": { "addressLine1": "645 Galda Manor", "addressLine2": "8", "city": "Cipuvaj", "postalCode": "6146-998" }, "status": "assigned" },
+  { "_id": {"$oid": "61bf075a8eacfd14e5630552"}, "name": "Super Königsplatz", "address": { "addressLine1": "1517 Naoh Terrace", "addressLine2": "8", "city": "Igediva", "postalCode": "8155-826" }, "status": "assigned" },
+  { "_id": {"$oid": "61bf075a8eacfd14e5630553"}, "name": "Intriguing Sendlinger Tor", "address": { "addressLine1": "806 Sujkas Glen", "addressLine2": "7", "city": "Nivehre", "postalCode": "7341-726" }, "status": "free" },
+  { "_id": {"$oid": "61bf075a8eacfd14e5630554"}, "name": "Surprising München Hauptbahnhof", "address": { "addressLine1": "1519 Gagi Way", "addressLine2": "6", "city": "Zacaraje", "postalCode": "7254-743" }, "status": "assigned" },
+  { "_id": {"$oid": "61bf075a8eacfd14e5630555"}, "name": "Super Theresienstraße", "address": { "addressLine1": "1131 Waped Road", "addressLine2": "1", "city": "Wodobbuh", "postalCode": "8961-799" }, "status": "active" },
+  { "_id": {"$oid": "61bf075a8eacfd14e5630556"}, "name": "Tired Scheidplatz", "address": { "addressLine1": "842 Wepic Square", "addressLine2": "6", "city": "Vedelat", "postalCode": "8157-669" }, "status": "assigned" },
+  { "_id": {"$oid": "61bf075a8eacfd14e5630557"}, "name": "Red Theresienstraße", "address": { "addressLine1": "1750 Febul Place", "addressLine2": "5", "city": "Vuvafuobu", "postalCode": "5417-343" }, "status": "free" },
+  { "_id": {"$oid": "61bf075a8eacfd14e5630558"}, "name": "Sad Scheidplatz", "address": { "addressLine1": "1500 Pabhug Heights", "addressLine2": "9", "city": "Ohikiku", "postalCode": "3314-991" }, "status": "assigned" },
+  { "_id": {"$oid": "61bf075a8eacfd14e5630559"}, "name": "Marvelous München Hauptbahnhof", "address": { "addressLine1": "1223 Etdo Glen", "addressLine2": "9", "city": "Pediwowe", "postalCode": "4632-351" }, "status": "active" },
+  { "_id": {"$oid": "61bf075a8eacfd14e5630560"}, "name": "Brave Königsplatz", "address": { "addressLine1": "1717 Kenpit Glen", "addressLine2": "2", "city": "Hijihkal", "postalCode": "4778-647" }, "status": "free" },
+  { "_id": {"$oid": "61bf075a8eacfd14e5630561"}, "name": "Sad Sendlinger Tor", "address": { "addressLine1": "1948 Asmi Key", "addressLine2": "11", "city": "Putebjog", "postalCode": "8164-452" }, "status": "active" },
+  { "_id": {"$oid": "61bf075a8eacfd14e5630562"}, "name": "Tipsy Hohenzollernplatz", "address": { "addressLine1": "229 Dunusi Avenue", "addressLine2": "9", "city": "Lipehvig", "postalCode": "8932-481" }, "status": "assigned" },
+  { "_id": {"$oid": "61bf075a8eacfd14e5630563"}, "name": "Magenta München Hauptbahnhof", "address": { "addressLine1": "144 Poraw Court", "addressLine2": "12", "city": "Huciev", "postalCode": "3811-437" }, "status": "active" },
+  { "_id": {"$oid": "61bf075a8eacfd14e5630564"}, "name": "TiredOlympiazentrum", "address": { "addressLine1": "1045 Vapfa Circle", "addressLine2": "10", "city": "Kojawureg", "postalCode": "6959-638" }, "status": "assigned" }
+]
