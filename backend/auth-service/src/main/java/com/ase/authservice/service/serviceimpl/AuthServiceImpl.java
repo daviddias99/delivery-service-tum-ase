@@ -79,6 +79,7 @@ public class AuthServiceImpl implements AuthService {
         tempUser.setRole("user");
         tempUser = userRepository.save(tempUser);
         userDto.setId(tempUser.getId());
+        userDto.setRole(tempUser.getRole());
         return userDto;
     }
 

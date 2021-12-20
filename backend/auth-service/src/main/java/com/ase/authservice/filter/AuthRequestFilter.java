@@ -44,9 +44,10 @@ public class AuthRequestFilter extends OncePerRequestFilter {
             username = jwtUtil.extractUsername(jwt);
         }
         else{
-            if(!authHeader.startsWith("Basic")){
-                response.sendError(HttpStatus.BAD_REQUEST.value(), "No JWT Token or Basic Auth Info Found");
-            }
+            //TODO: FIX NULLPTR HERE FOR REGISTER
+//            if(!authHeader.startsWith("Basic")){
+//                response.sendError(HttpStatus.BAD_REQUEST.value(), "No JWT Token or Basic Auth Info Found");
+//            }
         }
         if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails user = authService.loadUserByUsername(username);
