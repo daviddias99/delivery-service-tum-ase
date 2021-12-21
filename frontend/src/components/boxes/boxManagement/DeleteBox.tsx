@@ -6,6 +6,8 @@ import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle } from
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box } from 'types';
 
+import api from 'services/api';
+
 export const DeleteBox = () => {
   const [open, setOpen] = React.useState(false);
   const list: Box[] = useSelector(boxesList);
@@ -19,20 +21,13 @@ export const DeleteBox = () => {
     setOpen(false);
   };
   const deleteClicked = () => {
-    const newList = [...list];
-    selected.forEach(element => {
-      const index = newList.indexOf(element);
-      if (index > -1) {
-        //newList.splice(index, 1);
-        const box = { ...newList[index] };
-        box.status = 'inactive';
-        newList[index] = box;
-      }
+    const selectedCopy = [...selected];
+    selectedCopy.forEach(element => {
+      api.deleteBox(element.id, () => {});
+      dispatch(updateSelectedBox([]));
     });
-    dispatch(updateBoxes(newList));
-    dispatch(updateSelectedBox([]));
-    handleClose();
 
+    handleClose();
   };
 
   return (

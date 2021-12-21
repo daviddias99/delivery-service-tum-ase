@@ -110,6 +110,9 @@ const api = {
   createBox: (data: any, callback: (_res: RequestResponse, _status: number) => any) => {
     request(routes.createBox, 'post', data, callback);
   },
+  deleteBox: (id: string, callback: (_res: RequestResponse, _status: number) => any) => {
+    request(routes.box(id), 'delete', null, callback);
+  },
 };
 
 export default api;
