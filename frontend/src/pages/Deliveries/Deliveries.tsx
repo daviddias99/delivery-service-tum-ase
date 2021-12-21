@@ -24,9 +24,8 @@ const Deliveries = () => {
       };
 
       api.getAllDeliveries(requestCallback);
-      // api.login({ username: 'user' }, (a) => console.log(a));
     }
-    , []);
+    , [dispatch]);
 
   return (
     <Layout hasSidebar={true}>

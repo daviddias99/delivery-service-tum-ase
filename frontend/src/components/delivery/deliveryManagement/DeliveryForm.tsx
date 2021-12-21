@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, TextField } from '@mui/material';
+import api from 'services/api';
 
 type FormProps = {
   isOpen: boolean,
@@ -28,6 +29,48 @@ const DeliveryForm = ({ isOpen, close, initialData, title, description, btnText,
 
   const handleFormDataChange = (change: any) => {
     setFormData({ ...formData, ...change });
+  };
+
+  const checkUser = (value: string, type: string) => {
+    if (!value || value === '') {
+      return;
+    }
+
+    const requestCallback = (data: any) => {
+      if (data.role !== type) {
+        setErrors({ ...errors, ...{ customerIdErrors: 'No user with given ID' } });
+        if (type === 'customer') {
+          handleFormDataChange({ customerName: '' });
+        } else {
+          handleFormDataChange({ delivererName: '' });
+        }
+        return;
+      }
+      setErrors({ ...errors, ...{ customerIdErrors: '' } });
+      if (type === 'customer') {
+        handleFormDataChange({ customerName: `${data.firstName} ${data.surname}` });
+      } else {
+        handleFormDataChange({ delivererName: `${data.firstName} ${data.surname}` });
+      }
+    };
+    api.getUser(value, requestCallback);
+  };
+
+  const checkBox = (value: string) => {
+    if (!value || value === '') {
+      return;
+    }
+    const requestCallback = (data: any) => {
+      // TODO: check if box is free or contains only deliveries from customer
+
+      if (!data.id) {
+        setErrors({ ...errors, ...{ boxIdErrors: 'No box with given ID' } });
+        return;
+      }
+      setErrors({ ...errors, ...{ boxIdErrors: '' } });
+      handleFormDataChange({ boxName: data.name });
+    };
+    api.getBox(value, requestCallback);
   };
 
   const clicked = () => {
@@ -92,6 +135,7 @@ const DeliveryForm = ({ isOpen, close, initialData, title, description, btnText,
               type="name"
               fullWidth
               value={formData.customerId}
+              onBlur={(e) => checkUser(e.target.value, 'customer')}
               onChange={(e) => handleFormDataChange({ customerId: e.target.value })}
               variant="outlined"
               error={errors.customerIdErrors !== ''}
@@ -122,6 +166,7 @@ const DeliveryForm = ({ isOpen, close, initialData, title, description, btnText,
               fullWidth
               value={formData.delivererId}
               onChange={(e) => handleFormDataChange({ delivererId: e.target.value })}
+              onBlur={(e) => checkUser(e.target.value, 'deliverer')}
               variant="outlined"
               error={errors.delivererIdErrors !== ''}
               helperText={errors.delivererIdErrors}
@@ -151,6 +196,7 @@ const DeliveryForm = ({ isOpen, close, initialData, title, description, btnText,
               fullWidth
               value={formData.boxId}
               onChange={(e) => handleFormDataChange({ boxId: e.target.value })}
+              onBlur={(e) => checkBox(e.target.value)}
               variant="outlined"
               error={errors.boxIdErrors !== ''}
               helperText={errors.boxIdErrors}

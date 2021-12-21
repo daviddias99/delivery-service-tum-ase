@@ -13,6 +13,8 @@ const routes = {
   login: '/login',
   logout: '/logout',
   delivery: (id: string) => `/delivery/${id}`,
+  box: (id: string) => `/box/${id}`,
+  user: (id: string) => `/user/${id}`,
   allDeliveries: '/delivery/all',
 };
 
@@ -93,6 +95,12 @@ const api = {
   },
   getAllDeliveries: (callback: (_res: RequestResponse) => any) => {
     request(routes.allDeliveries, 'get', null, callback);
+  },
+  getUser: (id: string, callback: (_res: RequestResponse) => any) => {
+    request(routes.user(id), 'get', null, callback);
+  },
+  getBox: (id: string, callback: (_res: RequestResponse) => any) => {
+    request(routes.box(id), 'get', null, callback);
   },
 };
 
