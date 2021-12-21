@@ -23,11 +23,11 @@ const delivery: Delivery = {
   },
   'statusHistory': [
     {
-      'status': 'dispatched',
+      'deliveryStatus': 'dispatched',
       'statusUpdate': '2021-11-17T22:39:10+02:00'
     },
     {
-      'status': 'ordered',
+      'deliveryStatus': 'ordered',
       'statusUpdate': '2021-11-16T22:39:10+02:00'
     }
   ],

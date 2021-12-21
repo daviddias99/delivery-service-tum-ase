@@ -1,15 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Delivery } from 'types/index';
-import deliveries from '../box/deliveriesStub';
+// import { Delivery } from 'types/index';
+// import deliveries from '../box/deliveriesStub';
 
-const initialState = {
-  deliveriesList: deliveries as Delivery[],
-};
+// const initialState = {
+//   deliveriesList: deliveries as Delivery[],
+// };
 
 
 export const deliveriesSlice = createSlice({
   name: 'delivery',
-  initialState,
+  initialState: { deliveriesList: [] },
   reducers: {
     updateDeliveries: (state, action) => {
       state.deliveriesList = action.payload;

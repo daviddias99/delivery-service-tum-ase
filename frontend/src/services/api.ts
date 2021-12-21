@@ -13,6 +13,7 @@ const routes = {
   login: '/login',
   logout: '/logout',
   delivery: (id: string) => `/delivery/${id}`,
+  allDeliveries: '/delivery/all',
 };
 
 /**
@@ -89,6 +90,9 @@ const api = {
   },
   logout: (callback: (_res: RequestResponse) => any) => {
     request(routes.logout, 'post', null, callback);
+  },
+  getAllDeliveries: (callback: (_res: RequestResponse) => any) => {
+    request(routes.allDeliveries, 'get', null, callback);
   },
 };
 

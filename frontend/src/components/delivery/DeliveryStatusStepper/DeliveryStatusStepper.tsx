@@ -19,7 +19,7 @@ const steps: { status: DeliveryStatus, description: string, activeText: string }
 
 const DeliveryStatusStepper = ({ statusHistory }: {
   statusHistory: {
-    status: DeliveryStatus,
+    deliveryStatus: DeliveryStatus,
     statusUpdate: string,
   }[]
 }) => {
@@ -32,15 +32,15 @@ const DeliveryStatusStepper = ({ statusHistory }: {
 
     //TODO remove and replace it with updated
     const statusUpdate = history[history.length - 1].statusUpdate;
-    switch (history[history.length - 1].status ) {
+    switch (history[history.length - 1].deliveryStatus ) {
       case 'ordered':
-        setStatusHistory([...history, {status: 'dispatched', statusUpdate: statusUpdate}]);
+        setStatusHistory([...history, {deliveryStatus: 'dispatched', statusUpdate: statusUpdate}]);
         break;
       case 'dispatched':
-        setStatusHistory([...history, {status: 'delivered', statusUpdate: statusUpdate}]);
+        setStatusHistory([...history, {deliveryStatus: 'delivered', statusUpdate: statusUpdate}]);
         break;
       case 'delivered':
-        setStatusHistory([...history, {status: 'collected', statusUpdate: statusUpdate}]);
+        setStatusHistory([...history, {deliveryStatus: 'collected', statusUpdate: statusUpdate}]);
         break;
     }
   };

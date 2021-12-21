@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 
@@ -8,15 +9,24 @@ import ManageDeliveries from 'components/delivery/deliveryManagement/Manage';
 import Layout from 'components/common/Layout/Layout';
 
 import api from 'services/api';
+import { useDispatch } from 'react-redux';
+import { updateDeliveries } from 'redux/slices/delivery/deliveriesSlice';
 
 
 const Deliveries = () => {
+  const dispatch = useDispatch();
 
   useEffect(
     () => {
-      api.login({ username: 'user' }, (a) => console.log(a));
+      const requestCallback = (data: any) => {
+        console.log(data);
+        dispatch(updateDeliveries(data));
+      };
+
+      api.getAllDeliveries(requestCallback);
+      // api.login({ username: 'user' }, (a) => console.log(a));
     }
-  );
+    , []);
 
   return (
     <Layout hasSidebar={true}>

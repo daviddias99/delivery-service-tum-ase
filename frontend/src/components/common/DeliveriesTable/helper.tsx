@@ -56,7 +56,10 @@ const currentDeliveriesTableColumns: (showBox: boolean) => any[] = (showBox) => 
     {
       field: 'status',
       headerName: 'Status',
-      renderCell: (params: any) => (<Chip size="small" label={toUpperCase(params.row.statusHistory[0].status)} sx={{ backgroundColor: getDeliveryStatusColor(params.row.statusHistory[0].status) }} />)
+      renderCell: (params: any) => {
+        console.log(params.row);
+        return (<Chip size="small" label={toUpperCase(params.row.statusHistory[0].deliveryStatus)} sx={{ backgroundColor: getDeliveryStatusColor(params.row.statusHistory[0].deliveryStatus) }} />);
+      }
     },
   );
 

@@ -49,7 +49,7 @@ type Delivery = {
     id: string,
   },
   statusHistory: {
-    status: DeliveryStatus,
+    deliveryStatus: DeliveryStatus,
     statusUpdate: string,
   }[]
   description: string;

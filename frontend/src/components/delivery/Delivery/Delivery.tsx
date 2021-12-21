@@ -35,7 +35,7 @@ const DeliveryComponent = () => {
           {delivery.id}
         </span>
         <EditDelivery />
-        <Chip className="boxStatus" size="small" label={toUpperCase(latestStatus.status)} sx={{ backgroundColor: getDeliveryStatusColor(latestStatus.status) }} />
+        <Chip className="boxStatus" size="small" label={toUpperCase(latestStatus.deliveryStatus)} sx={{ backgroundColor: getDeliveryStatusColor(latestStatus.deliveryStatus) }} />
       </h3>
       <h6 className="subTitle">
         {`Tracking code: ${delivery.trackingCode}`}

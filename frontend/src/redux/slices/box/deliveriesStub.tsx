@@ -22,11 +22,11 @@ const deliveries: Delivery[] = [
     },
     'statusHistory': [
       {
-        'status': 'dispatched',
+        'deliveryStatus': 'dispatched',
         'statusUpdate': '2021-11-17T22:39:10+02:00'
       },
       {
-        'status': 'ordered',
+        'deliveryStatus': 'ordered',
         'statusUpdate': '2021-11-16T22:39:10+02:00'
       }
     ],
@@ -53,15 +53,15 @@ const deliveries: Delivery[] = [
     },
     'statusHistory': [
       {
-        'status': 'delivered',
+        'deliveryStatus': 'delivered',
         'statusUpdate': '2021-11-18T22:39:10+02:00'
       },
       {
-        'status': 'dispatched',
+        'deliveryStatus': 'dispatched',
         'statusUpdate': '2021-11-17T22:39:10+02:00'
       },
       {
-        'status': 'ordered',
+        'deliveryStatus': 'ordered',
         'statusUpdate': '2021-11-16T22:39:10+02:00'
       }
     ],
@@ -88,19 +88,19 @@ const deliveries: Delivery[] = [
     },
     'statusHistory': [
       {
-        'status': 'collected',
+        'deliveryStatus': 'collected',
         'statusUpdate': '2021-11-19T22:39:10+02:00'
       },
       {
-        'status': 'delivered',
+        'deliveryStatus': 'delivered',
         'statusUpdate': '2021-11-18T22:39:10+02:00'
       },
       {
-        'status': 'dispatched',
+        'deliveryStatus': 'dispatched',
         'statusUpdate': '2021-11-17T22:39:10+02:00'
       },
       {
-        'status': 'ordered',
+        'deliveryStatus': 'ordered',
         'statusUpdate': '2021-11-16T22:39:10+02:00'
       }
     ],
@@ -127,11 +127,11 @@ const deliveries: Delivery[] = [
     },
     'statusHistory': [
       {
-        'status': 'dispatched',
+        'deliveryStatus': 'dispatched',
         'statusUpdate': '2021-11-17T22:39:10+02:00'
       },
       {
-        'status': 'ordered',
+        'deliveryStatus': 'ordered',
         'statusUpdate': '2021-11-16T22:39:10+02:00'
       }
     ],
@@ -158,7 +158,7 @@ const deliveries: Delivery[] = [
     },
     'statusHistory': [
       {
-        'status': 'ordered',
+        'deliveryStatus': 'ordered',
         'statusUpdate': '2021-11-16T22:39:10+02:00'
       }
     ],
@@ -185,7 +185,7 @@ const deliveries: Delivery[] = [
     },
     'statusHistory': [
       {
-        'status': 'collected',
+        'deliveryStatus': 'collected',
         'statusUpdate': '2021-03-18T03:39:55+01:00'
       }
     ],
@@ -212,7 +212,7 @@ const deliveries: Delivery[] = [
     },
     'statusHistory': [
       {
-        'status': 'collected',
+        'deliveryStatus': 'collected',
         'statusUpdate': '2021-09-02T02:33:46+02:00'
       }
     ],
@@ -239,7 +239,7 @@ const deliveries: Delivery[] = [
     },
     'statusHistory': [
       {
-        'status': 'collected',
+        'deliveryStatus': 'collected',
         'statusUpdate': '2021-11-23T03:38:00+01:00'
       }
     ],
@@ -266,7 +266,7 @@ const deliveries: Delivery[] = [
     },
     'statusHistory': [
       {
-        'status': 'collected',
+        'deliveryStatus': 'collected',
         'statusUpdate': '2021-08-25T02:58:56+02:00'
       }
     ],
@@ -293,7 +293,7 @@ const deliveries: Delivery[] = [
     },
     'statusHistory': [
       {
-        'status': 'collected',
+        'deliveryStatus': 'collected',
         'statusUpdate': '2021-03-29T11:15:34+02:00'
       }
     ],
@@ -320,7 +320,7 @@ const deliveries: Delivery[] = [
     },
     'statusHistory': [
       {
-        'status': 'collected',
+        'deliveryStatus': 'collected',
         'statusUpdate': '2021-11-21T18:27:18+01:00'
       }
     ],
