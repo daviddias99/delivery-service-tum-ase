@@ -15,6 +15,7 @@ const routes = {
   delivery: (id: string) => `/delivery/${id}`,
   deliveryByTracking: (id: string) => `/delivery/track/${id}`,
   box: (id: string) => `/box/${id}`,
+  boxDeliveries: (id: string) => `/delivery/all/box/${id}`,
   user: (id: string) => `/user/${id}`,
   allDeliveries: '/delivery/all',
   allBoxes: '/box/all',
@@ -107,6 +108,10 @@ const api = {
   },
   getBox: (id: string, callback: (_res: RequestResponse, _status: number) => any) => {
     request(routes.box(id), 'get', null, callback);
+  },
+  getBoxDeliveries: (id: string, callback: (_res: RequestResponse, _status: number) => any) => {
+    console.log('oi25');
+    request(routes.boxDeliveries(id), 'get', null, callback);
   },
   getDelivery: (id: string, callback: (_res: RequestResponse, _status: number) => any) => {
     request(routes.delivery(id), 'get', null, callback);

@@ -8,14 +8,12 @@ import { getBoxStatusColor, toUpperCase } from 'utils';
 import './styles.scss';
 import EditBox from './EditBox/EditBox';
 import BoxAddress from 'components/common/BoxAddress/BoxAddress';
+import { useSelector } from 'react-redux';
+import { boxDeliveries, boxInfo } from 'redux/slices/box/boxSlice';
 
-type BoxProps = {
-  box: Box,
-  deliveries: Delivery[],
-};
-
-const BoxComponent = ({ box, deliveries }: BoxProps) => {
-
+const BoxComponent = () => {
+  const box = useSelector(boxInfo);
+  const deliveries = useSelector(boxDeliveries);
   return (
     <div id="box" >
       <h3 className="title">

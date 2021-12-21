@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Box } from 'types';
-import deliveries from './deliveriesStub';
 
 // TODO: delete
 const box: Box = {
@@ -17,7 +16,7 @@ const box: Box = {
 
 const initialState = {
   boxInfo: box,
-  deliveries: deliveries,
+  deliveries: [],
 };
 
 export const boxSlice = createSlice({
@@ -27,11 +26,13 @@ export const boxSlice = createSlice({
     updateBox: (state, action) => {
       state.boxInfo = action.payload;
     },
-
+    updateBoxDeliveries: (state, action) => {
+      state.deliveries = action.payload;
+    },
   },
 });
 
-export const { updateBox } = boxSlice.actions;
+export const { updateBox, updateBoxDeliveries } = boxSlice.actions;
 export const boxInfo = (state: any) => state.box.boxInfo;
 export const boxDeliveries = (state: any) => state.box.deliveries;
 export { box };
