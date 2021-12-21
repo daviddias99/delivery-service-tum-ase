@@ -16,6 +16,7 @@ const routes = {
   box: (id: string) => `/box/${id}`,
   user: (id: string) => `/user/${id}`,
   allDeliveries: '/delivery/all',
+  allBoxes: '/box/all',
 };
 
 /**
@@ -95,6 +96,9 @@ const api = {
   },
   getAllDeliveries: (callback: (_res: RequestResponse) => any) => {
     request(routes.allDeliveries, 'get', null, callback);
+  },
+  getAllBoxes: (callback: (_res: RequestResponse) => any) => {
+    request(routes.allBoxes, 'get', null, callback);
   },
   getUser: (id: string, callback: (_res: RequestResponse) => any) => {
     request(routes.user(id), 'get', null, callback);

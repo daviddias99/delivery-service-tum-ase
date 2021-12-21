@@ -10,7 +10,7 @@ import './styles.scss';
 import { useSelector, useDispatch } from 'react-redux';
 
 
-import { updateSelectedBox, boxesList, selectedBoxes } from '../../../redux/slices/boxes/boxesSlice';
+import { updateSelectedBox, boxesList, selectedBoxes } from '../../../redux/slices/box/boxesSlice';
 
 
 const BoxesList = () => {
