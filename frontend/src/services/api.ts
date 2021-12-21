@@ -17,6 +17,7 @@ const routes = {
   user: (id: string) => `/user/${id}`,
   allDeliveries: '/delivery/all',
   allBoxes: '/box/all',
+  createBox: '/box/add',
 };
 
 /**
@@ -35,7 +36,7 @@ type RequestResponse = {
   error?: any
 }
 
-const request = (path: string, method: RestMethod, data: any, callback: (_res: RequestResponse) => any) => {
+const request = (path: string, method: RestMethod, data: any, callback: (_res: RequestResponse, _status: number) => any) => {
 
   path = path.startsWith('/') ? path : '/' + path;
   path = path.endsWith('/') ? path : path + '/';
@@ -51,15 +52,15 @@ const request = (path: string, method: RestMethod, data: any, callback: (_res: R
     }
 
     const res = { status: 'error', error: err };
-    callback(res);
+    callback(res, 500);
   };
 
   if (method.toLowerCase() === 'get') {
-    axios.get(API_URL + path, { headers, params: data }).then((res) => callback(res.data)).catch(errorHandler);
+    axios.get(API_URL + path, { headers, params: data }).then((res) => callback(res.data, res.status)).catch(errorHandler);
   } else if (method.toLowerCase() === 'post') {
-    axios.post(API_URL + path, data, { headers }).then((res) => callback(res.data)).catch(errorHandler);
+    axios.post(API_URL + path, data, { headers }).then((res) => callback(res.data, res.status)).catch(errorHandler);
   } else if (method.toLowerCase() === 'delete') {
-    axios.delete(API_URL + path, { headers }).then((res) => callback(res.data)).catch(errorHandler);
+    axios.delete(API_URL + path, { headers }).then((res) => callback(res.data, res.status)).catch(errorHandler);
   }
 };
 
@@ -88,23 +89,26 @@ const asyncRequest = async (path: string, method: RestMethod, data: any) => {
  * the app and the server.
  */
 const api = {
-  login: (data: any, callback: (_res: RequestResponse) => any) => {
+  login: (data: any, callback: (_res: RequestResponse, _status: number) => any) => {
     request(routes.login, 'post', data, callback);
   },
-  logout: (callback: (_res: RequestResponse) => any) => {
+  logout: (callback: (_res: RequestResponse, _status: number) => any) => {
     request(routes.logout, 'post', null, callback);
   },
-  getAllDeliveries: (callback: (_res: RequestResponse) => any) => {
+  getAllDeliveries: (callback: (_res: RequestResponse, _status: number) => any) => {
     request(routes.allDeliveries, 'get', null, callback);
   },
-  getAllBoxes: (callback: (_res: RequestResponse) => any) => {
+  getAllBoxes: (callback: (_res: RequestResponse, _status: number) => any) => {
     request(routes.allBoxes, 'get', null, callback);
   },
-  getUser: (id: string, callback: (_res: RequestResponse) => any) => {
+  getUser: (id: string, callback: (_res: RequestResponse, _status: number) => any) => {
     request(routes.user(id), 'get', null, callback);
   },
-  getBox: (id: string, callback: (_res: RequestResponse) => any) => {
+  getBox: (id: string, callback: (_res: RequestResponse, _status: number) => any) => {
     request(routes.box(id), 'get', null, callback);
+  },
+  createBox: (data: any, callback: (_res: RequestResponse, _status: number) => any) => {
+    request(routes.createBox, 'post', data, callback);
   },
 };
 

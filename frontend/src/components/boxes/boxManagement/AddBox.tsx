@@ -1,12 +1,15 @@
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Grid} from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Grid } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import * as React from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { boxesList, updateBoxes } from '../../../redux/slices/box/boxesSlice';
 
+import api from 'services/api';
+
 const AddBox = () => {
   const [open, setOpen] = useState(false);
+  const [error, setError] = useState('');
   const [name, setName] = useState(' ');
   const [address, setAdress] = useState(' ');
   const [co, setCo] = useState(' ');
@@ -23,13 +26,28 @@ const AddBox = () => {
   const dispatch = useDispatch();
 
   const AddClicked = () => {
-    dispatch(updateBoxes([...list, { id: '1', name: name, address: { addressLine1: address, addressLine2: co, city: city, postalCode: postalCode }, status: 'free' }]));
-    handleClose();
+    const newBoxData = { name: name, address: { addressLine1: address, addressLine2: co, city: city, postalCode: postalCode } };
+
+    const callback = (data: any, status: number) => {
+
+      if (status !== 200) {
+        setError('An error occured and the box was not created');
+        return;
+      }
+
+      setError('');
+
+      // TODO: remove once backend API is fixed
+      dispatch(updateBoxes([...list, {...data, status: 'free'}]));
+      handleClose();
+    };
+
+    api.createBox(newBoxData, callback);
   };
 
   return (
-    <div style={{display: 'inline-block'}}>
-      <Button variant="contained" color="success" sx={{mr: 6}} startIcon={<AddIcon />} onClick={handleClickOpen}>
+    <div style={{ display: 'inline-block' }}>
+      <Button variant="contained" color="success" sx={{ mr: 6 }} startIcon={<AddIcon />} onClick={handleClickOpen}>
         Add box
       </Button>
       <Dialog open={open} onClose={handleClose}>
@@ -37,6 +55,9 @@ const AddBox = () => {
         <DialogContent>
           <DialogContentText>
             To add a new box, please fill these information.
+            <p style={{ color: 'red' }}>
+              {error}
+            </p>
           </DialogContentText>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
