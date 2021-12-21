@@ -1,5 +1,5 @@
 [
-  { "_id": {"$oid": "61bf075a8eacfd14e5630547"}, "name": "Red Josephsplatz", "address": { "addressLine1": "1752 Onhop Pike", "addressLine2": "7", "city": "Jopnifes", "postalCode": "5352-457" }, "status": "2" },
+  { "_id": {"$oid": "61bf075a8eacfd14e5630547"}, "name": "Red Josephsplatz", "address": { "addressLine1": "1752 Onhop Pike", "addressLine2": "7", "city": "Jopnifes", "postalCode": "5352-457" }, "status": "assigned" },
   { "_id": {"$oid": "61bf075a8eacfd14e5630548"}, "name": "Competent Olympiazentrum", "address": { "addressLine1": "1802 Umari View", "addressLine2": "7", "city": "Isukemapo", "postalCode": "2232-629" }, "status": "free" },
   { "_id": {"$oid": "61bf075a8eacfd14e5630549"}, "name": "Tired Josephsplatz", "address": { "addressLine1": "1621 Wopale Heights", "addressLine2": "11", "city": "Lehmutil", "postalCode": "1611-333" }, "status": "assigned" },
   { "_id": {"$oid": "61bf075a8eacfd14e5630550"}, "name": "Super Sendlinger Tor", "address": { "addressLine1": "579 Ijirop View", "addressLine2": "11", "city": "Igigalo", "postalCode": "7636-686" }, "status": "assigned" },
