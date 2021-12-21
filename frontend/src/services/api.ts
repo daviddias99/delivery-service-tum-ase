@@ -13,6 +13,7 @@ const routes = {
   login: '/login',
   logout: '/logout',
   delivery: (id: string) => `/delivery/${id}`,
+  deliveryByTracking: (id: string) => `/delivery/track/${id}`,
   box: (id: string) => `/box/${id}`,
   user: (id: string) => `/user/${id}`,
   allDeliveries: '/delivery/all',
@@ -115,6 +116,9 @@ const api = {
   },
   deleteBox: (id: string, callback: (_res: RequestResponse, _status: number) => any) => {
     request(routes.box(id), 'delete', null, callback);
+  },
+  getByTrackingCode: (id: string, callback: (_res: RequestResponse, _status: number) => any) => {
+    request(routes.deliveryByTracking(id), 'get', null, callback);
   },
 };
 
