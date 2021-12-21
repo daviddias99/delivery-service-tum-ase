@@ -31,7 +31,7 @@ type Box = {
 
 type Delivery = {
   id: string,
-  trackingCode: string,
+  trackingNumber: string,
   deliverer: {
     name: string,
     id: string,

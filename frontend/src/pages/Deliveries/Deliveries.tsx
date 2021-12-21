@@ -19,7 +19,6 @@ const Deliveries = () => {
   useEffect(
     () => {
       const requestCallback = (data: any) => {
-        console.log(data);
         dispatch(updateDeliveries(data));
       };
 

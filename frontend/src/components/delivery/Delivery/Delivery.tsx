@@ -38,7 +38,7 @@ const DeliveryComponent = () => {
         <Chip className="boxStatus" size="small" label={toUpperCase(latestStatus.deliveryStatus)} sx={{ backgroundColor: getDeliveryStatusColor(latestStatus.deliveryStatus) }} />
       </h3>
       <h6 className="subTitle">
-        {`Tracking code: ${delivery.trackingCode}`}
+        {`Tracking code: ${delivery.trackingNumber}`}
       </h6>
 
       <Grid container spacing={1}>

@@ -107,6 +107,9 @@ const api = {
   getBox: (id: string, callback: (_res: RequestResponse, _status: number) => any) => {
     request(routes.box(id), 'get', null, callback);
   },
+  getDelivery: (id: string, callback: (_res: RequestResponse, _status: number) => any) => {
+    request(routes.delivery(id), 'get', null, callback);
+  },
   createBox: (data: any, callback: (_res: RequestResponse, _status: number) => any) => {
     request(routes.createBox, 'post', data, callback);
   },

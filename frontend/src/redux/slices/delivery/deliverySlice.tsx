@@ -4,7 +4,7 @@ import { Delivery } from 'types';
 // TODO: delete
 const delivery: Delivery = {
   'id': '786b6c5d-bc5a-57db-9241-3cfe1fe86770',
-  'trackingCode': 'aa0973a7-312a-54db-b1d5-130ed474921c',
+  'trackingNumber': 'aa0973a7-312a-54db-b1d5-130ed474921c',
   'dispatcher': {
     'name': 'Chad Silva',
     'id': '270e8b89-41a6-5751-b08c-b85ab1683b78'
