@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import Container from '@mui/material/Container';
+import Spinner from 'components/common/Spinner/Spinner';
 import Paper from '@mui/material/Paper';
 import Layout from 'components/common/Layout/Layout';
-import Delivery from 'components/delivery/Delivery/Delivery';
+import Delivery from 'components/custom/delivery/Delivery/Delivery';
 
 import api from 'services/api';
 import { useDispatch } from 'react-redux';
@@ -13,10 +14,12 @@ import {
 } from 'react-router-dom';
 
 const DeliveryPage = () => {
+  const [isLoading, setIsLoading] = React.useState(true);
   const dispatch = useDispatch();
   const { deliveryId } = useParams();
   useEffect(
     () => {
+      setIsLoading(true);
       const deliveryRequestCallback = (data: any, status: number) => {
         if (status !== 200) {
           return;
@@ -27,7 +30,7 @@ const DeliveryPage = () => {
           if (status !== 200) {
             return;
           }
-
+          setIsLoading(false);
           dispatch(updateBox(data));
         };
         api.getBox(data.box.id!, boxRequestCallback);
@@ -41,7 +44,7 @@ const DeliveryPage = () => {
     <Layout hasSidebar={true}>
       <Container maxWidth={false} sx={{ mt: 4, mb: 4 }}>
         <Paper sx={{ p: '2em', display: 'flex', flexDirection: 'column' }}>
-          <Delivery />
+          {isLoading ? <Spinner className="loadingSpinner" /> : <Delivery />}
         </Paper>
       </Container>
     </Layout>

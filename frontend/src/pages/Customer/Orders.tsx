@@ -3,8 +3,8 @@ import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Title from 'components/common/Title/Title';
 import Layout from 'components/common/Layout/Layout';
-import { Customer, Delivery } from '../../types';
-import Orders from 'components/Customer/Orders';
+import { Customer, Delivery } from 'types';
+import Orders from 'components/custom/customer/Orders/Orders';
 const customer: Customer = {
   id: '7503e790-0f86-5e47-844c-433df6ab2fc3',
   name: 'Lionel Messi',

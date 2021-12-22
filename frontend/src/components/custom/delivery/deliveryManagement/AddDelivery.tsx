@@ -4,7 +4,7 @@ import AddIcon from '@mui/icons-material/Add';
 import DeliveryForm from './DeliveryForm';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deliveriesList, updateDeliveries } from '../../../redux/slices/delivery/deliveriesSlice';
+import { deliveriesList, updateDeliveries } from 'redux/slices/delivery/deliveriesSlice';
 
 
 const AddDelivery = () => {

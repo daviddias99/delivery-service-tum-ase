@@ -3,8 +3,8 @@ import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Title from 'components/common/Title/Title';
 import Layout from 'components/common/Layout/Layout';
-import { Deliverer, Delivery } from '../../types';
-import Deliveries from 'components/Deliverer/Deliveries';
+import { Deliverer, Delivery } from 'types';
+import Deliveries from 'components/custom/deliverer/Deliverer/Deliveries';
 const deliverer: Deliverer = {
   id: '025bda9f-2607-5c4d-9d99-c4ecbc889d44b',
   name: 'Cristiano Ronaldo',

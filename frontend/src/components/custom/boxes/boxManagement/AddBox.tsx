@@ -3,7 +3,7 @@ import AddIcon from '@mui/icons-material/Add';
 import * as React from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { boxesList, updateBoxes } from '../../../redux/slices/box/boxesSlice';
+import { boxesList, updateBoxes } from 'redux/slices/box/boxesSlice';
 
 import api from 'services/api';
 

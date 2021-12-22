@@ -3,7 +3,7 @@ import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Layout from 'components/common/Layout/Layout';
 import Spinner from 'components/common/Spinner/Spinner';
-import Box from 'components/box/Box/Box';
+import Box from 'components/custom/box/Box/Box';
 import { useDispatch } from 'react-redux';
 import {
   useParams
@@ -12,7 +12,7 @@ import api from 'services/api';
 import { updateBox, updateBoxDeliveries } from 'redux/slices/box/boxSlice';
 
 const BoxPage = () => {
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
   const dispatch = useDispatch();
   const { boxId } = useParams();
 

@@ -4,9 +4,9 @@ import Paper from '@mui/material/Paper';
 
 import Title from 'components/common/Title/Title';
 import Layout from 'components/common/Layout/Layout';
-import BoxesList from 'components/boxes/BoxesList/BoxesList';
+import BoxesList from 'components/custom/boxes/BoxesList/BoxesList';
 
-import { ManageBoxes } from 'components/boxes/boxManagement/Manage';
+import { ManageBoxes } from 'components/custom/boxes/boxManagement/Manage';
 
 import api from 'services/api';
 import { useDispatch } from 'react-redux';
