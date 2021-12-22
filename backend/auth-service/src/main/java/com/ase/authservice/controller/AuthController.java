@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 @RestController
@@ -22,8 +23,8 @@ public class AuthController {
 
 
     @PostMapping
-    public ResponseEntity<String> login(@RequestHeader("Authorization") String authorization, HttpServletRequest request) throws Exception {
-        return authService.authenticateUser(authorization, request);
+    public ResponseEntity<String> login(@RequestHeader("Authorization") String authorization, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return authService.authenticateUser(authorization, request, response);
     }
 
 

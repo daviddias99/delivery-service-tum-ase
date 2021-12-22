@@ -19,11 +19,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 //@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class AuthConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    AuthService authService;
 
     @Autowired
     AuthRequestFilter authRequestFilter;
+
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception{
         http
@@ -37,11 +38,11 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(authRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
+
     @Override
     public void configure(AuthenticationManagerBuilder builder) throws Exception{
-        builder.userDetailsService(authService);
+        builder.getDefaultUserDetailsService();
     }
-
 
     @Override
     @Bean
