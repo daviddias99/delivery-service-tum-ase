@@ -1,15 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Box } from 'types';
 
-// TODO: delete
 const box: Box = {
-  id: 'bfZPwGdetxUlGgpb',
-  name: 'Allen Blair',
+  id: 'Loading',
+  name: 'Loading',
   address: {
-    addressLine1: '1752 Onhop Pike',
-    addressLine2: '7',
-    city: 'Jopnifes',
-    postalCode: '5352-457'
+    addressLine1: 'Loading',
+    addressLine2: 'Loading',
+    city: 'Loading',
+    postalCode: 'Loading'
   },
   status: 'active'
 };
@@ -35,6 +34,6 @@ export const boxSlice = createSlice({
 export const { updateBox, updateBoxDeliveries } = boxSlice.actions;
 export const boxInfo = (state: any) => state.box.boxInfo;
 export const boxDeliveries = (state: any) => state.box.deliveries;
-export { box };
+// export { box };
 
 export default boxSlice.reducer;

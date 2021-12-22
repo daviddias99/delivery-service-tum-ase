@@ -39,6 +39,7 @@ const BoxesList = () => {
         rows={list}
         hideFooterSelectedRowCount={true}
         checkboxSelection
+        isRowSelectable={(row) => row.row.status === 'free'}
         onSelectionModelChange={(ids) => {
           const selectedIDs = new Set(ids);
           const selectedRows = list.filter((row:any) =>

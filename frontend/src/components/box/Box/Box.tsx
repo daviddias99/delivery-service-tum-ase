@@ -1,8 +1,6 @@
 import * as React from 'react';
 import Chip from '@mui/material/Chip';
 import { CurrentDeliveriesTable, PastDeliveriesTable } from 'components/common/DeliveriesTable/DeliveriesTable';
-import { Box, Delivery } from 'types';
-
 import { getBoxStatusColor, toUpperCase } from 'utils';
 
 import './styles.scss';
@@ -21,7 +19,16 @@ const BoxComponent = () => {
         <span>
           {box.name}
         </span>
-        <EditBox />
+        <EditBox initialData={{
+          name: box.name,
+          co: box.address.addressLine2,
+          address: box.address.addressLine1,
+          city: box.address.city,
+          postalCode: box.address.postalCode,
+          status: box.status,
+          id: box.id,
+        }}
+        />
         <Chip className="boxStatus" size="small" label={toUpperCase(box.status)} color={getBoxStatusColor(box.status)} />
       </h3>
       <h6 className="subTitle">

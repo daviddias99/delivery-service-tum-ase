@@ -15,6 +15,7 @@ const routes = {
   delivery: (id: string) => `/delivery/${id}`,
   deliveryByTracking: (id: string) => `/delivery/track/${id}`,
   box: (id: string) => `/box/${id}`,
+  updateBox: (id: string) => `/box/update/${id}`,
   boxDeliveries: (id: string) => `/delivery/all/box/${id}`,
   user: (id: string) => `/user/${id}`,
   allDeliveries: '/delivery/all',
@@ -63,6 +64,8 @@ const request = (path: string, method: RestMethod, data: any, callback: (_res: R
     axios.post(API_URL + path, data, { headers }).then((res) => callback(res.data, res.status)).catch(errorHandler);
   } else if (method.toLowerCase() === 'delete') {
     axios.delete(API_URL + path, { headers }).then((res) => callback(res.data, res.status)).catch(errorHandler);
+  } else if (method.toLowerCase() === 'put') {
+    axios.put(API_URL + path, data, { headers }).then((res) => callback(res.data, res.status)).catch(errorHandler);
   }
 };
 
@@ -110,7 +113,6 @@ const api = {
     request(routes.box(id), 'get', null, callback);
   },
   getBoxDeliveries: (id: string, callback: (_res: RequestResponse, _status: number) => any) => {
-    console.log('oi25');
     request(routes.boxDeliveries(id), 'get', null, callback);
   },
   getDelivery: (id: string, callback: (_res: RequestResponse, _status: number) => any) => {
@@ -124,6 +126,9 @@ const api = {
   },
   getByTrackingCode: (id: string, callback: (_res: RequestResponse, _status: number) => any) => {
     request(routes.deliveryByTracking(id), 'get', null, callback);
+  },
+  editBox: (id: string, data: any, callback: (_res: RequestResponse, _status: number) => any) => {
+    request(routes.updateBox(id), 'put', data, callback);
   },
 };
 

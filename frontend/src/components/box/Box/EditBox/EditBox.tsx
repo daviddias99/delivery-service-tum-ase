@@ -1,22 +1,16 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, TextField } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 
-import { boxInfo, updateBox } from 'redux/slices/box/boxSlice';
-import { Box } from 'types';
+import { updateBox } from 'redux/slices/box/boxSlice';
+import api from 'services/api';
 
-const EditBox = () => {
+const EditBox = ({ initialData }: { initialData: any }) => {
   const dispatch = useDispatch();
-  const box = useSelector(boxInfo) as Box;
   const [open, setOpen] = useState(false);
-  const [name, setName] = useState(box.name);
-  const [address, setAdress] = useState(box.address.addressLine1);
-  const [co, setCo] = useState(box.address.addressLine2);
-  const [city, setCity] = useState(box.address.city);
-  const [postalCode, setPostalCode] = useState(box.address.postalCode);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -24,25 +18,37 @@ const EditBox = () => {
   const handleClose = () => {
     setOpen(false);
   };
+  const [formData, setFormData] = React.useState(initialData);
+  const handleFormDataChange = (change: any) => {
+    setFormData({ ...formData, ...change });
+  };
 
   const EditClicked = () => {
     // copy the value from the store to change them.
-    const newBox = {...box};
-    const addressInfo = {...newBox.address};
+    const newBox: any = { id: initialData.id, status: initialData.status };
+    const addressInfo = { ...initialData.address };
 
-    newBox.name = name;
-    addressInfo.addressLine1 = address;
-    addressInfo.addressLine2 = co;
-    addressInfo.city = city;
-    addressInfo.postalCode = postalCode;
-    newBox.address= addressInfo;
-    dispatch(updateBox(newBox));
-    handleClose();
+    newBox.name = formData.name;
+    addressInfo.addressLine1 = formData.address;
+    addressInfo.addressLine2 = formData.co;
+    addressInfo.city = formData.city;
+    addressInfo.postalCode = formData.postalCode;
+    newBox.address = addressInfo;
+
+    const callback = (data: any, status: number) => {
+
+      if (status !== 200) {
+        return;
+      }
+      dispatch(updateBox(newBox));
+      handleClose();
+    };
+    api.editBox(newBox.id, newBox, callback);
   };
 
   return (
     <React.Fragment>
-      <Button variant="contained" style={{ float: 'right'}} endIcon={<EditIcon />} onClick={handleClickOpen}>Edit</Button>
+      <Button variant="contained" style={{ float: 'right' }} endIcon={<EditIcon />} onClick={handleClickOpen}>Edit</Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Edit box Information</DialogTitle>
         <DialogContent>
@@ -59,8 +65,8 @@ const EditBox = () => {
                 label="Name"
                 type="name"
                 fullWidth
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={formData.name}
+                onChange={(e) => handleFormDataChange({ name: e.target.value })}
                 variant="outlined"
               />
             </Grid>
@@ -73,8 +79,8 @@ const EditBox = () => {
                 label=" Address"
                 type="adress"
                 fullWidth
-                value={address}
-                onChange={(e) => setAdress(e.target.value)}
+                value={formData.address}
+                onChange={(e) => handleFormDataChange({ address: e.target.value })}
                 variant="outlined"
               />
             </Grid>
@@ -86,8 +92,8 @@ const EditBox = () => {
                 label=" Co"
                 type="co"
                 fullWidth
-                value={co}
-                onChange={(e) => setCo(e.target.value)}
+                value={formData.co}
+                onChange={(e) => handleFormDataChange({ co: e.target.value })}
                 variant="outlined"
               />
             </Grid>
@@ -100,8 +106,8 @@ const EditBox = () => {
                 label=" City"
                 type="city"
                 fullWidth
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
+                value={formData.city}
+                onChange={(e) => handleFormDataChange({ city: e.target.value })}
                 variant="outlined"
               />
             </Grid>
@@ -114,8 +120,8 @@ const EditBox = () => {
                 label=" Postal Code"
                 type="postalCode"
                 fullWidth
-                value={postalCode}
-                onChange={(e) => setPostalCode(e.target.value)}
+                value={formData.postalCode}
+                onChange={(e) => handleFormDataChange({ postalCode: e.target.value })}
                 variant="outlined"
               />
             </Grid>
