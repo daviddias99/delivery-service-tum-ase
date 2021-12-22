@@ -1,11 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-// import { Delivery } from 'types/index';
-// import deliveries from '../box/deliveriesStub';
-
-// const initialState = {
-//   deliveriesList: deliveries as Delivery[],
-// };
-
 
 export const deliveriesSlice = createSlice({
   name: 'delivery',
