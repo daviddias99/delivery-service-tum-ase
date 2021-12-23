@@ -96,7 +96,7 @@ public class DeliveryServiceImpl  implements DeliveryService {
         responseMessage.setResponseMessage("Delivery is successfully created!");
 
         //Method call will be activated later:
-        //prepareSendEmail(deliveryDto); //prepare and send e-mail
+        prepareSendEmail(deliveryDto); //prepare and send e-mail
 
         responseMessage.setResponseType(1);
 

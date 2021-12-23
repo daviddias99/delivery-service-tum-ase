@@ -17,6 +17,8 @@ public interface BoxRepository extends MongoRepository<Box, String>{
 
     public Boolean existsById(ObjectId id);
 
+    public Boolean existsByName(String name);
+
 }
 
 
