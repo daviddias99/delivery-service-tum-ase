@@ -1,14 +1,15 @@
 import { Divider } from '@mui/material';
 import React from 'react';
-import { Customer, Delivery } from 'types';
 import { CurrentDeliveriesTable, PastDeliveriesTable } from 'components/common/DeliveriesTable/DeliveriesTable';
 import './styles.scss';
-type CustomerProps = {
-  customer: Customer,
-  deliveries: Delivery[]
-}
+import { useSelector } from 'react-redux';
+import { userDeliveries, userInfo } from 'redux/slices/user/userSlice';
 
-const Orders = ({ customer, deliveries }: CustomerProps) => {
+const Orders = () => {
+
+  const customer = useSelector(userInfo);
+  const deliveries = useSelector(userDeliveries);
+
   return (
     <div id="customer">
       <div id="customerInfo">
@@ -23,7 +24,7 @@ const Orders = ({ customer, deliveries }: CustomerProps) => {
         <p>
           <b className="infoTag">Name: </b>
           {' '}
-          {customer.name}
+          {`${customer.firstName} ${customer.surname}`}
         </p>
       </div>
 

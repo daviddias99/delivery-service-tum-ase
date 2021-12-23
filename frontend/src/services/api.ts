@@ -21,6 +21,9 @@ const routes = {
   allDeliveries: '/delivery/all',
   allBoxes: '/box/all',
   createBox: '/box/add',
+  // TODO: change
+  customer: (id: string) => `/user/${id}`,
+  customerDeliveries: (id: string) => `/delivery/all/customer/${id}`,
 };
 
 /**
@@ -129,6 +132,12 @@ const api = {
   },
   editBox: (id: string, data: any, callback: (_res: RequestResponse, _status: number) => any) => {
     request(routes.updateBox(id), 'put', data, callback);
+  },
+  getCustomer: (id: string, callback: (_res: RequestResponse, _status: number) => any) => {
+    request(routes.customer(id), 'get', null, callback);
+  },
+  getCustomerDeliveries: (id: string, callback: (_res: RequestResponse, _status: number) => any) => {
+    request(routes.customerDeliveries(id), 'get', null, callback);
   },
 };
 

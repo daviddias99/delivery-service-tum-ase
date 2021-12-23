@@ -7,9 +7,11 @@ import { Deliverer, Delivery } from 'types';
 import Deliveries from 'components/custom/deliverer/Deliverer/Deliveries';
 const deliverer: Deliverer = {
   id: '025bda9f-2607-5c4d-9d99-c4ecbc889d44b',
-  name: 'Cristiano Ronaldo',
+  firstName: 'Cristiano',
+  surname: 'Ronaldo',
+  username: 'cr7best',
   email: 'Cristiano.ronaldo@football.com',
-  phoneNumber: '1234566789'
+  role: 'deliverer',
 };
 
 const deliveriesOverview: Delivery[] = [

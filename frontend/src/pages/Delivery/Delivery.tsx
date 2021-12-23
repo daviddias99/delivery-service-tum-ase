@@ -30,8 +30,8 @@ const DeliveryPage = () => {
           if (status !== 200) {
             return;
           }
-          setIsLoading(false);
           dispatch(updateBox(data));
+          setIsLoading(false);
         };
         api.getBox(data.box.id!, boxRequestCallback);
       };

@@ -29,8 +29,8 @@ const BoxPage = () => {
           if (status !== 200) {
             return;
           }
-          setIsLoading(false);
           dispatch(updateBoxDeliveries(data));
+          setIsLoading(false);
         };
         api.getBoxDeliveries(data.id!, boxDeliveriesRequestCallback);
       };

@@ -23,7 +23,7 @@ const deliveries = ({ deliverer, deliveries }: delivererProps) => {
         <p>
           <b className="infoTag">Name: </b>
           {' '}
-          {deliverer.name}
+          {`${deliverer.firstName} ${deliverer.surname}`}
         </p>
       </div>
 

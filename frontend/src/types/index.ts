@@ -10,16 +10,20 @@ type BoxAddress = {
 
 type Customer = {
   id: string,
-  name: string,
+  username: string,
+  firstName: string,
+  surname: string,
+  role: string,
   email: string,
-  phoneNumber: string,
 };
 
 type Deliverer = {
   id: string,
-  name: string,
+  username: string,
+  firstName: string,
+  surname: string,
+  role: string,
   email: string,
-  phoneNumber: string,
 };
 
 type Box = {
