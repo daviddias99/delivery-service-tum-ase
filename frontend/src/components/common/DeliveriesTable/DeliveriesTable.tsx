@@ -60,7 +60,7 @@ const AllDeliveriesTable = ({ deliveries, showBox, showPagination = true }: Deli
 const PastDeliveriesTable = ({ deliveries, showBox, showPagination = true }: DeliveryTableProps) => {
   return (
     <DeliveriesTable
-      rows={deliveries.filter((delivery: Delivery) => delivery.statusHistory[0] && delivery.statusHistory[0].status === 'collected')}
+      rows={deliveries.filter((delivery: Delivery) => delivery.statusHistory[0] && delivery.statusHistory[0].deliveryStatus === 'collected')}
       columns={pastDeliveriesTableColumns(showBox)}
       showPagination={showPagination}
     />
@@ -71,7 +71,7 @@ const CurrentDeliveriesTable = ({ deliveries, showBox, showPagination = false }:
   return (
     <DeliveriesTable
       rows={deliveries
-        .filter((delivery: Delivery) => delivery.statusHistory[0] && delivery.statusHistory[0].status !== 'collected')
+        .filter((delivery: Delivery) => delivery.statusHistory[0] && delivery.statusHistory[0].deliveryStatus !== 'collected')
         .sort(
           (del1: Delivery, del2: Delivery) => dateSortDsc(new Date(del1.statusHistory[0].statusUpdate), new Date(del2.statusHistory[0].statusUpdate))
         )}
