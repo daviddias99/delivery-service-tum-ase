@@ -4,6 +4,7 @@ import com.ase.authservice.dto.UserDto;
 
 import com.ase.authservice.service.AuthService;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/auth")
+@Slf4j
 public class AuthController {
 
     @Autowired
@@ -30,6 +32,7 @@ public class AuthController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<UserDto> register(@RequestBody UserDto userDto) {
+        log.warn("Auth API: Register request is on");
         return ResponseEntity.ok(authService.register(userDto));
     }
 

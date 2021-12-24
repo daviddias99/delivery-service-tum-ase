@@ -3,19 +3,21 @@ import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Title from 'components/common/Title/Title';
 import Layout from 'components/common/Layout/Layout';
-import { Deliverer, Delivery } from '../../types';
-import Deliveries from 'components/Deliverer/Deliveries';
+import { Deliverer, Delivery } from 'types';
+import Deliveries from 'components/custom/deliverer/Deliverer/Deliveries';
 const deliverer: Deliverer = {
   id: '025bda9f-2607-5c4d-9d99-c4ecbc889d44b',
-  name: 'Cristiano Ronaldo',
+  firstName: 'Cristiano',
+  surname: 'Ronaldo',
+  username: 'cr7best',
   email: 'Cristiano.ronaldo@football.com',
-  phoneNumber: '1234566789'
+  role: 'deliverer',
 };
 
 const deliveriesOverview: Delivery[] = [
   {
     'id': '786b6c5d-bc5a-57db-9241-3cfe1fe86770',
-    'trackingCode': 'aa0973a7-312a-54db-b1d5-130ed474921c',
+    'trackingNumber': 'aa0973a7-312a-54db-b1d5-130ed474921c',
     'dispatcher': {
       'name': 'Chad Silva',
       'id': '270e8b89-41a6-5751-b08c-b85ab1683b78'
@@ -34,11 +36,11 @@ const deliveriesOverview: Delivery[] = [
     },
     'statusHistory': [
       {
-        'status': 'dispatched',
+        'deliveryStatus': 'dispatched',
         'statusUpdate': '2021-11-17T22:39:10+02:00'
       },
       {
-        'status': 'ordered',
+        'deliveryStatus': 'ordered',
         'statusUpdate': '2021-11-16T22:39:10+02:00'
       }
     ],
@@ -46,7 +48,7 @@ const deliveriesOverview: Delivery[] = [
   },
   {
     'id': '59f51c1b-6517-55fe-8759-dd98a217e4ca',
-    'trackingCode': '9f372419-e6a0-5f0f-8b2c-7e3df965d519',
+    'trackingNumber': '9f372419-e6a0-5f0f-8b2c-7e3df965d519',
     'dispatcher': {
       'name': 'Louise Fox',
       'id': 'd6ef20a6-61e5-577b-a8a2-209ccd3dda2e'
@@ -65,19 +67,19 @@ const deliveriesOverview: Delivery[] = [
     },
     'statusHistory': [
       {
-        'status': 'collected',
+        'deliveryStatus': 'collected',
         'statusUpdate': '2021-11-19T22:39:10+02:00'
       },
       {
-        'status': 'delivered',
+        'deliveryStatus': 'delivered',
         'statusUpdate': '2021-11-18T22:39:10+02:00'
       },
       {
-        'status': 'dispatched',
+        'deliveryStatus': 'dispatched',
         'statusUpdate': '2021-11-17T22:39:10+02:00'
       },
       {
-        'status': 'ordered',
+        'deliveryStatus': 'ordered',
         'statusUpdate': '2021-11-16T22:39:10+02:00'
       }
     ],
@@ -85,7 +87,7 @@ const deliveriesOverview: Delivery[] = [
   },
   {
     'id': '7a89b21e-6f0a-5298-808e-7ba8703248eb',
-    'trackingCode': '2ea766e9-1b8f-502f-821c-ad453066a417',
+    'trackingNumber': '2ea766e9-1b8f-502f-821c-ad453066a417',
     'dispatcher': {
       'name': 'Nell Gardner',
       'id': 'dde08e3c-4f3d-5290-8445-7d5a24a52313'
@@ -104,11 +106,11 @@ const deliveriesOverview: Delivery[] = [
     },
     'statusHistory': [
       {
-        'status': 'dispatched',
+        'deliveryStatus': 'dispatched',
         'statusUpdate': '2021-11-17T22:39:10+02:00'
       },
       {
-        'status': 'ordered',
+        'deliveryStatus': 'ordered',
         'statusUpdate': '2021-11-16T22:39:10+02:00'
       }
     ],

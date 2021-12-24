@@ -1,0 +1,8 @@
+[
+  {"_id": {"$oid": "61bf5a9999c953002403fe1e"}, "username": "dGarret9", "firstName": "Dora", "surname": "Garrett","password": "password", "email": "deuro@gapu.tr", "role":"dispatcher"},
+  {"_id": {"$oid": "61bf5a994c0ae4a3a2ec4a8f"}, "username": "superEsther", "firstName": "Esther", "surname": "Tran","password": "password", "email": "co@fed.ye", "role":"dispatcher"},
+  {"_id": {"$oid": "61bf5a99fc3362a39034518c"}, "username": "everybodyHatesChris", "firstName": "Christopher", "surname": "Salazar","password": "password", "email": "za@hanave.gh", "role":"customer"},
+  {"_id": {"$oid": "61bf5a99b2f2079579480d38"}, "username": "notFromHSM", "firstName": "Troy", "surname": "Moody","password": "password", "email": "gihad@adudaru.fi", "role":"customer"},
+  {"_id": {"$oid": "61bf5a997939d10e8eb5efda"}, "username": "jTaylorSwiftLover", "firstName": "Jerome", "surname": "Clark","password": "password", "email": "ku@win.bw", "role":"deliverer"},
+  {"_id": {"$oid": "61bf5a990b34662c837c4001"}, "username": "ericWithAK", "firstName": "Erik", "surname": "Boone","password": "password", "email": "rowiw@heud.mw", "role":"deliverer"}
+]

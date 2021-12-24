@@ -4,19 +4,28 @@ import Paper from '@mui/material/Paper';
 
 import Title from 'components/common/Title/Title';
 import Layout from 'components/common/Layout/Layout';
-import BoxesList from 'components/boxes/BoxesList/BoxesList';
+import BoxesList from 'components/custom/boxes/BoxesList/BoxesList';
+
+import { ManageBoxes } from 'components/custom/boxes/boxManagement/Manage';
 
 import api from 'services/api';
-import { ManageBoxes } from 'components/boxes/boxManagement/Manage';
-
+import { useDispatch } from 'react-redux';
+import { updateBoxes } from 'redux/slices/box/boxesSlice';
 
 const Boxes = () => {
 
+  const dispatch = useDispatch();
+
   useEffect(
     () => {
-      api.login({ username: 'user' }, (a) => console.log(a));
+      const requestCallback = (data: any) => {
+        console.log(data);
+        dispatch(updateBoxes(data));
+      };
+
+      api.getAllBoxes(requestCallback);
     }
-  );
+    , [dispatch]);
 
   return (
     <Layout hasSidebar={true}>
