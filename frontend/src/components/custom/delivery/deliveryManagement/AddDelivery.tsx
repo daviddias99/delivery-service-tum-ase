@@ -60,11 +60,11 @@ const AddDelivery = () => {
         btnText="Create"
         initialData={{
           boxId: '',
-          boxName: 'Garching Box 4',
+          boxName: '',
           delivererId: '',
-          delivererName: 'Stephen Curry',
+          delivererName: '',
           customerId: '',
-          customerName: 'Cristiano Ronaldo',
+          customerName: '',
           deliveryDescription: '',
         }}
         handler={handler}

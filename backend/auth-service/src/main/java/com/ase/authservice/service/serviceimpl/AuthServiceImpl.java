@@ -5,6 +5,7 @@ import com.ase.authservice.entity.User;
 import com.ase.authservice.jwt.JwtUtil;
 import com.ase.authservice.repository.UserRepository;
 import com.ase.authservice.service.AuthService;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Component
+@Slf4j
 public class AuthServiceImpl implements AuthService {
 
     @Autowired
@@ -74,8 +76,11 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public UserDto register(UserDto userDto) {
+        log.warn("Auth Service: Register method is on");
         User tempUser = modelMapper.map(userDto, User.class);
+        log.warn("Auth Service: Mapper works fine");
         tempUser = userRepository.save(tempUser);
+        log.warn("Auth Service: Repo works fine");
         userDto.setId(tempUser.getId());
         return userDto;
     }
