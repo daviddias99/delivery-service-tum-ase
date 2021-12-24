@@ -31,7 +31,7 @@ public interface DeliveryService {
 
     public EmailDto prepareSendEmail(DeliveryDto deliveryDto);
 
-
+    public ResponseMessage dispatch(String id);
 }
 
 

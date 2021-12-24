@@ -76,7 +76,7 @@ public class AuthRequestFilter extends OncePerRequestFilter {
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
 
-            String principal = jwtUtil.extractUsername(jwt);
+            String principal = username;
             String roles = jwtUtil.extractUserRoles(jwt);
             String role = roles.split("=")[1];
             role = role.substring(0, role.length() - 2);
