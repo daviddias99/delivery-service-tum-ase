@@ -85,6 +85,7 @@ public class AuthServiceImpl implements AuthService {
     public UserDto register(UserDto userDto) {
         log.warn("Auth Service: Register method is on");
         User tempUser = modelMapper.map(userDto, User.class);
+        log.warn("Auth Service: Mapper works fine");
         tempUser.setRole("user");
         tempUser = userRepository.save(tempUser);
         log.warn("Auth Service: Repo works fine");

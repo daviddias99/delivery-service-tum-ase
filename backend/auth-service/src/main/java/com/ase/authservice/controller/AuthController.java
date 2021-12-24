@@ -26,6 +26,7 @@ public class AuthController {
 
     @PostMapping
     public ResponseEntity<String> login(@RequestHeader("Authorization") String authorization, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        log.warn("Atuh API id on. request:", request.getUserPrincipal());
         return authService.authenticateUser(authorization, request, response);
     }
 
