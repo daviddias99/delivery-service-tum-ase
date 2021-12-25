@@ -1,4 +1,4 @@
-package com.ase.authservice.jwt;
+package com.ase.deliveryservice.auth;
 
 import org.springframework.stereotype.Component;
 
@@ -63,3 +63,4 @@ public class KeyStoreManager {
         }
     }
 }
+

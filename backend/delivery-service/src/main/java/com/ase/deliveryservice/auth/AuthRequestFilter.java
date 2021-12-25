@@ -1,16 +1,12 @@
-package com.ase.authservice.filter;
+package com.ase.deliveryservice.auth;
 
-import com.ase.authservice.entity.User;
-import com.ase.authservice.jwt.JwtUtil;
-import com.ase.authservice.service.AuthService;
-import io.jsonwebtoken.Claims;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -27,8 +23,7 @@ import java.util.List;
 
 @Component
 public class AuthRequestFilter extends OncePerRequestFilter {
-    @Autowired
-    private AuthService authService;
+
 
     @Autowired
     private JwtUtil jwtUtil;
@@ -41,11 +36,9 @@ public class AuthRequestFilter extends OncePerRequestFilter {
 
         Cookie cookie = null;
 
-        if (cookies != null) {
-            for (int i = 0; i < cookies.length; i++) {
-                if (cookies[i].getName().equals("jwt")) {
-                    cookie = cookies[i];
-                }
+        for (int i = 0; i < cookies.length; i++) {
+            if (cookies[i].getName().equals("jwt")) {
+                cookie = cookies[i];
             }
         }
 
@@ -65,7 +58,7 @@ public class AuthRequestFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader("Authorization");
 
         if (authHeader == null && cookie == null) {
-            //TODO: this situation devolves into error500, doesn't send reply
+
             response.sendError(HttpStatus.BAD_REQUEST.value(), "No JWT Cookie or Basic Auth Info Found");
 
 
@@ -79,11 +72,11 @@ public class AuthRequestFilter extends OncePerRequestFilter {
             String principal = username;
             String roles = jwtUtil.extractUserRoles(jwt);
             String role = roles.split("=")[1];
-            role = role.substring(0, role.length() - 2);
+            role = role.substring(0, role.length()-2);
 
             //TODO: discuss if this is valid / OK practice, inquire next monday
-            PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(principal, "[Protected]", makeRole(role));
-            authService.setAuthenticationToken(token);
+            PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(principal,"[Protected]", makeRole(role));
+            SecurityContextHolder.getContext().setAuthentication(token);
 
             Authentication authContext = SecurityContextHolder.getContext().getAuthentication();
             System.out.println(String.format("Authenticate Token Set:\n"
@@ -104,5 +97,4 @@ public class AuthRequestFilter extends OncePerRequestFilter {
 
         return list;
     }
-
 }

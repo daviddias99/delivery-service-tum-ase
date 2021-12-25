@@ -4,12 +4,18 @@ package com.ase.deliveryservice.controller;
 import com.ase.client.com.ase.contract.ResponseMessage;
 import com.ase.client.com.ase.contract.UserDto;
 import com.ase.deliveryservice.dto.DeliveryDto;
+import com.ase.deliveryservice.entity.Delivery;
+import com.ase.deliveryservice.entity.DeliveryStatus;
+import com.ase.deliveryservice.entity.Status;
 import com.ase.deliveryservice.service.DeliveryService;
+import feign.Response;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.jni.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -89,19 +95,22 @@ public class DeliveryController {
         return ResponseEntity.ok(data);
     }
 
-
-
-
     @RequestMapping(value = "track/{trackingNumber}", method = RequestMethod.GET)
     public ResponseEntity<DeliveryDto> getByTrackingId(@PathVariable String trackingNumber) {
         return ResponseEntity.ok(deliveryService.getByTrackingNumber(trackingNumber));
     }
 
+    @RequestMapping(value = "dispatch/{id}", method = RequestMethod.POST)
+    public ResponseEntity<ResponseMessage> updateDeliveryStatus(@PathVariable String id){
 
+        responseMessage = deliveryService.dispatch(id);
 
+        if(responseMessage.getResponseType()==0){
+            return ResponseEntity.badRequest().body(responseMessage);
+        }
 
-
-
+        return ResponseEntity.ok(responseMessage);
+    }
 
 
 }

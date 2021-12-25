@@ -1,5 +1,6 @@
 package com.ase.authservice.service.serviceimpl;
 
+import com.ase.authservice.config.CookieConfig;
 import com.ase.authservice.dto.UserDto;
 import com.ase.authservice.entity.User;
 import com.ase.authservice.jwt.JwtUtil;
@@ -18,12 +19,15 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collection;
@@ -44,6 +48,9 @@ public class AuthServiceImpl implements AuthService {
 
     @Autowired
     private JwtUtil jwtUtil;
+
+    @Autowired
+    private CookieConfig cookieConfig;
 
     @Autowired
     private BCryptPasswordEncoder encoder;
@@ -79,16 +86,20 @@ public class AuthServiceImpl implements AuthService {
         log.warn("Auth Service: Register method is on");
         User tempUser = modelMapper.map(userDto, User.class);
         log.warn("Auth Service: Mapper works fine");
+        tempUser.setRole("user");
         tempUser = userRepository.save(tempUser);
         log.warn("Auth Service: Repo works fine");
         userDto.setId(tempUser.getId());
+        userDto.setRole(tempUser.getRole());
         return userDto;
     }
 
 
 
     public ResponseEntity<String> authenticateUser(String authorization,
-                                                   HttpServletRequest request) throws Exception {
+                                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+
 
         // decodes request header and splits into username/pw
         String headerString = authorization.substring("Basic".length()).trim();
@@ -99,7 +110,7 @@ public class AuthServiceImpl implements AuthService {
         // get user by given username
         UserDetails user = loadUserByUsername(username);
         if (user == null) {
-            throw new BadCredentialsException("1000");
+            return new ResponseEntity<>("Email or password is incorrect", HttpStatus.BAD_REQUEST);
         }
 
         // authenticate using authManager and token of username and password
@@ -107,13 +118,23 @@ public class AuthServiceImpl implements AuthService {
         Authentication auth = null;
 
         try{
+
             auth = authManager.authenticate(token);
 
             SecurityContextHolder.getContext().setAuthentication(auth);
 
-            final String jwt = jwtUtil.generateToken(user);
+            if(auth != null) {
+                final String jwt = jwtUtil.generateToken(user);
 
-            return new ResponseEntity<>(jwt, HttpStatus.OK);
+                Cookie jwtCookie = cookieConfig.createCookie("jwt", jwt);
+
+                response.addCookie(jwtCookie);
+
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            else{
+                return new ResponseEntity<>("Email or password is incorrect", HttpStatus.BAD_REQUEST);
+            }
         } catch (BadCredentialsException e){
             e.printStackTrace();
             return new ResponseEntity<>("Email or password is incorrect", HttpStatus.BAD_REQUEST);
@@ -122,4 +143,9 @@ public class AuthServiceImpl implements AuthService {
             return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    public void setAuthenticationToken(Authentication auth){
+        SecurityContextHolder.getContext().setAuthentication(auth);
+    }
+
 }

@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -194,6 +195,35 @@ public class DeliveryServiceImpl  implements DeliveryService {
         return emailDto;
     }
 
+    @Override
+    public ResponseMessage dispatch(String id) {
+        Delivery delivery = deliveryRepository.findById(new ObjectId(id));
+
+        if(delivery.equals(null)){
+
+            responseMessage.setResponseMessage("Bad delivery ID!");
+            responseMessage.setResponseType(0);
+            return responseMessage;
+        }
+
+        ArrayList<Status> statusList = delivery.getStatusHistory();
+
+        if(statusList.get(statusList.size() - 1).getDeliveryStatus() != DeliveryStatus.ordered){
+            responseMessage.setResponseMessage("Bad delivery status!");
+            responseMessage.setResponseType(0);
+            return responseMessage;
+        }
+
+        Status status = new Status(DeliveryStatus.dispatched, new Date().toString());
+        statusList.add(status);
+
+        delivery.setStatusHistory(statusList);
+        deliveryRepository.save(delivery);
+        responseMessage.setResponseMessage("Dispatched!");
+        responseMessage.setResponseType(1);
+        return responseMessage;
+    }
+
 
     @Override
     public DeliveryDto getByTrackingNumber(String TrackingNumber) {
@@ -205,6 +235,8 @@ public class DeliveryServiceImpl  implements DeliveryService {
         }
         return modelMapper.map(delivery, DeliveryDto.class);
     }
+
+
 
 
 
