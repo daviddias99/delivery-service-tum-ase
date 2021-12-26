@@ -1,5 +1,7 @@
 package com.ase.boxservice.dto;
 
+import com.ase.boxservice.entity.BoxAddress;
+import com.ase.boxservice.entity.BoxStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,9 +13,10 @@ public class BoxDto {
 
     private String id;
 
-    private String status;
+    private String name;
 
-    private String address;
+    private BoxStatus status;
 
-    private String delivery;
+    private BoxAddress address;
+
 }

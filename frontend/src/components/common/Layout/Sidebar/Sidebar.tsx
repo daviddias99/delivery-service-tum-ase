@@ -1,4 +1,4 @@
-import { Divider, IconButton, List, Toolbar } from '@mui/material';
+import { Divider, IconButton, List, Toolbar, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
 
@@ -25,10 +25,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
           easing: theme.transitions.easing.sharp,
           duration: theme.transitions.duration.leavingScreen,
         }),
-        width: theme.spacing(7),
-        [theme.breakpoints.up('sm')]: {
-          width: theme.spacing(9),
-        },
+        width: 0,
       }),
     },
   }),
@@ -50,9 +47,13 @@ const Sidebar = ({ open, toggleDrawer }: SidebarProps) => {
           px: [1],
         }}
       >
-        <IconButton onClick={toggleDrawer}>
-          <ChevronLeftIcon />
-        </IconButton>
+        <div style={{width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+          <Typography style={{padding: '0em 1em'}} variant="h5">Menu</Typography>
+          <IconButton onClick={toggleDrawer}>
+            <ChevronLeftIcon />
+          </IconButton>
+
+        </div>
       </Toolbar>
       <Divider />
       <List >

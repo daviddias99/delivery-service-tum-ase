@@ -1,8 +1,10 @@
 package com.ase.userservice.controller;
 
 
+import com.ase.client.com.ase.contract.ResponseMessage;
 import com.ase.userservice.service.UserService;
 import com.ase.client.com.ase.contract.UserDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@Slf4j
 // @CrossOrigin(origins = ApiPaths.LOCAL_CLIENT_BASE_PATH, maxAge = 3600)
 @RequestMapping("/user")
 public class UserController {
@@ -18,21 +21,22 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
+/*
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<UserDto> addUser(@RequestBody UserDto userdto){
         return ResponseEntity.ok(userService.save(userdto));
     }
-
+*/
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Boolean> deletebyId (@PathVariable String id) {
         return ResponseEntity.ok(userService.deleteUser(id));
     }
 
 
-    @RequestMapping(value = "/{username}", method = RequestMethod.GET)
-    public ResponseEntity<UserDto> getOne(@PathVariable String username) {
-        return ResponseEntity.ok(userService.getByUsername(username));
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity<UserDto> getOne(@PathVariable String id) {
+        log.warn("User:getOne method is on. ID:"+id);
+        return ResponseEntity.ok(userService.getById(id));
     }
 
 
@@ -45,13 +49,47 @@ public class UserController {
 
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<String> updateProfile(@RequestBody UserDto userDto, @PathVariable String id) {
-        String responseMessage = userService.updateUser(userDto,id);
-        return ResponseEntity.ok(responseMessage);
+    public ResponseEntity<ResponseMessage> updateProfile(@RequestBody UserDto userDto, @PathVariable String id) {
+        return ResponseEntity.ok(userService.updateUser(userDto,id));
     }
 
 
+    @RequestMapping(value = "customer/add", method = RequestMethod.POST)
+    public ResponseEntity<ResponseMessage> addCustomer(@RequestBody UserDto userdto){
+        log.warn("customer creation request is on");
+        return ResponseEntity.ok(userService.save(userdto,"CUSTOMER"));
+    }
 
+
+    @RequestMapping(value = "deliverer/add", method = RequestMethod.POST)
+    public ResponseEntity<ResponseMessage> addDeliverer(@RequestBody UserDto userdto){
+        return ResponseEntity.ok(userService.save(userdto,"DELIVERER"));
+    }
+
+
+    @RequestMapping(value = "dispatcher/add", method = RequestMethod.POST)
+    public ResponseEntity<ResponseMessage> addDispatcher(@RequestBody UserDto userdto){
+        return ResponseEntity.ok(userService.save(userdto,"DISPATCHER"));
+    }
+
+
+    @RequestMapping(value = "dispatcher/all",  method = RequestMethod.GET)
+    public ResponseEntity<List<UserDto>> getAllDispatchers(){
+        List<UserDto> data = userService.getAllByRole("DISPATCHER");
+        return ResponseEntity.ok(data);
+    }
+
+    @RequestMapping(value = "customer/all",  method = RequestMethod.GET)
+    public ResponseEntity<List<UserDto>> getAllcustomers(){
+        List<UserDto> data = userService.getAllByRole("CUSTOMER");
+        return ResponseEntity.ok(data);
+    }
+
+    @RequestMapping(value = "deliverer/all",  method = RequestMethod.GET)
+    public ResponseEntity<List<UserDto>> getallDeliverers(){
+        List<UserDto> data = userService.getAllByRole("DELIVERER");
+        return ResponseEntity.ok(data);
+    }
 
 
 }

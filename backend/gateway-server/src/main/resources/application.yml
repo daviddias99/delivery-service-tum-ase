@@ -5,6 +5,14 @@ spring:
 
   cloud:
     gateway:
+
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+
       routes:
         - id: user-service
           uri: lb://USER-SERVICE
@@ -21,6 +29,11 @@ spring:
           uri: lb://BOX-SERVICE
           predicates:
             - Path=/box/**
+
+        - id: auth-service
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/auth/**
 
 
 

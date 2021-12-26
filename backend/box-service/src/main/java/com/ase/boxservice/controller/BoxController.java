@@ -3,6 +3,7 @@ package com.ase.boxservice.controller;
 
 import com.ase.boxservice.dto.BoxDto;
 import com.ase.boxservice.service.BoxService;
+import com.ase.client.com.ase.contract.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class BoxController {
     private BoxService boxService;
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<BoxDto> addBox(@RequestBody BoxDto boxDto){
+    public ResponseEntity<ResponseMessage> addBox(@RequestBody BoxDto boxDto){
         return ResponseEntity.ok(boxService.save(boxDto));
     }
 
@@ -37,5 +38,10 @@ public class BoxController {
         return ResponseEntity.ok(data);
     }
 
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<ResponseMessage> updateBox(@RequestBody BoxDto boxDto, @PathVariable String id) {
+        ResponseMessage responseMessage = boxService.updateBox(boxDto,id);
+        return ResponseEntity.ok(responseMessage);
+    }
 
 }

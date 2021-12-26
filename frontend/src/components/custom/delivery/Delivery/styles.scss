@@ -1,0 +1,32 @@
+#delivery {
+  .title {
+
+    margin: 0em;
+
+    > span{
+
+      margin-left: 0.3em;
+
+      &:before {
+        content: open-quote;
+      }
+
+      &:after {
+        content: close-quote;
+      }
+    }
+
+    .boxStatus {
+      margin-left: 0.5em;
+    }
+  }
+
+  .sectionTitle {
+    margin-bottom: 0.2em;
+  }
+
+  .subTitle {
+    margin-top: 0em;
+    font-style: italic;
+  }
+}

@@ -3,9 +3,13 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 import routes from 'routes';
 
-import Dashboard from 'pages/Dashboard/Dashboard';
+import Homepage from 'pages/Homepage/Homepage';
 import Boxes from 'pages/Boxes/Boxes';
+import Deliveries from 'pages/Deliveries/Deliveries';
+import DeliveriesOverview from 'pages/Deliverer/DeliveriesOverview';
 import Box from 'pages/Box/Box';
+import Delivery from 'pages/Delivery/Delivery';
+import Orders from 'pages/Customer/Orders';
 
 type PrivateRouteProps = {
   children: ReactElement,
@@ -14,7 +18,6 @@ type PrivateRouteProps = {
 const PrivateRoute: FunctionComponent<PrivateRouteProps> = ({ children }) => {
 
   const loggedIn = true; // Later use Redux to fetch logged in status
-
   return loggedIn
     ? children
     : <Navigate to="/login" />;
@@ -28,14 +31,11 @@ const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
-
-        <Route path={routes.delivery.def} />
-
         <Route path="/" element={<Navigate to={routes.dashboard.def} />} />
 
         <Route path={routes.dashboard.def} element={
           <PrivateRoute>
-            <Dashboard />
+            <Homepage />
           </PrivateRoute>
         }
         />
@@ -54,6 +54,31 @@ const Router = () => {
         }
         />
 
+        <Route path={routes.deliveries.def} element={
+          <PrivateRoute>
+            <Deliveries />
+          </PrivateRoute>
+        }
+        />
+
+        <Route path={routes.delivery.def} element={
+          <PrivateRoute>
+            <Delivery />
+          </PrivateRoute>
+        }
+        />
+        <Route path={routes.customer.def} element={
+          <PrivateRoute>
+            <Orders />
+          </PrivateRoute>
+        }
+        />
+        <Route path={routes.deliverer.def} element={
+          <PrivateRoute>
+            <DeliveriesOverview />
+          </PrivateRoute>
+        }
+        />
       </Routes>
     </BrowserRouter>
   );

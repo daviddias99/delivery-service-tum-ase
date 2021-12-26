@@ -12,7 +12,11 @@ const routes = {
 
   delivery: route(
     '/delivery/:deliveryId',
-    (deliveryId) => (`/researcher/${deliveryId}`)
+    (deliveryId) => (`/delivery/${deliveryId}`)
+  ),
+
+  deliveries: route(
+    '/delivery/',
   ),
 
   boxes: route(
@@ -24,6 +28,15 @@ const routes = {
     (boxId) => (`/box/${boxId}`)
   ),
 
+  customer: route(
+    '/customer/:customerId/orders',
+    (customerId) => (`/customer/${customerId}/orders`)
+  ),
+
+  deliverer: route(
+    '/deliverer/:delivererId/deliveries',
+    (delivererId) =>(`/deliverer/${delivererId}/deliveries`)
+  )
 };
 
 export default routes;
