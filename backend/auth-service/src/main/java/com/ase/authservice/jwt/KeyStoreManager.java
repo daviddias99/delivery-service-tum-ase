@@ -25,22 +25,14 @@ public class KeyStoreManager {
     public void loadKeyStore() throws KeyStoreException, IOException{
         keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
 
-        FileInputStream fis = null;
-
-        try{
-            File keystoreFile = new File("src/main/resources/auth.keystore");
-            fis = new FileInputStream(keystoreFile);
+        File keystoreFile = new File("src/main/resources/auth.keystore");
+        try (FileInputStream fis = new FileInputStream(keystoreFile)){
             keyStore.load(fis,password);
             keyAlias = keyStore.aliases().nextElement();
 
         } catch(Exception e){
             System.err.println("Error when loading Keystore");
             e.printStackTrace();
-        }
-        finally {
-            if(fis != null){
-                fis.close();
-            }
         }
     }
 

@@ -31,18 +31,18 @@ public class AuthController {
     }
 
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @PostMapping(value = "/register")
     public ResponseEntity<UserDto> register(@RequestBody UserDto userDto) {
         log.warn("Auth API: Register request is on");
         return ResponseEntity.ok(authService.register(userDto));
     }
 
-    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    @PostMapping(value = "/test")
     public ResponseEntity<UserDto> testAdd() {
         return ResponseEntity.ok(authService.register(new UserDto("", "test1", "test1", "bob", "bob", "bob@bob.bob", "user")));
     }
 
-    @RequestMapping(value = "/testtoken", method = RequestMethod.GET)
+    @GetMapping(value = "/testtoken")
     public ResponseEntity<String> checkToken() {
         return ResponseEntity.ok("token valid");
     }

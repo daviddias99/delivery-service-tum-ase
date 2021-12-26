@@ -19,7 +19,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -63,13 +62,10 @@ public class AuthServiceImpl implements AuthService {
             throw new UsernameNotFoundException("User not found!");
         }
 
-        org.springframework.security.core.userdetails.User springUser =
-                new org.springframework.security.core.userdetails.User(
-                        user.getUsername(),
-                        encoder.encode(user.getPassword()),
-                        getAuthorities(user));
-
-        return springUser;
+        return new org.springframework.security.core.userdetails.User(
+            user.getUsername(),
+            encoder.encode(user.getPassword()),
+            getAuthorities(user));
     }
 
     public Collection<? extends GrantedAuthority> getAuthorities(User user) {
