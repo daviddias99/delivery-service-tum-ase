@@ -3,6 +3,7 @@ import { Button, Card, CardActions, CardContent, CardHeader, TextField, Theme, M
 import { createStyles, makeStyles } from '@mui/styles';
 
 import React from 'react';
+import api from 'services/api';
 
 type LoginModalProps = {
   open: boolean,
@@ -43,12 +44,14 @@ const LoginModal = ({ open, setOpen }: LoginModalProps) => {
 
     setEmailError('');
     setPasswordError('');
-    if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-      setEmailError('Email is invalid.');
-      valid = false;
-    }
+    // if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+    //   setEmailError('Email is invalid.');
+    //   valid = false;
+    // }
 
-    if (password.length < 6) {
+    if (password.length === 0) {
+      setPasswordError('Password must not be empty.');
+    } else if (password.length < 6) {
       setPasswordError('Password is invalid, must be at least 6 characters in length.');
       valid = false;
     }
@@ -57,6 +60,8 @@ const LoginModal = ({ open, setOpen }: LoginModalProps) => {
       return;
     }
     console.log('Submitted');
+
+    api.login({ username: email, password: password }, (data, status, headers) => console.log(headers));
   };
 
   const styles = useStyles();

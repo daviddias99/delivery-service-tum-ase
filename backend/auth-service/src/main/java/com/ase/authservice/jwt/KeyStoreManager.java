@@ -28,7 +28,7 @@ public class KeyStoreManager {
         FileInputStream fis = null;
 
         try{
-            File keystoreFile = new File("backend/auth-service/src/main/resources/auth.keystore");
+            File keystoreFile = new File("src/main/resources/auth.keystore");
             fis = new FileInputStream(keystoreFile);
             keyStore.load(fis,password);
             keyAlias = keyStore.aliases().nextElement();

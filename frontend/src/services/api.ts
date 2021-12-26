@@ -10,7 +10,7 @@ const API_URL: string = process.env.REACT_APP_API_URI ?? DEFAULT_API_URL;
  * All the server API routes.
  */
 const routes = {
-  login: '/login',
+  login: '/auth',
   logout: '/logout',
   delivery: (id: string) => `/delivery/${id}`,
   deliveryByTracking: (id: string) => `/delivery/track/${id}`,
@@ -39,7 +39,8 @@ type RestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'get' | 'post' | 'put' | '
 type RequestResponse = {
   status: string,
   data?: any,
-  error?: any
+  error?: any,
+  headers?: any,
 }
 
 const request = (path: string, method: RestMethod, data: any, callback: (_res: RequestResponse, _status: number) => any) => {
@@ -47,7 +48,7 @@ const request = (path: string, method: RestMethod, data: any, callback: (_res: R
   path = path.startsWith('/') ? path : '/' + path;
   path = path.endsWith('/') ? path : path + '/';
 
-  const headers = {};
+  // const headers = {};
 
   // TODO: Add authorization headers here
 
@@ -62,13 +63,13 @@ const request = (path: string, method: RestMethod, data: any, callback: (_res: R
   };
 
   if (method.toLowerCase() === 'get') {
-    axios.get(API_URL + path, { headers, params: data }).then((res) => callback(res.data, res.status)).catch(errorHandler);
+    axios.get(API_URL + path, { params: data }).then((res) => callback(res.data, res.status)).catch(errorHandler);
   } else if (method.toLowerCase() === 'post') {
-    axios.post(API_URL + path, data, { headers }).then((res) => callback(res.data, res.status)).catch(errorHandler);
+    axios.post(API_URL + path, data).then((res) => callback(res.data, res.status)).catch(errorHandler);
   } else if (method.toLowerCase() === 'delete') {
-    axios.delete(API_URL + path, { headers }).then((res) => callback(res.data, res.status)).catch(errorHandler);
+    axios.delete(API_URL + path).then((res) => callback(res.data, res.status)).catch(errorHandler);
   } else if (method.toLowerCase() === 'put') {
-    axios.put(API_URL + path, data, { headers }).then((res) => callback(res.data, res.status)).catch(errorHandler);
+    axios.put(API_URL + path, data).then((res) => callback(res.data, res.status)).catch(errorHandler);
   }
 };
 
@@ -97,8 +98,17 @@ const asyncRequest = async (path: string, method: RestMethod, data: any) => {
  * the app and the server.
  */
 const api = {
-  login: (data: any, callback: (_res: RequestResponse, _status: number) => any) => {
-    request(routes.login, 'post', data, callback);
+  login: (data: any, callback: (_res: RequestResponse, _status: number, _headers: any) => any) => {
+    const errorHandler = (err: AxiosError) => {
+      if (err.response) { // Server replied with non 2xx
+      } else if (err.request) { // Network error / Server did not reply
+      } else { // Other error
+      }
+
+      const res = { status: 'error', error: err };
+      callback(res, 500, {});
+    };
+    axios.post(API_URL + routes.login, {}, { withCredentials: true, auth: data }).then((res) => callback(res.data, res.status, res.headers['set-cookie'])).catch(errorHandler);
   },
   logout: (callback: (_res: RequestResponse, _status: number) => any) => {
     request(routes.logout, 'post', null, callback);
