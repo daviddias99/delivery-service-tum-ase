@@ -1,50 +1,10 @@
 import React from 'react';
-import {AppBar, Box, Container, Paper, Tab, Tabs, Typography} from '@mui/material';
+import { Container, Paper } from '@mui/material';
 import Layout from '../../components/common/Layout/Layout';
-import PersonIcon from '@mui/icons-material/Person';
-import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
-import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
+import UserManagement from 'components/UserManagement/UserManagement';
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
 
-const TabPanel = (props: TabPanelProps) => {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>
-            {children}
-          </Typography>
-        </Box>
-      )}
-    </div>
-  );
-};
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
-
-const UserManagement = () => {
-  const [value, setValue] = React.useState(0);
-
-  const handleChange = (event: any, newValue: any) => {
-    setValue(newValue);
-  };
+const UserManagementPage = () => {
 
 
   return (
@@ -53,32 +13,7 @@ const UserManagement = () => {
       <Container maxWidth={false} sx={{ mt: 4, mb: 4 }}>
 
         <Paper sx={{ p: '2em'}}>
-          <Box sx={{ bgcolor: 'background.paper', width: '100%' }}>
-            <AppBar position="static">
-              <Tabs
-                value={value}
-                onChange={handleChange}
-                indicatorColor="secondary"
-                textColor="inherit"
-                variant="fullWidth"
-                aria-label="full width tabs example"
-              >
-
-                <Tab icon={<PersonIcon />} label="Customer Management" {...a11yProps(0)} />
-                <Tab icon={<DeliveryDiningIcon />} label="Deliverer Management" {...a11yProps(1)} />
-                <Tab icon={<SupervisorAccountIcon />} label="Dispatcher Management" {...a11yProps(2)} />
-              </Tabs>
-            </AppBar>
-            <TabPanel value={value} index={0}>
-              Item One
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-              Item Two
-            </TabPanel>
-            <TabPanel value={value} index={2}>
-              Item Three
-            </TabPanel>
-          </Box>
+          <UserManagement />
         </Paper>
 
       </Container>
@@ -88,4 +23,4 @@ const UserManagement = () => {
 
 };
 
-export default UserManagement;
+export default UserManagementPage;

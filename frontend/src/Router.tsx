@@ -10,6 +10,7 @@ import DeliveriesOverview from 'pages/Deliverer/DeliveriesOverview';
 import Box from 'pages/Box/Box';
 import Delivery from 'pages/Delivery/Delivery';
 import Orders from 'pages/Customer/Orders';
+import UserManagementPage from './pages/UserMangement/UserManagementPage';
 
 type PrivateRouteProps = {
   children: ReactElement,
@@ -76,6 +77,12 @@ const Router = () => {
         <Route path={routes.deliverer.def} element={
           <PrivateRoute>
             <DeliveriesOverview />
+          </PrivateRoute>
+        }
+        />
+        <Route path={routes.userMangement.def} element={
+          <PrivateRoute>
+            <UserManagementPage />
           </PrivateRoute>
         }
         />
