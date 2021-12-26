@@ -30,7 +30,7 @@ const DeliveryStatusStepper = ({ statusHistory }: {
   const update = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
 
-    //TODO remove and replace it with updated
+    //TODO remove and replace it with updated From API
     const statusUpdate = history[history.length - 1].statusUpdate;
     switch (history[history.length - 1].deliveryStatus ) {
       case 'ordered':
