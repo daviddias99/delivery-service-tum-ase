@@ -10,6 +10,7 @@ import {
 } from 'react-router-dom';
 import api from 'services/api';
 import { updateBox, updateBoxDeliveries } from 'redux/slices/box/boxSlice';
+import { AxiosResponse } from 'axios';
 
 const BoxPage = () => {
   const [isLoading, setIsLoading] = React.useState(true);
@@ -19,20 +20,20 @@ const BoxPage = () => {
   useEffect(
     () => {
       setIsLoading(true);
-      const boxRequestCallback = (data: any, status: number) => {
-        if (status !== 200) {
+      const boxRequestCallback = (response: AxiosResponse<any, any>) => {
+        if (response.status !== 200) {
           return;
         }
 
-        dispatch(updateBox(data));
-        const boxDeliveriesRequestCallback = (data: any) => {
-          if (status !== 200) {
+        dispatch(updateBox(response.data));
+        const boxDeliveriesRequestCallback = (responseDeliveries: AxiosResponse<any, any>) => {
+          if (responseDeliveries.status !== 200) {
             return;
           }
-          dispatch(updateBoxDeliveries(data));
+          dispatch(updateBoxDeliveries(responseDeliveries.data));
           setIsLoading(false);
         };
-        api.getBoxDeliveries(data.id!, boxDeliveriesRequestCallback);
+        api.getBoxDeliveries(response.data.id!, boxDeliveriesRequestCallback);
       };
       api.getBox(boxId!, boxRequestCallback);
     }

@@ -8,7 +8,6 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Sidebar from './Sidebar/Sidebar';
 
-import api from 'services/api';
 import { Button } from '@mui/material';
 import LoginModal from './LoginModal/LoginModal';
 import AppLogo from 'components/common/Layout/AppLogo/AppLogo'; // Import using relative path

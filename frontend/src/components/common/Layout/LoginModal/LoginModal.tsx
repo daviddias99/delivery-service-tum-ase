@@ -61,7 +61,7 @@ const LoginModal = ({ open, setOpen }: LoginModalProps) => {
     }
     console.log('Submitted');
 
-    api.login({ username: email, password: password }, (data, status, headers) => console.log(headers));
+    // api.login({ username: email, password: password }, (data, status, headers) => console.log(headers));
   };
 
   const styles = useStyles();

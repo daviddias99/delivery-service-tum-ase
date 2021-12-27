@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { boxesList, updateBoxes } from 'redux/slices/box/boxesSlice';
 
 import api from 'services/api';
+import { AxiosResponse } from 'axios';
 
 const AddBox = () => {
   const [open, setOpen] = useState(false);
@@ -28,9 +29,9 @@ const AddBox = () => {
   const AddClicked = () => {
     const newBoxData = { name: name, address: { addressLine1: address, addressLine2: co, city: city, postalCode: postalCode } };
 
-    const callback = (data: any, status: number) => {
+    const callback = (response: AxiosResponse<any, any>) => {
 
-      if (status !== 200) {
+      if (response.status !== 200) {
         setError('An error occured and the box was not created');
         return;
       }
@@ -38,7 +39,7 @@ const AddBox = () => {
       setError('');
 
       // TODO: remove once backend API is fixed
-      dispatch(updateBoxes([...list, {...data, status: 'free'}]));
+      dispatch(updateBoxes([...list, {...response.data, status: 'free'}]));
       handleClose();
     };
 

@@ -11,6 +11,7 @@ import Layout from 'components/common/Layout/Layout';
 import api from 'services/api';
 import { useDispatch } from 'react-redux';
 import { updateDeliveries } from 'redux/slices/delivery/deliveriesSlice';
+import { AxiosResponse } from 'axios';
 
 
 const Deliveries = () => {
@@ -18,8 +19,8 @@ const Deliveries = () => {
 
   useEffect(
     () => {
-      const requestCallback = (data: any) => {
-        dispatch(updateDeliveries(data));
+      const requestCallback = (response: AxiosResponse<any, any>) => {
+        dispatch(updateDeliveries(response.data));
       };
 
       api.getAllDeliveries(requestCallback);

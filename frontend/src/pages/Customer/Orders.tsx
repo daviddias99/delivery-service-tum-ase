@@ -11,6 +11,7 @@ import {
 import api from 'services/api';
 import { updateUser, updateUserDeliveries } from 'redux/slices/user/userSlice';
 import Spinner from 'components/common/Spinner/Spinner';
+import { AxiosResponse } from 'axios';
 
 const OrdersPage = () => {
 
@@ -25,21 +26,20 @@ const OrdersPage = () => {
       }
 
       setIsLoading(true);
-      const useRequestCallback = (userData: any, status: number) => {
-        if (status !== 200) {
+      const useRequestCallback = (response: AxiosResponse<any, any>) => {
+        if (response.status !== 200) {
           return;
         }
 
-        dispatch(updateUser(userData));
-        const userDeliveriesRequestCallback = (deliveryData: any, status: number) => {
-          if (status !== 200) {
+        dispatch(updateUser(response.data.userData));
+        const userDeliveriesRequestCallback = (responseDeliveries: AxiosResponse<any, any>) => {
+          if (responseDeliveries.status !== 200) {
             return;
           }
-          console.log(deliveryData);
-          dispatch(updateUserDeliveries(deliveryData));
+          dispatch(updateUserDeliveries(responseDeliveries.data.deliveryData));
           setIsLoading(false);
         };
-        api.getCustomerDeliveries(userData.id!, userDeliveriesRequestCallback);
+        api.getCustomerDeliveries(response.data.userData.id!, userDeliveriesRequestCallback);
       };
       api.getCustomer(customerId!, useRequestCallback);
     }

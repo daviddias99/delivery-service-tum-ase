@@ -7,6 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 
 import { updateBox } from 'redux/slices/box/boxSlice';
 import api from 'services/api';
+import { AxiosResponse } from 'axios';
 
 const EditBox = ({ initialData }: { initialData: any }) => {
   const dispatch = useDispatch();
@@ -35,9 +36,8 @@ const EditBox = ({ initialData }: { initialData: any }) => {
     addressInfo.postalCode = formData.postalCode;
     newBox.address = addressInfo;
 
-    const callback = (data: any, status: number) => {
-
-      if (status !== 200) {
+    const callback = (data: AxiosResponse<any, any>) => {
+      if (data.status !== 200) {
         return;
       }
       dispatch(updateBox(newBox));
