@@ -81,9 +81,7 @@ const Layout = ({ hasSidebar, children }: LayoutProps) => {
 
           {
             loggedIn &&
-            <IconButton color="inherit">
-              <ProfileMenu />
-            </IconButton>
+            <ProfileMenu />
           }
           {
             !loggedIn &&
