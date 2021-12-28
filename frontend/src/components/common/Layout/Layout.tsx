@@ -20,11 +20,12 @@ const drawerWidth: number = 240;
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
+  hassidebar: string;
 }
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
-})<AppBarProps & { hassidebar: boolean }>(({ theme, open, hassidebar }) => ({
+})<AppBarProps>(({ theme, open, hassidebar }) => ({
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(['width', 'margin'], {
     easing: theme.transitions.easing.sharp,
@@ -32,7 +33,7 @@ const AppBar = styled(MuiAppBar, {
   },
   ),
   backgroundColor: 'primary',
-  ...(open && hassidebar && {
+  ...(open && hassidebar === 'true' && {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
@@ -58,7 +59,7 @@ const Layout = ({ hasSidebar, children }: LayoutProps) => {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="absolute" open={open} hassidebar={hasSidebar}>
+      <AppBar position="absolute" open={open} hassidebar={hasSidebar ? 'true' : 'false'}>
         <Toolbar
           sx={{
             pr: '24px', // keep right padding when drawer closed
