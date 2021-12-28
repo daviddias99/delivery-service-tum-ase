@@ -25,15 +25,15 @@ const PrivateRoute: FunctionComponent<PrivateRouteProps> = ({ children }) => {
     : <Navigate to="/" />;
 };
 
-const getDefaultRoute = (role: string) => {
+const getDefaultRoute = (user: any) => {
 
-  switch (role) {
+  switch (user.role) {
     case 'dispatcher':
       return routes.deliveries.def;
     case 'deliverer':
-      return routes.deliverer.def;
+      return routes.deliverer.ref(user.id);
     case 'customer':
-      return routes.customer.def;
+      return routes.customer.ref(user.id);
     default:
       return routes.homepage.def;
   }
@@ -47,7 +47,7 @@ const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to={loggedIn ? getDefaultRoute(user.role) : routes.homepage.def} />} />
+        <Route path="/" element={<Navigate to={loggedIn ? getDefaultRoute(user) : routes.homepage.def} />} />
 
         <Route path={routes.homepage.def} element={
           <Homepage />

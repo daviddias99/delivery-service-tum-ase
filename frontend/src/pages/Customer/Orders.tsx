@@ -31,15 +31,15 @@ const OrdersPage = () => {
           return;
         }
 
-        dispatch(updateUser(response.data.userData));
+        dispatch(updateUser(response.data));
         const userDeliveriesRequestCallback = (responseDeliveries: AxiosResponse<any, any>) => {
           if (responseDeliveries.status !== 200) {
             return;
           }
-          dispatch(updateUserDeliveries(responseDeliveries.data.deliveryData));
+          dispatch(updateUserDeliveries(responseDeliveries.data));
           setIsLoading(false);
         };
-        api.getCustomerDeliveries(response.data.userData.id!, userDeliveriesRequestCallback);
+        api.getCustomerDeliveries(response.data.id!, userDeliveriesRequestCallback);
       };
       api.getCustomer(customerId!, useRequestCallback);
     }

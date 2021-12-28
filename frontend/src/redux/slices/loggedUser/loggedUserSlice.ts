@@ -1,4 +1,6 @@
+/* eslint-disable no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit';
+import { Customer } from 'types';
 
 const LOCAL_STORAGE_USER_DATA_KEY = 'ASE_DELIVERY_LOGGED_USER_DATA';
 
@@ -23,6 +25,6 @@ export const loggedUserSlice = createSlice({
 
 
 export const { updateLoggedUser } = loggedUserSlice.actions;
-export const isLoggedIn = (state: any) => state.loggedUser.loggedIn;
-export const loggedUser = (state: any) => state.loggedUser.user;
+export const isLoggedIn: (state: any) => boolean = (state: any) => state.loggedUser.loggedIn;
+export const loggedUser: (state: any) => Customer = (state: any) => state.loggedUser.user;
 export default loggedUserSlice.reducer;

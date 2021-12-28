@@ -2,10 +2,12 @@ import React from 'react';
 import {Avatar, Box, IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { Link } from 'react-router-dom';
-
+import { loggedUser } from 'redux/slices/loggedUser/loggedUserSlice';
+import { useSelector } from 'react-redux';
 
 const ProfileMenu = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const user = useSelector(loggedUser);
   const open = Boolean(anchorEl);
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -18,7 +20,9 @@ const ProfileMenu = () => {
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center'}}>
         <Tooltip title="Account">
           <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
-            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+            <Avatar sx={{ width: 32, height: 32 }}>
+              {user.username.charAt(0).toUpperCase()}
+            </Avatar>
           </IconButton>
         </Tooltip>
       </Box>
