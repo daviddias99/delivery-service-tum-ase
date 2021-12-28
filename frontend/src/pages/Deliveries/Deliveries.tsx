@@ -29,7 +29,7 @@ const Deliveries = () => {
 
       api.getAllDeliveries(requestCallback);
     }
-    , [dispatch]);
+    , [dispatch, setIsLoading]);
 
   return (
     <Layout hasSidebar={true}>
