@@ -24,7 +24,7 @@ public class KeyStoreManager {
 
     public void loadKeyStore() throws KeyStoreException, IOException {
         keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
-        File keystoreFile = new File("backend/auth-service/src/main/resources/auth.keystore");
+        File keystoreFile = new File("src/main/resources/auth.keystore");
 
         try (FileInputStream fis = new FileInputStream(keystoreFile)) {
             keyStore.load(fis, password);

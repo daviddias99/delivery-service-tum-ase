@@ -1,5 +1,6 @@
 package com.ase.authservice.service;
 
+import com.ase.authservice.dto.AuthResponse;
 import com.ase.authservice.dto.UserDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -12,7 +13,7 @@ public interface AuthService extends UserDetailsService {
 
     UserDto register(UserDto user);
 
-    public ResponseEntity<String> authenticateUser(String authorization,
+    public ResponseEntity<AuthResponse> authenticateUser(String authorization,
                                                    HttpServletRequest request, HttpServletResponse response) throws Exception;
 
     public void setAuthenticationToken(Authentication auth);

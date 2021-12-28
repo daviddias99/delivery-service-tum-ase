@@ -1,6 +1,7 @@
 package com.ase.authservice.service.serviceimpl;
 
 import com.ase.authservice.config.CookieConfig;
+import com.ase.authservice.dto.AuthResponse;
 import com.ase.authservice.dto.UserDto;
 import com.ase.authservice.entity.User;
 import com.ase.authservice.jwt.JwtUtil;
@@ -69,7 +70,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     public Collection<? extends GrantedAuthority> getAuthorities(User user) {
-        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
+        List<GrantedAuthority> list = new ArrayList<>();
 
         list.add(new SimpleGrantedAuthority("ROLE_" + user.getRole().toUpperCase()));
 
@@ -92,7 +93,7 @@ public class AuthServiceImpl implements AuthService {
 
 
 
-    public ResponseEntity<String> authenticateUser(String authorization,
+    public ResponseEntity<AuthResponse> authenticateUser(String authorization,
                                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 
@@ -106,7 +107,7 @@ public class AuthServiceImpl implements AuthService {
         // get user by given username
         UserDetails user = loadUserByUsername(username);
         if (user == null) {
-            return new ResponseEntity<>("Email or password is incorrect", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new AuthResponse("Email or password is incorrect"), HttpStatus.BAD_REQUEST);
         }
 
         // authenticate using authManager and token of username and password
@@ -125,18 +126,19 @@ public class AuthServiceImpl implements AuthService {
                 Cookie jwtCookie = cookieConfig.createCookie("jwt", jwt);
 
                 response.addCookie(jwtCookie);
-
-                return new ResponseEntity<>(HttpStatus.OK);
+                User tempUser = userRepository.findByUsername(username);
+                
+                return new ResponseEntity<>(new AuthResponse(modelMapper.map(tempUser, UserDto.class), "Login Successful"), HttpStatus.OK);
             }
             else{
-                return new ResponseEntity<>("Email or password is incorrect", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new AuthResponse("Email or password is incorrect"), HttpStatus.BAD_REQUEST);
             }
         } catch (BadCredentialsException e){
             e.printStackTrace();
-            return new ResponseEntity<>("Email or password is incorrect", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new AuthResponse("Email or password is incorrect"), HttpStatus.BAD_REQUEST);
         } catch (Exception ex){
             ex.printStackTrace();
-            return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new AuthResponse("Internal Server Error"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

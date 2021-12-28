@@ -59,13 +59,13 @@ const request = (path: string, method: RestMethod, data: any, callback: (_res: A
   path = path.endsWith('/') ? path : path + '/';
 
   if (method.toLowerCase() === 'get') {
-    axios.get(API_URL + path, { params: data }).then((res) => callback(res)).catch((err) => errorHandler(err, callback));
+    axios.get(API_URL + path, { withCredentials: true, params: data }).then((res) => callback(res)).catch((err) => errorHandler(err, callback));
   } else if (method.toLowerCase() === 'post') {
-    axios.post(API_URL + path, data).then((res) => callback(res)).catch((err) => errorHandler(err, callback));
+    axios.post(API_URL + path, data, { withCredentials: true }).then((res) => callback(res)).catch((err) => errorHandler(err, callback));
   } else if (method.toLowerCase() === 'delete') {
-    axios.delete(API_URL + path).then((res) => callback(res)).catch((err) => errorHandler(err, callback));
+    axios.delete(API_URL + path, { withCredentials: true }).then((res) => callback(res)).catch((err) => errorHandler(err, callback));
   } else if (method.toLowerCase() === 'put') {
-    axios.put(API_URL + path, data).then((res) => callback(res)).catch((err) => errorHandler(err, callback));
+    axios.put(API_URL + path, data, { withCredentials: true }).then((res) => callback(res)).catch((err) => errorHandler(err, callback));
   }
 };
 

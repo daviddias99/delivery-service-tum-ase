@@ -1,9 +1,13 @@
 
 import { Button, Card, CardActions, CardContent, CardHeader, TextField, Theme, Modal } from '@mui/material';
 import { createStyles, makeStyles } from '@mui/styles';
+import { AxiosResponse } from 'axios';
+import { useDispatch } from 'react-redux';
+import './styles.scss';
 
 import React from 'react';
 import api from 'services/api';
+import { updateLoggedUser } from 'redux/slices/loggedUser/loggedUserSlice';
 
 type LoginModalProps = {
   open: boolean,
@@ -15,6 +19,8 @@ const LoginModal = ({ open, setOpen }: LoginModalProps) => {
   const [password, setPassword] = React.useState('');
   const [emailError, setEmailError] = React.useState('');
   const [passwordError, setPasswordError] = React.useState('');
+  const [errorText, setErrorText] = React.useState('');
+  const dispatch = useDispatch();
 
   const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -59,9 +65,18 @@ const LoginModal = ({ open, setOpen }: LoginModalProps) => {
     if (!valid) {
       return;
     }
-    console.log('Submitted');
 
-    // api.login({ username: email, password: password }, (data, status, headers) => console.log(headers));
+    const loginHandler = (response: AxiosResponse<any, any>) => {
+      if (response.status !== 200) {
+        setErrorText('Invalid credentials.');
+        return;
+      }
+
+      dispatch(updateLoggedUser(response.data.user));
+      setOpen(false);
+    };
+
+    api.login({ username: email, password: password }, loginHandler);
   };
 
   const styles = useStyles();
@@ -72,8 +87,10 @@ const LoginModal = ({ open, setOpen }: LoginModalProps) => {
       onClose={() => setOpen(false)}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
+      className="loginModal"
     >
       <form className={styles.container} noValidate autoComplete="off">
+
         <Card className={styles.card} >
           <CardHeader className={styles.header} title="Login" />
           <CardContent sx={{ padding: '1em 5em' }}>
@@ -102,6 +119,9 @@ const LoginModal = ({ open, setOpen }: LoginModalProps) => {
                 error={passwordError !== ''}
                 helperText={passwordError}
               />
+              <p className="errorText">
+                {errorText}
+              </p>
             </div>
           </CardContent>
           <CardActions sx={{ padding: '1em 3em' }}>
