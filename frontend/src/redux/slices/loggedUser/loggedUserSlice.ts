@@ -4,9 +4,8 @@ const LOCAL_STORAGE_USER_DATA_KEY = 'ASE_DELIVERY_LOGGED_USER_DATA';
 
 const getUserStatus = () => {
   const storedData = window.localStorage.getItem(LOCAL_STORAGE_USER_DATA_KEY);
-  console.log(storedData);
-  const user = storedData !== null && storedData !== undefined && storedData !== 'undefined' ? JSON.parse(storedData) : {};
-  return { loggedIn: user !== {}, user: user };
+  const user = storedData !== null && storedData !== undefined && storedData !== 'undefined' ? JSON.parse(storedData) : undefined;
+  return { loggedIn: user !== undefined, user: user };
 };
 
 export const loggedUserSlice = createSlice({
@@ -16,7 +15,7 @@ export const loggedUserSlice = createSlice({
     updateLoggedUser: (state, action) => {
       // Store user data in local storage
       window.localStorage.setItem(LOCAL_STORAGE_USER_DATA_KEY, JSON.stringify(action.payload));
-      state.loggedIn = action.payload !== {};
+      state.loggedIn = action.payload !== undefined;
       state.user = action.payload;
     },
   },

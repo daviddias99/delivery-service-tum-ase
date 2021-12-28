@@ -10,6 +10,8 @@ import DeliveriesOverview from 'pages/Deliverer/DeliveriesOverview';
 import Box from 'pages/Box/Box';
 import Delivery from 'pages/Delivery/Delivery';
 import Orders from 'pages/Customer/Orders';
+import { useSelector } from 'react-redux';
+import { isLoggedIn, loggedUser } from 'redux/slices/loggedUser/loggedUserSlice';
 
 type PrivateRouteProps = {
   children: ReactElement,
@@ -17,26 +19,38 @@ type PrivateRouteProps = {
 
 const PrivateRoute: FunctionComponent<PrivateRouteProps> = ({ children }) => {
 
-  const loggedIn = true; // Later use Redux to fetch logged in status
+  const loggedIn = useSelector(isLoggedIn); // Later use Redux to fetch logged in status
   return loggedIn
     ? children
-    : <Navigate to="/login" />;
+    : <Navigate to="/" />;
+};
+
+const getDefaultRoute = (role: string) => {
+
+  switch (role) {
+    case 'dispatcher':
+      return routes.deliveries.def;
+    case 'deliverer':
+      return routes.deliverer.def;
+    case 'customer':
+      return routes.customer.def;
+    default:
+      return routes.homepage.def;
+  }
 };
 
 const Router = () => {
 
-  // eslint-disable-next-line no-unused-vars
-  const loggedIn = true; // Later use Redux to fetch logged in status
+  const loggedIn = useSelector(isLoggedIn); // Later use Redux to fetch logged in status
+  const user = useSelector(loggedUser); // Later use Redux to fetch logged in status
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to={routes.dashboard.def} />} />
+        <Route path="/" element={<Navigate to={loggedIn ? getDefaultRoute(user.role) : routes.homepage.def} />} />
 
-        <Route path={routes.dashboard.def} element={
-          <PrivateRoute>
-            <Homepage />
-          </PrivateRoute>
+        <Route path={routes.homepage.def} element={
+          <Homepage />
         }
         />
 

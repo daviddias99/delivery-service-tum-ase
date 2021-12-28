@@ -3,6 +3,7 @@ import { Button, Card, CardActions, CardContent, CardHeader, TextField, Theme, M
 import { createStyles, makeStyles } from '@mui/styles';
 import { AxiosResponse } from 'axios';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import './styles.scss';
 
 import React from 'react';
@@ -21,6 +22,7 @@ const LoginModal = ({ open, setOpen }: LoginModalProps) => {
   const [passwordError, setPasswordError] = React.useState('');
   const [errorText, setErrorText] = React.useState('');
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -74,6 +76,7 @@ const LoginModal = ({ open, setOpen }: LoginModalProps) => {
 
       dispatch(updateLoggedUser(response.data.user));
       setOpen(false);
+      navigate('/');
     };
 
     api.login({ username: email, password: password }, loginHandler);
