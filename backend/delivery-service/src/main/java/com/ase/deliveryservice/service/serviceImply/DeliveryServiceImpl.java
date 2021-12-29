@@ -70,7 +70,7 @@ public class DeliveryServiceImpl  implements DeliveryService {
 
     //RETURN STATUS AND MESSAGE INSTEAD OF DTO!!!!
     @Override
-    public ResponseMessage save(DeliveryDto deliveryDto) {
+    public DeliveryDto save(DeliveryDto deliveryDto) {
         Delivery newDelivery = modelMapper.map(deliveryDto, Delivery.class);
 
         //check if target box is already in use
@@ -93,26 +93,22 @@ public class DeliveryServiceImpl  implements DeliveryService {
         newDelivery = deliveryRepository.save(newDelivery);
 
         deliveryDto.setId(newDelivery.getId());
+        deliveryDto.setStatusHistory(newDelivery.getStatusHistory());
         deliveryDto.setTrackingNumber(newDelivery.getTrackingNumber());
-        responseMessage.setResponseMessage("Delivery is successfully created!");
 
         //Method call will be activated later:
-        prepareSendEmail(deliveryDto); //prepare and send e-mail
+        //prepareSendEmail(deliveryDto); //prepare and send e-mail
 
-        responseMessage.setResponseType(1);
 
-        return responseMessage;
+        return deliveryDto;
     }
 
 
     @Override
     public DeliveryDto getById(String id) {
-        Delivery delivery = deliveryRepository.findById(new ObjectId(id));
-
-        if(delivery.equals(null)){
-
+        if(!deliveryRepository.existsById(new ObjectId(id)))
             return null;
-        }
+        Delivery delivery = deliveryRepository.findById(new ObjectId(id));
         return modelMapper.map(delivery, DeliveryDto.class);
     }
 
@@ -134,6 +130,21 @@ public class DeliveryServiceImpl  implements DeliveryService {
         return responseMessage;
 
 
+    }
+
+    @Override
+    public DeliveryDto updateDelivery(DeliveryDto deliveryDto, String id) {
+
+        Delivery delivery = deliveryRepository.findById(new ObjectId(id));
+
+        if(delivery==null){
+            return null;
+        }
+
+        delivery = modelMapper.map(deliveryDto,Delivery.class);
+        deliveryRepository.save(delivery);
+
+        return deliveryDto;
     }
 
 

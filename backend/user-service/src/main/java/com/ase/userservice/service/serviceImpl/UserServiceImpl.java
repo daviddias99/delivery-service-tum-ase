@@ -3,6 +3,7 @@ package com.ase.userservice.service.serviceImpl;
 
 import com.ase.client.AuthServiceClient;
 import com.ase.client.com.ase.contract.ResponseMessage;
+import com.ase.userservice.dto.RegistrationDto;
 import com.ase.userservice.entity.User;
 import com.ase.userservice.repository.UserRepository;
 import com.ase.userservice.service.UserService;
@@ -32,6 +33,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getById(String id) {
 
+        if(!userRepository.existsById(new ObjectId()))
+            return null;
+
         User tempUser = userRepository.findById(new ObjectId(id));
 
 
@@ -45,6 +49,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> getAll() {
         List<User> data = userRepository.findAll();
+        if(data==null)
+            return null;
         return Arrays.asList(modelMapper.map(data, UserDto[].class));
     }
 
@@ -64,25 +70,25 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public ResponseMessage save(UserDto userDto,String role) {
+    public ResponseMessage save(RegistrationDto registrationDto, String role) {
         log.warn("UserService: save method is on");
         ResponseMessage saveResp = new ResponseMessage();
-        userDto.setEmail(userDto.getEmail().toLowerCase());
-        userDto.setRole(role);
-        if(userRepository.existsByUsername(userDto.getUsername())){
+        registrationDto.setEmail(registrationDto.getEmail().toLowerCase());
+        if(userRepository.existsByUsername(registrationDto.getUsername())){
             saveResp.setResponseType(0);
             saveResp.setResponseMessage("This username already is in use. Please enter a new one");
             return saveResp;
         }
 
-        if(userRepository.existsByEmail(userDto.getEmail())){
+        if(userRepository.existsByEmail(registrationDto.getEmail())){
             saveResp.setResponseType(1);
             saveResp.setResponseMessage("This e-mail already is in use. Please enter a new one");
             return saveResp;
 
         }
 
-        User tempuser = modelMapper.map(userDto, User.class);
+        User tempuser = modelMapper.map(registrationDto, User.class);
+        tempuser.setRole(role);
 
         /*
         //SAVE BY USING AUTH'S REGISTER METHOD
@@ -112,14 +118,12 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public ResponseMessage updateUser(UserDto tempUser,String id){
+    public UserDto updateUser(UserDto tempUser,String id){
         User dbUser = userRepository.findById(new ObjectId(id));
-        ResponseMessage responseMessage = new ResponseMessage();
         if(!dbUser.getEmail().equals(tempUser.getEmail()) ){ //check if e-mail is already used by another user
             if(userRepository.existsByEmail(tempUser.getEmail().toLowerCase())){
-                responseMessage.setResponseType(0);
-                responseMessage.setResponseMessage("This e-mail already is in use. Please enter a new one");
-                return responseMessage;
+
+                return null;
             }
         }
 
@@ -127,9 +131,7 @@ public class UserServiceImpl implements UserService {
         dbUser.setFirstName(tempUser.getFirstName());
         dbUser.setEmail(tempUser.getEmail().toLowerCase());
         userRepository.save(dbUser);
-        responseMessage.setResponseType(1);
-        responseMessage.setResponseMessage("Successfull updated!");
-        return responseMessage;
+        return tempUser;
 
     }
 
@@ -137,6 +139,8 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> getAllByRole(String role) {
 
         List<User> users = userRepository.findAllByRole(role);
+        if(users==null)
+            return null;
 
         return Arrays.asList(modelMapper.map(users, UserDto[].class));
 
