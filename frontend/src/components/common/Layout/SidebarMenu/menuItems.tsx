@@ -17,5 +17,9 @@ export const sideBarListItems = [
     title: 'User Management',
     icon: (<AdminPanelSettingsIcon />),
     link: '/dispatcher/userManagement/'
+  }, {
+    title: 'Users List',
+    icon: (<AdminPanelSettingsIcon />),
+    link: '/dispatcher/usersList/'
   }
 ];

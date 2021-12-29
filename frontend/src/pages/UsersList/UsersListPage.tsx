@@ -1,10 +1,10 @@
 import React from 'react';
 import { Container, Paper } from '@mui/material';
 import Layout from '../../components/common/Layout/Layout';
-import UserManagement from 'components/custom/users/userManagement/UserManagement';
+import UsersList from '../../components/custom/users/usersList/UsersList';
 
 
-const UserManagementPage = () => {
+const UsersListPage = () => {
 
 
   return (
@@ -13,7 +13,7 @@ const UserManagementPage = () => {
       <Container maxWidth={false} sx={{ mt: 4, mb: 4 }}>
 
         <Paper sx={{ p: '2em'}}>
-          <UserManagement />
+          <UsersList />
         </Paper>
 
       </Container>
@@ -23,4 +23,4 @@ const UserManagementPage = () => {
 
 };
 
-export default UserManagementPage;
+export default UsersListPage;

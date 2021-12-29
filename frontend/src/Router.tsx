@@ -11,6 +11,7 @@ import Box from 'pages/Box/Box';
 import Delivery from 'pages/Delivery/Delivery';
 import Orders from 'pages/Customer/Orders';
 import UserManagementPage from './pages/UserMangement/UserManagementPage';
+import UsersListPage from './pages/UsersList/UsersListPage';
 
 type PrivateRouteProps = {
   children: ReactElement,
@@ -83,6 +84,12 @@ const Router = () => {
         <Route path={routes.userMangement.def} element={
           <PrivateRoute>
             <UserManagementPage />
+          </PrivateRoute>
+        }
+        />
+        <Route path={routes.userList.def} element={
+          <PrivateRoute>
+            <UsersListPage />
           </PrivateRoute>
         }
         />

@@ -40,6 +40,9 @@ const routes = {
   userMangement: route(
     '/dispatcher/userManagement/',
   ),
+  userList: route(
+    '/dispatcher/usersList',
+  )
 
 };
 

@@ -6,17 +6,15 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   Grid,
   TextField
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import DeliveryForm from '../delivery/deliveryManagement/DeliveryForm';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 
-const CustomerManagement = () => {
+const DispatcherManagement = () => {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -46,10 +44,10 @@ const CustomerManagement = () => {
   return (
     <div>
       <h2>
-        Create new Customer.
+        Create new Dispatcher.
       </h2>
       <p>
-        Fill these information to create a new Customer.
+        Fill these information to create a new Dispatcher.
       </p>
 
 
@@ -59,7 +57,7 @@ const CustomerManagement = () => {
             required
             margin="dense"
             id="cId"
-            label="Customer ID"
+            label="Dispatcher ID"
             type="name"
             value={'Will be auto generated for you.'}
             fullWidth
@@ -73,7 +71,7 @@ const CustomerManagement = () => {
             autoFocus
             margin="dense"
             id="cName"
-            label="Customer Name"
+            label="Dispatcher Name"
             type="name"
             fullWidth
             variant="outlined"
@@ -85,30 +83,28 @@ const CustomerManagement = () => {
           <TextField
             required
             margin="dense"
-            id="cPhone"
-            label="Customer Phone number"
-            type="Phone"
-            value={phoneNumber}
-            onChange={(change:any) => handlePhone(change.target.value)}
-            fullWidth
-            variant="outlined"
-
-          />
-        </Grid>
-        <Grid item xs={12} sm={12}>
-          <TextField
-            required
-            margin="dense"
             id="cEmail"
-            label="Customer Email"
-            type="email"
+            label="Dispatcher Email"
+            type="name"
             value={email}
             onChange={(change:any) => handleEmail(change.target.value)}
             fullWidth
             variant="outlined"
           />
         </Grid>
-
+        <Grid item xs={12} sm={12}>
+          <TextField
+            margin="dense"
+            id="dName"
+            label="Dispatcher Phone number"
+            type="name"
+            value={phoneNumber}
+            onChange={(change:any) => handlePhone(change.target.value)}
+            fullWidth
+            variant="outlined"
+            required
+          />
+        </Grid>
       </Grid>
       <Grid sx={{marginTop: '3%'}} >
         <Button variant="contained" color="success" sx={{mr: 6, float: 'right'}} startIcon={<AddIcon />} onClick={handleClickOpen}>
@@ -135,5 +131,4 @@ const CustomerManagement = () => {
 
   );
 };
-
-export default CustomerManagement;
+export default DispatcherManagement;
