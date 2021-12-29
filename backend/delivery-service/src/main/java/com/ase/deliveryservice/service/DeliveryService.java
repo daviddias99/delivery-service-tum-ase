@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface DeliveryService {
 
-    ResponseMessage save(DeliveryDto user);
+    DeliveryDto save(DeliveryDto user);
 
     String createTrackingId();
 
@@ -18,6 +18,8 @@ public interface DeliveryService {
     public DeliveryDto getByTrackingNumber(String TrackingNumber);
 
     public ResponseMessage deleteDelivery(String id);
+
+    DeliveryDto updateDelivery(DeliveryDto deliveryDto, String id);
 
     public List<DeliveryDto> getAll();
 

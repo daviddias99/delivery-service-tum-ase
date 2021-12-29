@@ -18,8 +18,11 @@ public class BoxController {
     private BoxService boxService;
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<ResponseMessage> addBox(@RequestBody BoxDto boxDto){
-        return ResponseEntity.ok(boxService.save(boxDto));
+    public ResponseEntity<BoxDto> addBox(@RequestBody BoxDto boxDto){
+        BoxDto savedDto =  boxService.save(boxDto);
+        if(savedDto==null)
+            return ResponseEntity.badRequest().body(null);
+        return ResponseEntity.ok(savedDto);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -39,9 +42,12 @@ public class BoxController {
     }
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<ResponseMessage> updateBox(@RequestBody BoxDto boxDto, @PathVariable String id) {
-        ResponseMessage responseMessage = boxService.updateBox(boxDto,id);
-        return ResponseEntity.ok(responseMessage);
+    public ResponseEntity<BoxDto> updateBox(@RequestBody BoxDto boxDto, @PathVariable String id) {
+        BoxDto updatedDto = boxService.updateBox(boxDto,id);
+        if(updatedDto==null)
+            return ResponseEntity.badRequest().body(null);
+
+        return ResponseEntity.ok(updatedDto);
     }
 
 }

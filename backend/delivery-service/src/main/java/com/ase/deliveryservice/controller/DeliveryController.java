@@ -31,19 +31,26 @@ public class DeliveryController {
 
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<ResponseMessage> addDelivery(@RequestBody DeliveryDto deliveryDto){
+    public ResponseEntity<DeliveryDto> addDelivery(@RequestBody DeliveryDto deliveryDto){
 
         log.warn("add method is up");
 
-        responseMessage = deliveryService.save(deliveryDto);
+        DeliveryDto deliveryDto1 = deliveryService.save(deliveryDto);
 
-        if(responseMessage.getResponseType()==0){
-            return ResponseEntity.badRequest().body(responseMessage);
-        }
-
-        return ResponseEntity.ok(responseMessage);
+        return ResponseEntity.ok(deliveryDto1);
 
 
+    }
+
+
+
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<DeliveryDto> updateDelivery(@RequestBody DeliveryDto deliveryDto, @PathVariable String id) {
+        DeliveryDto updatedDto = deliveryService.updateDelivery(deliveryDto,id);
+        if(updatedDto==null)
+            return ResponseEntity.badRequest().body(null);
+
+        return ResponseEntity.ok(updatedDto);
     }
 
 
