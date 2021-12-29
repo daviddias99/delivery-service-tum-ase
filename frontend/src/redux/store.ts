@@ -7,6 +7,8 @@ import userReducer from 'redux/slices/user/userSlice';
 import customersReducer from 'redux/slices/users/customersSlice';
 import dispatchersReducer from 'redux/slices/users/dispatcherSlice';
 import deliverersReducer from 'redux/slices/users/delivererSlice';
+import loggedUserReducer from 'redux/slices/loggedUser/loggedUserSlice';
+
 export const store = configureStore({
   reducer: {
     boxes: listReducer,
@@ -17,5 +19,6 @@ export const store = configureStore({
     customers: customersReducer,
     dispatchers: dispatchersReducer,
     deliverers: deliverersReducer,
+    loggedUser: loggedUserReducer,
   },
 });

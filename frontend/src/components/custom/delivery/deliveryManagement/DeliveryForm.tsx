@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, TextField } from '@mui/material';
 import api from 'services/api';
+import { AxiosResponse } from 'axios';
 
 type FormProps = {
   isOpen: boolean,
@@ -36,8 +37,8 @@ const DeliveryForm = ({ isOpen, close, initialData, title, description, btnText,
       return;
     }
 
-    const requestCallback = (data: any) => {
-      if (data.role !== type) {
+    const requestCallback = (response: AxiosResponse<any, any>) => {
+      if (response.data.role !== type) {
         setErrors({ ...errors, ...{ customerIdErrors: 'No user with given ID' } });
         if (type === 'customer') {
           handleFormDataChange({ customerName: '' });
@@ -48,9 +49,9 @@ const DeliveryForm = ({ isOpen, close, initialData, title, description, btnText,
       }
       setErrors({ ...errors, ...{ customerIdErrors: '' } });
       if (type === 'customer') {
-        handleFormDataChange({ customerName: `${data.firstName} ${data.surname}` });
+        handleFormDataChange({ customerName: `${response.data.firstName} ${response.data.surname}` });
       } else {
-        handleFormDataChange({ delivererName: `${data.firstName} ${data.surname}` });
+        handleFormDataChange({ delivererName: `${response.data.firstName} ${response.data.surname}` });
       }
     };
     api.getUser(value, requestCallback);
@@ -60,15 +61,15 @@ const DeliveryForm = ({ isOpen, close, initialData, title, description, btnText,
     if (!value || value === '') {
       return;
     }
-    const requestCallback = (data: any) => {
+    const requestCallback = (response: AxiosResponse<any, any>) => {
       // TODO: check if box is free or contains only deliveries from customer
 
-      if (!data.id) {
+      if (!response.data.id) {
         setErrors({ ...errors, ...{ boxIdErrors: 'No box with given ID' } });
         return;
       }
       setErrors({ ...errors, ...{ boxIdErrors: '' } });
-      handleFormDataChange({ boxName: data.name });
+      handleFormDataChange({ boxName: response.data.name });
     };
     api.getBox(value, requestCallback);
   };

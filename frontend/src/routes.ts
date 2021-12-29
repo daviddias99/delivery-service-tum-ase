@@ -8,7 +8,7 @@ const routes = {
   login: route('/login'),
 
   /* General */
-  dashboard: route('/dashboard'),
+  homepage: route('/homepage'),
 
   delivery: route(
     '/delivery/:deliveryId',

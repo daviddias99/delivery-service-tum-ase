@@ -11,6 +11,7 @@ import { ManageBoxes } from 'components/custom/boxes/boxManagement/Manage';
 import api from 'services/api';
 import { useDispatch } from 'react-redux';
 import { updateBoxes } from 'redux/slices/box/boxesSlice';
+import { AxiosResponse } from 'axios';
 
 const Boxes = () => {
 
@@ -18,9 +19,8 @@ const Boxes = () => {
 
   useEffect(
     () => {
-      const requestCallback = (data: any) => {
-        console.log(data);
-        dispatch(updateBoxes(data));
+      const requestCallback = (response: AxiosResponse<any, any>) => {
+        dispatch(updateBoxes(response.data));
       };
 
       api.getAllBoxes(requestCallback);
