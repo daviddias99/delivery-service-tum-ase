@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import Title from 'components/common/Title/Title';
 import { useNavigate } from 'react-router-dom';
 import api from 'services/api';
+import { AxiosResponse } from 'axios';
 
 const Homepage = () => {
 
@@ -17,12 +18,12 @@ const Homepage = () => {
       return;
     }
 
-    const callback = (data: any, status: number) => {
-      if (status !== 200) {
+    const callback = (response: AxiosResponse<any, any>) => {
+      if (response.status !== 200) {
         setErrorText('We could not find any delivery associated with the given tracking number.');
         return;
       }
-      navigate(`/delivery/${data.id}`);
+      navigate(`/delivery/${response.data.id}`);
     };
 
 

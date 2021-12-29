@@ -1,16 +1,13 @@
 package com.ase.authservice.filter;
 
-import com.ase.authservice.entity.User;
 import com.ase.authservice.jwt.JwtUtil;
 import com.ase.authservice.service.AuthService;
-import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -98,7 +95,7 @@ public class AuthRequestFilter extends OncePerRequestFilter {
     }
 
     public Collection<? extends GrantedAuthority> makeRole(String role) {
-        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
+        List<GrantedAuthority> list = new ArrayList<>();
 
         list.add(new SimpleGrantedAuthority(role));
 

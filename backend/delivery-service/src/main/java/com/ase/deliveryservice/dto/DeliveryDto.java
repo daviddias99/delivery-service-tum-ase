@@ -4,11 +4,9 @@ package com.ase.deliveryservice.dto;
 import com.ase.deliveryservice.entity.Box;
 import com.ase.deliveryservice.entity.Status;
 import com.ase.deliveryservice.entity.User;
-import com.ase.deliveryservice.entity.DeliveryStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
