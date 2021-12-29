@@ -30,24 +30,24 @@ public class BoxServiceImpl implements BoxService {
 
     @Override
     @Transactional
-    public ResponseMessage save(BoxDto boxDto) {
-        ResponseMessage responseMessage = new ResponseMessage();
-        Box tempBox = modelMapper.map(boxDto, Box.class);
-        if(boxRepository.existsByName(boxDto.getName())){
-            responseMessage.setResponseType(0);
-            responseMessage.setResponseMessage("This box name is already in use");
-            return responseMessage;
+    public BoxDto save(BoxDto boxDto) {
+
+        if(boxRepository.existsByName(boxDto.getName())  || boxDto.getName()==null  || boxDto.getName()==""){
+            return null;
         }
+        Box tempBox = modelMapper.map(boxDto, Box.class);
         tempBox.setStatus(BoxStatus.free);
-        boxRepository.save(tempBox);
-        responseMessage.setResponseType(1);
-        responseMessage.setResponseMessage("Successfully created!");
-        return responseMessage;
+        tempBox = boxRepository.save(tempBox);
+        boxDto.setId(tempBox.getId());
+        return boxDto;
     }
 
     @Override
     public BoxDto getById(String id) {
+        if(!boxRepository.existsById(new ObjectId(id)))
+            return null;
         Box tempBox = boxRepository.findById(new ObjectId(id));
+
         return modelMapper.map(tempBox, BoxDto.class);
     }
 
@@ -55,6 +55,8 @@ public class BoxServiceImpl implements BoxService {
     @Override
     public List<BoxDto> getAll() {
         List<Box> data = boxRepository.findAll();
+        if(data==null)
+            return null;
         return Arrays.asList(modelMapper.map(data, BoxDto[].class));
     }
 
@@ -71,25 +73,20 @@ public class BoxServiceImpl implements BoxService {
     }
 
     @Override
-    public ResponseMessage updateBox(BoxDto boxDto, String id) {
-
-        ResponseMessage responseMessage = new ResponseMessage();
+    public BoxDto updateBox(BoxDto boxDto, String id) {
 
         Box dbBox = boxRepository.findById(new ObjectId(id));
 
         if(dbBox==null){
-            responseMessage.setResponseType(0);
-            responseMessage.setResponseMessage("can't find the box in database");
-            return responseMessage;
+            return null;
         }
 
         dbBox.setName(boxDto.getName());
         dbBox.setAddress(boxDto.getAddress());
-        dbBox.setStatus(boxDto.getStatus());
+        //dbBox.setStatus(boxDto.getStatus());
 
         boxRepository.save(dbBox);
-        responseMessage.setResponseType(1);
-        responseMessage.setResponseMessage("Box is successfully updated!");
-        return responseMessage;
+
+        return boxDto;
     }
 }

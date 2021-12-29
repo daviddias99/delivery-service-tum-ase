@@ -2,6 +2,7 @@ package com.ase.userservice.controller;
 
 
 import com.ase.client.com.ase.contract.ResponseMessage;
+import com.ase.userservice.dto.RegistrationDto;
 import com.ase.userservice.service.UserService;
 import com.ase.client.com.ase.contract.UserDto;
 import lombok.extern.slf4j.Slf4j;
@@ -49,27 +50,30 @@ public class UserController {
 
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<ResponseMessage> updateProfile(@RequestBody UserDto userDto, @PathVariable String id) {
-        return ResponseEntity.ok(userService.updateUser(userDto,id));
+    public ResponseEntity<UserDto> updateProfile(@RequestBody UserDto userDto, @PathVariable String id) {
+        UserDto user = userService.updateUser(userDto,id);
+        if(user==null)
+            return ResponseEntity.badRequest().body(user);
+        return ResponseEntity.ok(user);
     }
 
 
     @RequestMapping(value = "customer/add", method = RequestMethod.POST)
-    public ResponseEntity<ResponseMessage> addCustomer(@RequestBody UserDto userdto){
+    public ResponseEntity<ResponseMessage> addCustomer(@RequestBody RegistrationDto registrationDto){
         log.warn("customer creation request is on");
-        return ResponseEntity.ok(userService.save(userdto,"CUSTOMER"));
+        return ResponseEntity.ok(userService.save(registrationDto,"CUSTOMER"));
     }
 
 
     @RequestMapping(value = "deliverer/add", method = RequestMethod.POST)
-    public ResponseEntity<ResponseMessage> addDeliverer(@RequestBody UserDto userdto){
-        return ResponseEntity.ok(userService.save(userdto,"DELIVERER"));
+    public ResponseEntity<ResponseMessage> addDeliverer(@RequestBody RegistrationDto registrationDto){
+        return ResponseEntity.ok(userService.save(registrationDto,"DELIVERER"));
     }
 
 
     @RequestMapping(value = "dispatcher/add", method = RequestMethod.POST)
-    public ResponseEntity<ResponseMessage> addDispatcher(@RequestBody UserDto userdto){
-        return ResponseEntity.ok(userService.save(userdto,"DISPATCHER"));
+    public ResponseEntity<ResponseMessage> addDispatcher(@RequestBody RegistrationDto registrationDto){
+        return ResponseEntity.ok(userService.save(registrationDto,"DISPATCHER"));
     }
 
 
@@ -90,6 +94,34 @@ public class UserController {
         List<UserDto> data = userService.getAllByRole("DELIVERER");
         return ResponseEntity.ok(data);
     }
+
+
+    @RequestMapping(value = "/dispatcher/{id}", method = RequestMethod.GET)
+    public ResponseEntity<UserDto> getDispatcher(@PathVariable String id) {
+        UserDto userDto = userService.getById(id);
+        if(userDto==null)
+            return ResponseEntity.badRequest().body(userDto);
+        return ResponseEntity.ok(userDto);
+    }
+
+
+    @RequestMapping(value = "customer/{id}", method = RequestMethod.GET)
+    public ResponseEntity<UserDto> getCustomer(@PathVariable String id) {
+        UserDto userDto = userService.getById(id);
+        if(userDto==null)
+            return ResponseEntity.badRequest().body(userDto);
+        return ResponseEntity.ok(userDto);
+    }
+
+
+    @RequestMapping(value = "deliverer/{id}", method = RequestMethod.GET)
+    public ResponseEntity<UserDto> getDeliverer(@PathVariable String id) {
+        UserDto userDto = userService.getById(id);
+        if(userDto==null)
+            return ResponseEntity.badRequest().body(userDto);
+        return ResponseEntity.ok(userDto);
+    }
+
 
 
 }
