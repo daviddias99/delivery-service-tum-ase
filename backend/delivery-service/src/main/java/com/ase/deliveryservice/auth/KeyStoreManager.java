@@ -18,49 +18,39 @@ public class KeyStoreManager {
 
     private char[] password = "Password1".toCharArray();
 
-    public KeyStoreManager() throws KeyStoreException, IOException{
+    public KeyStoreManager() throws KeyStoreException, IOException {
         loadKeyStore();
     }
 
-    public void loadKeyStore() throws KeyStoreException, IOException{
+    public void loadKeyStore() throws KeyStoreException, IOException {
         keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+        File keystoreFile = new File("src/main/resources/auth.keystore");
 
-        FileInputStream fis = null;
-
-        try{
-            File keystoreFile = new File("backend/auth-service/src/main/resources/auth.keystore");
-            fis = new FileInputStream(keystoreFile);
-            keyStore.load(fis,password);
+        try (FileInputStream fis = new FileInputStream(keystoreFile)) {
+            keyStore.load(fis, password);
             keyAlias = keyStore.aliases().nextElement();
-
-        } catch(Exception e){
+        } catch (Exception e) {
             System.err.println("Error when loading Keystore");
             e.printStackTrace();
         }
-        finally {
-            if(fis != null){
-                fis.close();
-            }
-        }
     }
 
-    protected PublicKey getPublicKey(){
-        try{
+    protected PublicKey getPublicKey() {
+        try {
             return keyStore.getCertificate(keyAlias).getPublicKey();
 
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    protected Key getPrivateKey(){
-        try{
+    protected Key getPrivateKey() {
+        try {
             return keyStore.getKey(keyAlias, "Password1".toCharArray());
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
 }
-

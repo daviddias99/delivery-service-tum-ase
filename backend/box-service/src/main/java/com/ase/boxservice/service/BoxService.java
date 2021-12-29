@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface BoxService {
 
-    ResponseMessage save(BoxDto box);
+    BoxDto save(BoxDto box);
 
     BoxDto getById(String id);
 
@@ -17,5 +17,5 @@ public interface BoxService {
 
     Boolean deleteBox(String id);
 
-    ResponseMessage updateBox(BoxDto boxDto, String id);
+    BoxDto updateBox(BoxDto boxDto, String id);
 }
