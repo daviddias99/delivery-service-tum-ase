@@ -13,8 +13,4 @@ public class ResponseMessage {
 
     private int responseType; // 1=> successfull 0=>problem occured
     private String responseMessage;
-
-    public ResponseMessage() {
-
-    }
 }

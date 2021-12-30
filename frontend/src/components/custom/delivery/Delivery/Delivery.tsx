@@ -32,7 +32,7 @@ const DeliveryComponent = () => {
         <span>
           {delivery.id}
         </span>
-        {user && user.role === 'dispatcher' && <EditDelivery />}
+        {user && user.role === 'dispatcher' && delivery.statusHistory[0].deliveryStatus === 'ordered' && <EditDelivery />}
         <Chip className="boxStatus" size="small" label={toUpperCase(latestStatus.deliveryStatus)} sx={{ backgroundColor: getDeliveryStatusColor(latestStatus.deliveryStatus) }} />
       </h3>
       <h6 className="subTitle">

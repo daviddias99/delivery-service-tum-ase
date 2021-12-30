@@ -5,9 +5,11 @@ import DeliveryForm from './DeliveryForm';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deliveriesList, updateDeliveries } from 'redux/slices/delivery/deliveriesSlice';
+import { loggedUser } from 'redux/slices/loggedUser/loggedUserSlice';
 
 
 const AddDelivery = () => {
+  const user = useSelector(loggedUser);
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -27,20 +29,20 @@ const AddDelivery = () => {
         id: '1',
         trackingCode: '1',
         deliverer: {
-          id: formData.delivererId,
-          name: formData.delivererName
+          id: formData.delivererId.trim(),
+          name: formData.delivererName.trim()
         },
         customer: {
-          id: formData.customerId,
-          name: formData.customerName
+          id: formData.customerId.trim(),
+          name: formData.customerName.trim()
         },
         dispatcher: {
-          id: 'CURRENT USER',
-          name: 'CURRENT USER'
+          id: user.id,
+          name: `${user.firstName} ${user.surname}`
         },
         box: {
-          id: formData.boxId,
-          name: formData.boxName,
+          id: formData.boxId.trim(),
+          name: formData.boxName.trim(),
         },
         statusHistory: [{ status: 'ordered', statusUpdate: (new Date()).toISOString() }]
       }
