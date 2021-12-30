@@ -21,9 +21,14 @@ const DeliveryComponent = () => {
 
   const user: User = useSelector(loggedUser);
   const delivery: Delivery = useSelector(deliveryInfo);
+  const [tagStatus, setTagStatus] = React.useState(delivery.statusHistory[0].deliveryStatus);
   const box: Box = useSelector(boxInfo);
 
-  const latestStatus = delivery.statusHistory[0];
+  React.useEffect(
+    () => {
+      setTagStatus(delivery.statusHistory[0].deliveryStatus);
+    },
+    [delivery]);
 
   return (
     <div id="delivery" >
@@ -33,7 +38,7 @@ const DeliveryComponent = () => {
           {delivery.id}
         </span>
         {user && user.role === 'dispatcher' && delivery.statusHistory[0].deliveryStatus === 'ordered' && <EditDelivery />}
-        <Chip className="boxStatus" size="small" label={toUpperCase(latestStatus.deliveryStatus)} sx={{ backgroundColor: getDeliveryStatusColor(latestStatus.deliveryStatus) }} />
+        <Chip className="boxStatus" size="small" label={toUpperCase(tagStatus)} sx={{ backgroundColor: getDeliveryStatusColor(tagStatus) }} />
       </h3>
       <h6 className="subTitle">
         {`Tracking code: ${delivery.trackingNumber}`}

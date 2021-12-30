@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getById(String id) {
 
-        if(!userRepository.existsById(new ObjectId()))
+        if(!userRepository.existsById(new ObjectId(id)))
             return null;
 
         User tempUser = userRepository.findById(new ObjectId(id));

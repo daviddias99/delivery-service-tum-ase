@@ -21,9 +21,13 @@ const routes = {
   allDeliveries: '/delivery/all',
   allBoxes: '/box/all',
   createBox: '/box/add',
-  // TODO: change
-  customer: (id: string) => `/user/${id}`,
+  customer: (id: string) => `/user/customer/${id}`,
   customerDeliveries: (id: string) => `/delivery/all/customer/${id}`,
+  deliverer: (id: string) => `/user/deliverer/${id}`,
+  delivererDeliveries: (id: string) => `/delivery/all/deliverer/${id}`,
+  dispatcher: (id: string) => `/user/dispatcher/${id}`,
+  dispatcherDeliveries: (id: string) => `/delivery/all/dispatcher/${id}`,
+  dispatch: (id: string) => `/delivery/dispatch/${id}`
 };
 
 /**
@@ -37,11 +41,6 @@ const routes = {
 type RestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'get' | 'post' | 'put' | 'delete';
 
 const errorHandler = (err: AxiosError, callback: (_res: AxiosResponse<any, any>) => void) => {
-  if (err.response) { // Server replied with non 2xx
-  } else if (err.request) { // Network error / Server did not reply
-  } else { // Other error
-  }
-
   const errorResponse: AxiosResponse<any, any> = {
     data: err,
     status: 500,
@@ -133,6 +132,21 @@ const api = {
   },
   getCustomerDeliveries: (id: string, callback: (_res: AxiosResponse<any, any>) => void) => {
     request(routes.customerDeliveries(id), 'get', null, callback);
+  },
+  getDeliverer: (id: string, callback: (_res: AxiosResponse<any, any>) => void) => {
+    request(routes.deliverer(id), 'get', null, callback);
+  },
+  getDelivererDeliveries: (id: string, callback: (_res: AxiosResponse<any, any>) => void) => {
+    request(routes.delivererDeliveries(id), 'get', null, callback);
+  },
+  getDispatcher: (id: string, callback: (_res: AxiosResponse<any, any>) => void) => {
+    request(routes.dispatcher(id), 'get', null, callback);
+  },
+  getDispatcherDeliveries: (id: string, callback: (_res: AxiosResponse<any, any>) => void) => {
+    request(routes.dispatcherDeliveries(id), 'get', null, callback);
+  },
+  dispatch: (id: string, callback: (_res: AxiosResponse<any, any>) => void) => {
+    request(routes.dispatch(id), 'post', null, callback);
   },
 };
 
