@@ -10,17 +10,25 @@ const API_URL: string = process.env.REACT_APP_API_URI ?? DEFAULT_API_URL;
  * All the server API routes.
  */
 const routes = {
+  // Auth
   login: '/auth',
   logout: '/logout',
+
+  // Delivery
   delivery: (id: string) => `/delivery/${id}`,
   deliveryByTracking: (id: string) => `/delivery/track/${id}`,
+  createDelivery: '/delivery/add',
+  allDeliveries: '/delivery/all',
+
+  // Box
   box: (id: string) => `/box/${id}`,
   updateBox: (id: string) => `/box/update/${id}`,
   boxDeliveries: (id: string) => `/delivery/all/box/${id}`,
-  user: (id: string) => `/user/${id}`,
-  allDeliveries: '/delivery/all',
   allBoxes: '/box/all',
   createBox: '/box/add',
+
+  // User
+  user: (id: string) => `/user/${id}`,
   customer: (id: string) => `/user/customer/${id}`,
   customerDeliveries: (id: string) => `/delivery/all/customer/${id}`,
   deliverer: (id: string) => `/user/deliverer/${id}`,
@@ -114,6 +122,9 @@ const api = {
   },
   getDelivery: (id: string, callback: (_res: AxiosResponse<any, any>) => void) => {
     request(routes.delivery(id), 'get', null, callback);
+  },
+  createDelivery: (data: any, callback: (_res: AxiosResponse<any, any>) => void) => {
+    request(routes.createDelivery, 'post', data, callback);
   },
   createBox: (data: any, callback: (_res: AxiosResponse<any, any>) => void) => {
     request(routes.createBox, 'post', data, callback);

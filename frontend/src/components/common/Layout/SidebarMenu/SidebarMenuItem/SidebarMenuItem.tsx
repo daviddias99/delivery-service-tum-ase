@@ -12,7 +12,7 @@ type SidebarMenuProps = {
 }
 
 const SidebarMenuItem = ({ title, icon, link }: SidebarMenuProps) => {
-  const selected: boolean = window.location.pathname === link;
+  const selected: boolean = window.location.pathname === link || window.location.pathname === `${link}/` ;
   return (
     <Link to={link} className={cx('sidebarmenu-link', { selected })}>
       <ListItem button>

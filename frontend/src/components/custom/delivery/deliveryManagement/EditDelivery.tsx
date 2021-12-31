@@ -26,7 +26,7 @@ const EditDelivery = () => {
 
   const handler = (formData: any) => {
 
-    const delivery: Delivery = {
+    const newDelivery: Delivery = {
       ...info,
       ...{
         'box': {
@@ -45,7 +45,8 @@ const EditDelivery = () => {
       }
     };
 
-    dispatch(updateDelivery(delivery));
+
+    dispatch(updateDelivery(newDelivery));
   };
 
   const delivery: Delivery = useSelector(deliveryInfo);
@@ -54,6 +55,7 @@ const EditDelivery = () => {
     <React.Fragment>
       <Button variant="contained" style={{ float: 'right' }} endIcon={<EditIcon />} onClick={handleClickOpen}>Edit</Button>
       <DeliveryForm
+        error=""
         isOpen={open}
         close={handleClose}
         initialData={

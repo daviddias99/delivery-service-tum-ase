@@ -6,11 +6,14 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deliveriesList, updateDeliveries } from 'redux/slices/delivery/deliveriesSlice';
 import { loggedUser } from 'redux/slices/loggedUser/loggedUserSlice';
+import api from 'services/api';
+import { AxiosResponse } from 'axios';
 
 
 const AddDelivery = () => {
   const user = useSelector(loggedUser);
   const [open, setOpen] = useState(false);
+  const [additionError, setAdditionError] = useState('');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -24,29 +27,36 @@ const AddDelivery = () => {
   const dispatch = useDispatch();
 
   const handler = (formData: any) => {
-    dispatch(updateDeliveries([
-      ...list, {
-        id: '1',
-        trackingCode: '1',
-        deliverer: {
-          id: formData.delivererId.trim(),
-          name: formData.delivererName.trim()
-        },
-        customer: {
-          id: formData.customerId.trim(),
-          name: formData.customerName.trim()
-        },
-        dispatcher: {
-          id: user.id,
-          name: `${user.firstName} ${user.surname}`
-        },
-        box: {
-          id: formData.boxId.trim(),
-          name: formData.boxName.trim(),
-        },
-        statusHistory: [{ status: 'ordered', statusUpdate: (new Date()).toISOString() }]
+    const newDelivery = {
+      deliveryDescription: formData.deliveryDescription.trim(),
+      deliverer: {
+        id: formData.delivererId.trim(),
+        name: formData.delivererName.trim()
+      },
+      customer: {
+        id: formData.customerId.trim(),
+        name: formData.customerName.trim()
+      },
+      dispatcher: {
+        id: user.id,
+        name: `${user.firstName} ${user.surname}`
+      },
+      box: {
+        id: formData.boxId.trim(),
+        name: formData.boxName.trim(),
       }
-    ]));
+    };
+
+    const callback = (response: AxiosResponse<any, any>) => {
+      if (response.status !== 200) {
+        setAdditionError('Could not create delivery');
+        return;
+      }
+
+      dispatch(updateDeliveries([...list, response.data]));
+    };
+
+    api.createDelivery(newDelivery, callback);
   };
 
   return (
@@ -60,6 +70,7 @@ const AddDelivery = () => {
         title="Add delivery"
         description="Create a new delivery associated with a customer, deliverer and box."
         btnText="Create"
+        error={additionError}
         initialData={{
           boxId: '',
           boxName: '',

@@ -45,7 +45,7 @@ const DeliveryComponent = () => {
       </h6>
 
       <Grid container spacing={1}>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <Grid container>
             <Grid item xs={12}>
               <section className="details">
@@ -76,7 +76,7 @@ const DeliveryComponent = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={6} gridRow="span 2">
+        <Grid item xs={12} md={6} gridRow="span 2">
           <section className="currentStatus">
             <h4 className="sectionTitle">
               Status:
