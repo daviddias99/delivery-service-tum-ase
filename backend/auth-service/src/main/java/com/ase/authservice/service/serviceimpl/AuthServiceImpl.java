@@ -1,6 +1,7 @@
 package com.ase.authservice.service.serviceimpl;
 
 import com.ase.authservice.config.CookieConfig;
+import com.ase.authservice.dto.AuthDto;
 import com.ase.authservice.dto.UserDto;
 import com.ase.authservice.entity.User;
 import com.ase.authservice.jwt.JwtUtil;
@@ -82,15 +83,14 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public UserDto register(UserDto userDto) {
+    public UserDto register(AuthDto authDto) {
         log.warn("Auth Service: Register method is on");
-        User tempUser = modelMapper.map(userDto, User.class);
+        User tempUser = modelMapper.map(authDto, User.class);
         log.warn("Auth Service: Mapper works fine");
         tempUser.setRole("user");
         tempUser = userRepository.save(tempUser);
         log.warn("Auth Service: Repo works fine");
-        userDto.setId(tempUser.getId());
-        userDto.setRole(tempUser.getRole());
+        UserDto userDto = modelMapper.map(tempUser, UserDto.class);
         return userDto;
     }
 

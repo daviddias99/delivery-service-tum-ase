@@ -1,5 +1,6 @@
 package com.ase.authservice.controller;
 
+import com.ase.authservice.dto.AuthDto;
 import com.ase.authservice.dto.UserDto;
 
 import com.ase.authservice.service.AuthService;
@@ -32,14 +33,14 @@ public class AuthController {
 
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<UserDto> register(@RequestBody UserDto userDto) {
+    public ResponseEntity<UserDto> register(@RequestBody AuthDto authDto) {
         log.warn("Auth API: Register request is on");
-        return ResponseEntity.ok(authService.register(userDto));
+        return ResponseEntity.ok(authService.register(authDto));
     }
 
     @RequestMapping(value = "/test", method = RequestMethod.POST)
     public ResponseEntity<UserDto> testAdd() {
-        return ResponseEntity.ok(authService.register(new UserDto("", "test1", "test1", "bob", "bob", "bob@bob.bob", "user")));
+        return ResponseEntity.ok(authService.register(new AuthDto("", "test1", "test1", "bob", "bob", "bob@bob.bob", "user")));
     }
 
     @RequestMapping(value = "/testtoken", method = RequestMethod.GET)
