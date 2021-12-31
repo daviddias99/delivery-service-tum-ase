@@ -6,12 +6,15 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useSelector, useDispatch } from 'react-redux';
 import { deliveryInfo, updateDelivery } from 'redux/slices/delivery/deliverySlice';
 
+import api from 'services/api';
 
 import DeliveryForm from './DeliveryForm';
 import { Delivery } from 'types';
+import { AxiosResponse } from 'axios';
 
 const EditDelivery = () => {
   const [open, setOpen] = useState(false);
+  const [additionError, setAdditionError] = useState('');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -45,8 +48,16 @@ const EditDelivery = () => {
       }
     };
 
+    const callback = (response: AxiosResponse<any, any>) => {
+      if (response.status !== 200) {
+        setAdditionError('Could not create delivery');
+        return;
+      }
 
-    dispatch(updateDelivery(newDelivery));
+      dispatch(updateDelivery(newDelivery));
+    };
+
+    api.editDelivery(newDelivery.id, newDelivery, callback);
   };
 
   const delivery: Delivery = useSelector(deliveryInfo);
@@ -55,7 +66,7 @@ const EditDelivery = () => {
     <React.Fragment>
       <Button variant="contained" style={{ float: 'right' }} endIcon={<EditIcon />} onClick={handleClickOpen}>Edit</Button>
       <DeliveryForm
-        error=""
+        error={additionError}
         isOpen={open}
         close={handleClose}
         initialData={

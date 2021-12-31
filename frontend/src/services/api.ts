@@ -16,6 +16,7 @@ const routes = {
 
   // Delivery
   delivery: (id: string) => `/delivery/${id}`,
+  updateDelivery: (id: string) => `/delivery/update/${id}`,
   deliveryByTracking: (id: string) => `/delivery/track/${id}`,
   createDelivery: '/delivery/add',
   allDeliveries: '/delivery/all',
@@ -137,6 +138,9 @@ const api = {
   },
   editBox: (id: string, data: any, callback: (_res: AxiosResponse<any, any>) => void) => {
     request(routes.updateBox(id), 'put', data, callback);
+  },
+  editDelivery: (id: string, data: any, callback: (_res: AxiosResponse<any, any>) => void) => {
+    request(routes.updateDelivery(id), 'put', data, callback);
   },
   getCustomer: (id: string, callback: (_res: AxiosResponse<any, any>) => void) => {
     request(routes.customer(id), 'get', null, callback);
