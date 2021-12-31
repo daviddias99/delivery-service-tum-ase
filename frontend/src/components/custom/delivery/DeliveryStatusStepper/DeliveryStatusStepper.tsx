@@ -50,7 +50,7 @@ const DeliveryStatusStepper = () => {
         return;
       }
 
-      const statusUpdate = history[0].statusUpdate;
+      const statusUpdate = (new Date()).toUTCString();
       const newDelivery = { ...delivery, ...{ statusHistory: [...[{ deliveryStatus: 'dispatched', statusUpdate: statusUpdate }], ...history] } };
       dispatch(updateDelivery(newDelivery));
       setStatusHistory([{ deliveryStatus: 'dispatched', statusUpdate: statusUpdate }, ...history]);

@@ -28,7 +28,7 @@ const AddDelivery = () => {
 
   const handler = (formData: any) => {
     const newDelivery = {
-      deliveryDescription: formData.deliveryDescription.trim(),
+      description: formData.deliveryDescription.trim(),
       deliverer: {
         id: formData.delivererId.trim(),
         name: formData.delivererName.trim()

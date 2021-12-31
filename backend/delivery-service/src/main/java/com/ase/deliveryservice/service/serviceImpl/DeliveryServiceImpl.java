@@ -12,6 +12,9 @@ import com.ase.deliveryservice.entity.Status;
 import com.ase.deliveryservice.repository.DeliveryRepository;
 import com.ase.deliveryservice.service.DeliveryService;
 import lombok.extern.slf4j.Slf4j;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,8 @@ import java.util.concurrent.ThreadLocalRandom;
 @Slf4j
 @Service
 public class DeliveryServiceImpl implements DeliveryService {
+
+    Logger LOGGER = LogManager.getLogger(DeliveryServiceImpl.class);
 
     @Autowired
     private DeliveryRepository deliveryRepository;
@@ -74,10 +79,9 @@ public class DeliveryServiceImpl implements DeliveryService {
         // newDelivery.setCustomer(deliveryDto.getCustomer());
         Status status = new Status();
         status.setDeliveryStatus(DeliveryStatus.ordered);
-        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
 
-        status.setStatusUpdate(timeStamp);
-        newDelivery.setStatusHistory(new ArrayList<Status>());
+        status.setStatusUpdate((new Date()).toInstant().toString());
+        newDelivery.setStatusHistory(new ArrayList<>());
         newDelivery.getStatusHistory().add(status);
 
         newDelivery = deliveryRepository.save(newDelivery);
@@ -212,6 +216,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 
         Status status = new Status(DeliveryStatus.dispatched,date.toInstant().toString());
         statusList.add(0, status);
+        LOGGER.info(status.getStatusUpdate());
 
         delivery.setStatusHistory(statusList);
         deliveryRepository.save(delivery);
