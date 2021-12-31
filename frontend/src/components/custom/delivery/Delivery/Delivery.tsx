@@ -17,6 +17,11 @@ import EditDelivery from '../deliveryManagement/EditDelivery';
 import TrackingInfo from './TrackingInfo';
 import { loggedUser } from 'redux/slices/loggedUser/loggedUserSlice';
 
+
+const canSeeTrackingInfo = (user: User, delivery: Delivery) => {
+  return user && (user.role === 'dispatcher' || (user.role === 'deliverer' && delivery.deliverer.id === user.id));
+};
+
 const DeliveryComponent = () => {
 
   const user: User = useSelector(loggedUser);
@@ -72,7 +77,7 @@ const DeliveryComponent = () => {
               </section>
             </Grid>
             <Grid item xs={12}>
-              {user && user.role !== 'customer' && <TrackingInfo delivery={delivery} />}
+              {canSeeTrackingInfo(user, delivery) && <TrackingInfo delivery={delivery} />}
             </Grid>
           </Grid>
         </Grid>

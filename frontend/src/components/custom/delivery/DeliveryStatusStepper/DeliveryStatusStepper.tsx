@@ -16,10 +16,10 @@ import { deliveryInfo, updateDelivery } from 'redux/slices/delivery/deliverySlic
 import { AxiosResponse } from 'axios';
 
 const steps: { status: DeliveryStatus, description: string, activeText: string }[] = [
-  { status: 'ordered', description: 'This delivery has been created.', activeText: 'Waiting for the delivery to be created.' },
-  { status: 'dispatched', description: 'This delivery is on it\'s way to the box.', activeText: 'Waiting for courier pickup.' },
-  { status: 'delivered', description: 'This delivery is currently in the box.', activeText: 'Waiting for package to arrive.' },
-  { status: 'collected', description: 'This delivery has been collected by the customer.', activeText: 'Waiting for customer pickup.' },
+  { status: 'ordered', description: 'This delivery has been created.', activeText: 'Waiting for courier pickup.' },
+  { status: 'dispatched', description: 'This delivery is on it\'s way to the box.', activeText: 'Waiting for package to arrive.'},
+  { status: 'delivered', description: 'This delivery is currently in the box.', activeText: 'Waiting for customer pickup.' },
+  { status: 'collected', description: 'This delivery has been collected by the customer.', activeText: '' },
 ];
 
 
