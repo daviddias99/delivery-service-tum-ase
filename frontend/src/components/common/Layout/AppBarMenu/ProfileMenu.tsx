@@ -1,7 +1,6 @@
 import React from 'react';
-import {Avatar, Box, IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import { Link } from 'react-router-dom';
+import { Avatar, Box, IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
+import LogoutButton from 'components/common/Layout/Logout/LogoutButton';
 import { loggedUser } from 'redux/slices/loggedUser/loggedUserSlice';
 import { useSelector } from 'react-redux';
 
@@ -17,7 +16,7 @@ const ProfileMenu = () => {
   };
   return (
     <React.Fragment>
-      <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center'}}>
+      <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
         <Tooltip title="Account">
           <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
             <Avatar sx={{ width: 32, height: 32 }}>
@@ -61,19 +60,9 @@ const ProfileMenu = () => {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <MenuItem>
-          <Link to={'/customer/61bf5a99b2f2079579480d38/orders'}>
-            <ShoppingCartOutlinedIcon />
-            {' '}
-            My Orders
-          </Link>
+          <LogoutButton />
         </MenuItem>
-        <MenuItem>
-          <Link to={'/deliverer/1/deliveries'}>
-            <ShoppingCartOutlinedIcon />
-            {' '}
-            My Deliveries
-          </Link>
-        </MenuItem>
+
       </Menu>
     </React.Fragment>
   );
