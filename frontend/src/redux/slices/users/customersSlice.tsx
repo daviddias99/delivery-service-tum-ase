@@ -63,7 +63,7 @@ const customerList = [
   }
 ];
 const initialState = {
-  customers: customerList,
+  customers: [],
   selectedCustomers: []
 };
 

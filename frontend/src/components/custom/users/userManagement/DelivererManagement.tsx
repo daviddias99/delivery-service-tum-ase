@@ -12,44 +12,67 @@ import {
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
+import {AxiosResponse} from 'axios';
+import api from '../../../../services/api';
 
 
 const DelivererManagement = () => {
+  const [showError, setError] = useState(false);
+  const [showSuccess, setSuccess] = useState(false);
   const [open, setOpen] = useState(false);
-  const [name, setName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [userName, setUserName] = useState('');
+  const [surname, setSurname] = useState('');
   const [email, setEmail] = useState('');
-  const [phoneNumber, setPhone] = useState('');
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleResetClicked= () => {
-    setName('');
+    setFirstName('');
+    setUserName('');
+    setSurname('');
     setEmail('');
-    setPhone('');
   };
-
   const handleClose = () => {
     setOpen(false);
   };
-  const handleName = (change:any) => {
-    setName(change);
+
+
+  const confirmClicked = () => {
+    const newDeliverer = {username: userName, firstName: firstName, surname: surname, password: 'password', email: email};
+    const callback = (response: AxiosResponse<any, any>) => {
+
+      if (response.status !== 200) {
+        setError(true);
+        setSuccess(false);
+        return;
+      }
+      setError(false);
+      setSuccess(true);
+      handleResetClicked();
+      handleClose();
+    };
+    api.createDeliverer(newDeliverer, callback);
   };
-  const handleEmail = (change:any) => {
-    setEmail(change);
-  };
-  const handlePhone = (change:any) => {
-    setPhone(change);
-  };
+
+
   return (
     <div>
       <h2>
         Create new Deliverer.
       </h2>
+      {showError? (
+        <Alert severity="error">An error occured and the box was not created</Alert>
+      ):( <React.Fragment />
+      )}
+      {showSuccess? (
+        <Alert severity="success">This is a success alert — succesfully added</Alert>
+      ):( <React.Fragment />
+      )}
       <p>
         Fill these information to create a new Deliverer.
       </p>
-
 
       <Grid container spacing={3}>
         <Grid item xs={12} sm={12}>
@@ -57,7 +80,7 @@ const DelivererManagement = () => {
             required
             margin="dense"
             id="cId"
-            label="Deliverer ID"
+            label="Customer ID"
             type="name"
             value={'Will be auto generated for you.'}
             fullWidth
@@ -71,12 +94,38 @@ const DelivererManagement = () => {
             autoFocus
             margin="dense"
             id="cName"
-            label="Deliverer Name"
+            label="User Name"
             type="name"
             fullWidth
             variant="outlined"
-            onChange={(change:any) => handleName(change.target.value)}
-            value={name}
+            onChange={(change:any) => setUserName(change.target.value)}
+            value={userName}
+          />
+        </Grid>
+        <Grid item xs={12} sm={12}>
+          <TextField
+            required
+            margin="dense"
+            id="cName"
+            label="First Name"
+            type="name"
+            fullWidth
+            variant="outlined"
+            onChange={(change:any) => setFirstName(change.target.value)}
+            value={firstName}
+          />
+        </Grid>
+        <Grid item xs={12} sm={12}>
+          <TextField
+            required
+            margin="dense"
+            id="cName"
+            label="Surname"
+            type="name"
+            fullWidth
+            variant="outlined"
+            onChange={(change:any) => setSurname(change.target.value)}
+            value={surname}
           />
         </Grid>
         <Grid item xs={12} sm={12}>
@@ -84,27 +133,15 @@ const DelivererManagement = () => {
             required
             margin="dense"
             id="cEmail"
-            label="Deliverer Email"
-            type="name"
+            label="Customer Email"
+            type="email"
             value={email}
-            onChange={(change:any) => handleEmail(change.target.value)}
+            onChange={(change:any) => setEmail(change.target.value)}
             fullWidth
             variant="outlined"
           />
         </Grid>
-        <Grid item xs={12} sm={12}>
-          <TextField
-            margin="dense"
-            id="dName"
-            label="Customer Phone number"
-            type="name"
-            value={phoneNumber}
-            onChange={(change:any) => handlePhone(change.target.value)}
-            fullWidth
-            variant="outlined"
-            required
-          />
-        </Grid>
+
       </Grid>
       <Grid sx={{marginTop: '3%'}} >
         <Button variant="contained" color="success" sx={{mr: 6, float: 'right'}} startIcon={<AddIcon />} onClick={handleClickOpen}>
@@ -123,11 +160,12 @@ const DelivererManagement = () => {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleClose}>Confirm</Button>
+            <Button onClick={confirmClicked}>Confirm</Button>
           </DialogActions>
         </React.Fragment>
       </Dialog>
     </div>
+
 
   );
 };

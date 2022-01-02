@@ -64,7 +64,7 @@ const delivererList = [
 ];
 
 const initialState = {
-  deliverers: delivererList,
+  deliverers: [],
   selectedDeliverers: []
 };
 

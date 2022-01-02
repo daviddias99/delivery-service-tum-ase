@@ -3,7 +3,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 /**
  * Constant variables
  */
-const DEFAULT_API_URL = 'http://localhost:8080';
+const DEFAULT_API_URL = 'http://localhost:8088';
 const API_URL: string = process.env.REACT_APP_API_URI ?? DEFAULT_API_URL;
 
 /**
@@ -21,6 +21,13 @@ const routes = {
   allDeliveries: '/delivery/all',
   allBoxes: '/box/all',
   createBox: '/box/add',
+  createCustomer: '/user/customer/add',
+  createDispatcher: '/user/dispatcher/add',
+  createDeliverer: '/user/deliverer/add',
+  deleteUser: (id: string) => `/user/${id}`,
+  allCustomers: '/user/customer/all',
+  allDispatchers: '/user/dispatcher/all',
+  allDeliverers: '/user/deliverer/all',
   // TODO: change
   customer: (id: string) => `/user/${id}`,
   customerDeliveries: (id: string) => `/delivery/all/customer/${id}`,
@@ -49,6 +56,8 @@ const errorHandler = (err: AxiosError, callback: (_res: AxiosResponse<any, any>)
     headers: {},
     config: {},
   };
+
+  console.log('zebi');
 
   callback(errorResponse);
 };
@@ -104,6 +113,18 @@ const api = {
   getAllBoxes: (callback: (_res: AxiosResponse<any, any>) => void) => {
     request(routes.allBoxes, 'get', null, callback);
   },
+  getAllCustomers: (callback:(_res:AxiosResponse<any, any>) => void) => {
+    request(routes.allCustomers, 'get', null, callback);
+  },
+  getAllDeliverers: (callback:(_res:AxiosResponse<any, any>) => void) => {
+    request(routes.allDeliverers, 'get', null, callback);
+  },
+  deleteUser: (id: string, callBack: (_res:AxiosResponse <any, any>) => void) => {
+    request(routes.deleteUser(id), 'delete', null, callBack);
+  },
+  getALlDispatchers: (callback:(_res:AxiosResponse<any, any>) => void) => {
+    request(routes.allDispatchers, 'get', null, callback);
+  },
   getUser: (id: string, callback: (_res: AxiosResponse<any, any>) => void) => {
     request(routes.user(id), 'get', null, callback);
   },
@@ -130,6 +151,15 @@ const api = {
   },
   getCustomer: (id: string, callback: (_res: AxiosResponse<any, any>) => void) => {
     request(routes.customer(id), 'get', null, callback);
+  },
+  createCustomer: (data: any, callback: (_res: AxiosResponse<any, any>) => void) => {
+    request(routes.createCustomer, 'post', data, callback);
+  },
+  createDispatcher: (data: any, callback: (_res: AxiosResponse<any, any>) => void) => {
+    request(routes.createDispatcher, 'post', data, callback);
+  },
+  createDeliverer: (data: any, callback: (_res: AxiosResponse<any, any>) => void) => {
+    request(routes.createDeliverer, 'post', data, callback);
   },
   getCustomerDeliveries: (id: string, callback: (_res: AxiosResponse<any, any>) => void) => {
     request(routes.customerDeliveries(id), 'get', null, callback);

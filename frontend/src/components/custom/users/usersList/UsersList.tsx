@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {AppBar, Box, Tab, Tabs, Typography} from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
@@ -6,6 +6,12 @@ import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import CustomersList from './CustomersList';
 import DeliverersList from './DeliverersList';
 import DispatchersList from './DispatchersList';
+import {AxiosResponse} from 'axios';
+import {updateCustomer} from '../../../../redux/slices/users/customersSlice';
+import {useDispatch} from 'react-redux';
+import api from '../../../../services/api';
+import {updateDeliverers} from '../../../../redux/slices/users/delivererSlice';
+import {updateDispatchers} from '../../../../redux/slices/users/dispatcherSlice';
 
 
 
@@ -45,6 +51,36 @@ function a11yProps(index: number) {
 
 const UsersList = () => {
   const [value, setValue] = React.useState(0);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    switch (value){
+      case 0: {
+        const requestCallback = (response: AxiosResponse<any, any>) => {
+          console.log(response.data);
+          dispatch(updateCustomer(response.data));
+        };
+        api.getAllCustomers(requestCallback);
+        break;
+      }
+      case 1: {
+        const requestCallback = (response: AxiosResponse<any, any>) => {
+          console.log(response.data);
+          dispatch(updateDeliverers(response.data));
+        };
+        api.getAllDeliverers(requestCallback);
+        break;
+      }
+      case 2: {
+        const requestCallback = (response: AxiosResponse<any, any>) => {
+          console.log(response.data);
+          dispatch(updateDispatchers(response.data));
+        };
+        api.getALlDispatchers(requestCallback);
+        break;
+      }
+    }
+  }, [value, dispatch]);
 
   const handleChange = (event: any, newValue: any) => {
     setValue(newValue);

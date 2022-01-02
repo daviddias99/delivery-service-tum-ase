@@ -4,7 +4,7 @@ import {escapeRegExp, usersTableColumns} from 'components/custom/users/usersList
 import {useDispatch, useSelector} from 'react-redux';
 import Delete from './common/Delete';
 import {TextField} from '@mui/material';
-import {Deliverer} from '../../../../types';
+import {User} from '../../../../types';
 import {
   deliverersList,
   selectedDeliverersList, updateDeliverers,
@@ -25,7 +25,7 @@ const DeliverersList = () => {
   const [showList, setShowList] = useState(list);
   const dispatch = useDispatch();
   const selectedList = useSelector(selectedDeliverersList);
-  const selectionModel = ((selectedDeliverersList: Deliverer[]) => {
+  const selectionModel = ((selectedDeliverersList: User[]) => {
     const selectedIds: any[] =[];
     selectedDeliverersList.forEach(element => {
       selectedIds.push(element.id);

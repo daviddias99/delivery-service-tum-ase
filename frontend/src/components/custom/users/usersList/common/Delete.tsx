@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import {useDispatch, useSelector} from 'react-redux';
 import DeleteIcon from '@mui/icons-material/Delete';
+import api from '../../../../../services/api';
 
 
 
@@ -39,9 +40,11 @@ const Delete = (props:any)=> {
     selectedCopy.forEach(element => {
       const index = customerCopy.indexOf(element, 0);
       if (index > -1) {
+        api.deleteUser(element.id, () => {});
         customerCopy.splice(index, 1);
       }
     });
+
     dispatch(props.updateSelected([]));
     dispatch(props.update(customerCopy));
     handleClose();

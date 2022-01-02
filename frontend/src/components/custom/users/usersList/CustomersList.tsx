@@ -10,7 +10,7 @@ import {
 } from '../../../../redux/slices/users/customersSlice';
 import Delete from './common/Delete';
 import {TextField} from '@mui/material';
-import {Customer} from '../../../../types';
+import {User} from '../../../../types';
 
 
 
@@ -28,7 +28,7 @@ const CustomersList = () => {
   const [showList, setShowList] = useState(list);
   const dispatch = useDispatch();
   const selectedList = useSelector(selectedCustomersList);
-  const selectionModel = ((selectedCustomerList: Customer[]) => {
+  const selectionModel = ((selectedCustomerList: User[]) => {
     const selectedIds: any[] =[];
     selectedCustomerList.forEach(element => {
       selectedIds.push(element.id);

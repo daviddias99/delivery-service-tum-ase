@@ -1,5 +1,5 @@
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Alert,
   Button,
@@ -12,44 +12,70 @@ import {
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
+import {AxiosResponse} from 'axios';
+import api from '../../../../services/api';
 
 
 const CustomerManagement = () => {
+  const [showError, setError] = useState(false);
+  const [showSuccess, setSuccess] = useState(false);
   const [open, setOpen] = useState(false);
-  const [name, setName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [userName, setUserName] = useState('');
+  const [surname, setSurname] = useState('');
   const [email, setEmail] = useState('');
-  const [phoneNumber, setPhone] = useState('');
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleResetClicked= () => {
-    setName('');
+    setFirstName('');
+    setUserName('');
+    setSurname('');
     setEmail('');
-    setPhone('');
   };
 
   const handleClose = () => {
     setOpen(false);
   };
-  const handleName = (change:any) => {
-    setName(change);
+
+  const confirmClicked = () => {
+    const newCustomer = {username: userName, firstName: firstName, surname: surname, password: 'password', email: email};
+    const callback = (response: AxiosResponse<any, any>) => {
+
+      if (response.status !== 200) {
+        setError(true);
+        setSuccess(false);
+        return;
+      }
+      setError(false);
+      setSuccess(true);
+      handleResetClicked();
+      handleClose();
+    };
+    api.createCustomer(newCustomer, callback);
   };
+
   const handleEmail = (change:any) => {
     setEmail(change);
   };
-  const handlePhone = (change:any) => {
-    setPhone(change);
-  };
   return (
     <div>
+
       <h2>
         Create new Customer.
       </h2>
+      {showError? (
+        <Alert severity="error">An error occured and the box was not created</Alert>
+      ):( <React.Fragment />
+      )}
+      {showSuccess? (
+        <Alert severity="success">This is a success alert — succesfully added</Alert>
+      ):( <React.Fragment />
+      )}
       <p>
         Fill these information to create a new Customer.
       </p>
-
 
       <Grid container spacing={3}>
         <Grid item xs={12} sm={12}>
@@ -71,26 +97,38 @@ const CustomerManagement = () => {
             autoFocus
             margin="dense"
             id="cName"
-            label="Customer Name"
+            label="User Name"
             type="name"
             fullWidth
             variant="outlined"
-            onChange={(change:any) => handleName(change.target.value)}
-            value={name}
+            onChange={(change:any) => setUserName(change.target.value)}
+            value={userName}
           />
         </Grid>
         <Grid item xs={12} sm={12}>
           <TextField
             required
             margin="dense"
-            id="cPhone"
-            label="Customer Phone number"
-            type="Phone"
-            value={phoneNumber}
-            onChange={(change:any) => handlePhone(change.target.value)}
+            id="cName"
+            label="First Name"
+            type="name"
             fullWidth
             variant="outlined"
-
+            onChange={(change:any) => setFirstName(change.target.value)}
+            value={firstName}
+          />
+        </Grid>
+        <Grid item xs={12} sm={12}>
+          <TextField
+            required
+            margin="dense"
+            id="cName"
+            label="Surname"
+            type="name"
+            fullWidth
+            variant="outlined"
+            onChange={(change:any) => setSurname(change.target.value)}
+            value={surname}
           />
         </Grid>
         <Grid item xs={12} sm={12}>
@@ -125,7 +163,7 @@ const CustomerManagement = () => {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleClose}>Confirm</Button>
+            <Button onClick={confirmClicked}>Confirm</Button>
           </DialogActions>
         </React.Fragment>
       </Dialog>

@@ -63,7 +63,7 @@ const dispatcherList = [
   }
 ];
 const initialState = {
-  dispatchers: dispatcherList,
+  dispatchers: [],
   selectedDispatchers: []
 };
 
