@@ -27,10 +27,8 @@
         <module>config-server</module>
         <module>eureka-server</module>
         <module>delivery-service</module>
-        <module>delivery-service</module>
         <module>service-communication</module>
         <module>box-service</module>
-        <module>hystrix-dashboard</module>
         <module>gateway-server</module>
         <module>hystrix-dashboard</module>
         <module>auth-service</module>
