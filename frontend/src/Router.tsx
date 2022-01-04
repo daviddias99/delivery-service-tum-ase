@@ -12,6 +12,7 @@ import Delivery from 'pages/Delivery/Delivery';
 import Orders from 'pages/Customer/Orders';
 import { useSelector } from 'react-redux';
 import { isLoggedIn, loggedUser } from 'redux/slices/loggedUser/loggedUserSlice';
+import NotFound from 'pages/NotFound/NotFound';
 
 type PrivateRouteProps = {
   children: ReactElement,
@@ -76,9 +77,7 @@ const Router = () => {
         />
 
         <Route path={routes.delivery.def} element={
-          <PrivateRoute>
-            <Delivery />
-          </PrivateRoute>
+          <Delivery />
         }
         />
         <Route path={routes.customer.def} element={
@@ -91,6 +90,10 @@ const Router = () => {
           <PrivateRoute>
             <DeliveriesOverview />
           </PrivateRoute>
+        }
+        />
+        <Route path="*" element={
+          <NotFound />
         }
         />
       </Routes>

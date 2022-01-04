@@ -1,14 +1,16 @@
 import { Divider } from '@mui/material';
 import React from 'react';
-import { User, Delivery } from 'types';
 import { CurrentDeliveriesTable, PastDeliveriesTable } from 'components/common/DeliveriesTable/DeliveriesTable';
+import { useSelector } from 'react-redux';
+import { userDeliveries, userInfo } from 'redux/slices/user/userSlice';
 import './styles.scss';
-type delivererProps = {
-  deliverer: User,
-  deliveries: Delivery[]
-}
 
-const deliveries = ({ deliverer, deliveries }: delivererProps) => {
+
+const Deliveries = () => {
+
+  const deliverer = useSelector(userInfo);
+  const deliveries = useSelector(userDeliveries);
+
   return (
     <div id="deliverer">
       <div id="delivererInfo">
@@ -46,5 +48,5 @@ const deliveries = ({ deliverer, deliveries }: delivererProps) => {
   );
 };
 
-export default deliveries;
+export default Deliveries;
 

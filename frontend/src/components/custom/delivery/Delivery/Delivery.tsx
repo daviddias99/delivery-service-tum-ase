@@ -17,13 +17,23 @@ import EditDelivery from '../deliveryManagement/EditDelivery';
 import TrackingInfo from './TrackingInfo';
 import { loggedUser } from 'redux/slices/loggedUser/loggedUserSlice';
 
+
+const canSeeTrackingInfo = (user: User, delivery: Delivery) => {
+  return user && (user.role === 'dispatcher' || (user.role === 'deliverer' && delivery.deliverer.id === user.id));
+};
+
 const DeliveryComponent = () => {
 
   const user: User = useSelector(loggedUser);
   const delivery: Delivery = useSelector(deliveryInfo);
+  const [tagStatus, setTagStatus] = React.useState(delivery.statusHistory[0].deliveryStatus);
   const box: Box = useSelector(boxInfo);
 
-  const latestStatus = delivery.statusHistory[0];
+  React.useEffect(
+    () => {
+      setTagStatus(delivery.statusHistory[0].deliveryStatus);
+    },
+    [delivery]);
 
   return (
     <div id="delivery" >
@@ -32,15 +42,15 @@ const DeliveryComponent = () => {
         <span>
           {delivery.id}
         </span>
-        {user && user.role === 'dispatcher' && <EditDelivery />}
-        <Chip className="boxStatus" size="small" label={toUpperCase(latestStatus.deliveryStatus)} sx={{ backgroundColor: getDeliveryStatusColor(latestStatus.deliveryStatus) }} />
+        {user && user.role === 'dispatcher' && delivery.statusHistory[0].deliveryStatus === 'ordered' && <EditDelivery />}
+        <Chip className="boxStatus" size="small" label={toUpperCase(tagStatus)} sx={{ backgroundColor: getDeliveryStatusColor(tagStatus) }} />
       </h3>
       <h6 className="subTitle">
         {`Tracking code: ${delivery.trackingNumber}`}
       </h6>
 
       <Grid container spacing={1}>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <Grid container>
             <Grid item xs={12}>
               <section className="details">
@@ -67,11 +77,11 @@ const DeliveryComponent = () => {
               </section>
             </Grid>
             <Grid item xs={12}>
-              {user && user.role !== 'customer' && <TrackingInfo delivery={delivery} />}
+              {canSeeTrackingInfo(user, delivery) && <TrackingInfo delivery={delivery} />}
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={6} gridRow="span 2">
+        <Grid item xs={12} md={6} gridRow="span 2">
           <section className="currentStatus">
             <h4 className="sectionTitle">
               Status:

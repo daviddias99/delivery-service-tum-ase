@@ -10,7 +10,7 @@ const TrackingInfo = ({ delivery }: { delivery: Delivery }) => {
   return (
     <section className="trackingInfo">
       <h4 className="sectionTitle">
-        Tracking Info (REMOVE FOR CUSTOMER):
+        Tracking Info:
       </h4>
 
       <Table sx={{ width: '70%' }} aria-label="simple table">

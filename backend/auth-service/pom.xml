@@ -9,7 +9,7 @@
         <artifactId>service-parent</artifactId>
         <groupId>com.ase</groupId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath/>
+        <relativePath>../service-parent/pom.xml</relativePath>
     </parent>
 
     <artifactId>auth-service</artifactId>
@@ -44,8 +44,21 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.1.0</version>
+            </plugin>        
         </plugins>
+        <resources>
+            <resource>
+              <directory>src/main/resources</directory>
+              <includes>
+                <include>auth.keystore</include>
+                <include>bootstrap.yml</include>
+              </includes>
+            </resource>
+          </resources>
     </build>
 
 </project>
-

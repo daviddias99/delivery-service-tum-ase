@@ -80,19 +80,19 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "dispatcher/all",  method = RequestMethod.GET)
+    @RequestMapping(value = "/dispatcher/all",  method = RequestMethod.GET)
     public ResponseEntity<List<UserDto>> getAllDispatchers(){
         List<UserDto> data = userService.getAllByRole("DISPATCHER");
         return ResponseEntity.ok(data);
     }
 
-    @RequestMapping(value = "customer/all",  method = RequestMethod.GET)
+    @RequestMapping(value = "/customer/all",  method = RequestMethod.GET)
     public ResponseEntity<List<UserDto>> getAllcustomers(){
         List<UserDto> data = userService.getAllByRole("CUSTOMER");
         return ResponseEntity.ok(data);
     }
 
-    @RequestMapping(value = "deliverer/all",  method = RequestMethod.GET)
+    @RequestMapping(value = "/deliverer/all",  method = RequestMethod.GET)
     public ResponseEntity<List<UserDto>> getallDeliverers(){
         List<UserDto> data = userService.getAllByRole("DELIVERER");
         return ResponseEntity.ok(data);
@@ -108,7 +108,7 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "customer/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/customer/{id}", method = RequestMethod.GET)
     public ResponseEntity<UserDto> getCustomer(@PathVariable String id) {
         UserDto userDto = userService.getById(id);
         if(userDto==null)
@@ -117,7 +117,7 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "deliverer/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/deliverer/{id}", method = RequestMethod.GET)
     public ResponseEntity<UserDto> getDeliverer(@PathVariable String id) {
         UserDto userDto = userService.getById(id);
         if(userDto==null)

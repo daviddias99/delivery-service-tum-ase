@@ -4,20 +4,34 @@ import Paper from '@mui/material/Paper';
 import Title from 'components/common/Title/Title';
 import Layout from 'components/common/Layout/Layout';
 import Orders from 'components/custom/customer/Orders/Orders';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
+  useNavigate,
   useParams
 } from 'react-router-dom';
 import api from 'services/api';
 import { updateUser, updateUserDeliveries } from 'redux/slices/user/userSlice';
 import Spinner from 'components/common/Spinner/Spinner';
 import { AxiosResponse } from 'axios';
+import { loggedUser } from 'redux/slices/loggedUser/loggedUserSlice';
+import { User } from 'types';
+
+const canViewPage = (paramsUserId: string, user: User) => {
+  return user.role === 'dispatcher' || (user.role === 'customer' && user.id === paramsUserId);
+};
 
 const OrdersPage = () => {
 
   const [isLoading, setIsLoading] = React.useState(true);
   const dispatch = useDispatch();
   const { customerId } = useParams();
+  const user = useSelector(loggedUser);
+  const navigate = useNavigate();
+
+  if (!canViewPage(customerId!, user)) {
+    navigate('/');
+  }
+
 
   React.useEffect(
     () => {

@@ -36,13 +36,9 @@ const Homepage = () => {
         <Title>Welcome to the ASE Delivery System!</Title>
         <Typography variant="h6">We&apos;re happy you chose us for your delivery needs.</Typography>
         <Typography align="center" >
-          Want to know where your package is? No problem, just insert your tracking code into the box bellow, or alternatively
-          {' '}
-          <span>
-            <a href="/box">login.</a>
-          </span>
+          Want to know where your package is? No problem, just insert your tracking code into the box bellow, or alternatively login.
         </Typography>
-        <Grid container sx={{mt: 3}} spacing={1}>
+        <Grid container sx={{ mt: 3 }} spacing={1}>
           <Grid item xs={11}>
             <TextField helperText={errorText} value={trackingCode} onChange={(event) => setTrackingCode(event.target.value)} sx={{ width: '100%' }} label="Tracking code" id="outlined-basic" variant="outlined" />
           </Grid>
