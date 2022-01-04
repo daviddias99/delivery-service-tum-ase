@@ -7,11 +7,11 @@ import CustomersList from './CustomersList';
 import DeliverersList from './DeliverersList';
 import DispatchersList from './DispatchersList';
 import {AxiosResponse} from 'axios';
-import {updateCustomer} from '../../../../../redux/slices/users/customersSlice';
+import {updateCustomer} from 'redux/slices/users/customersSlice';
 import {useDispatch} from 'react-redux';
-import api from '../../../../../services/api';
-import {updateDeliverers} from '../../../../../redux/slices/users/delivererSlice';
-import {updateDispatchers} from '../../../../../redux/slices/users/dispatcherSlice';
+import api from 'services/api';
+import {updateDeliverers} from 'redux/slices/users/delivererSlice';
+import {updateDispatchers} from 'redux/slices/users/dispatcherSlice';
 
 
 

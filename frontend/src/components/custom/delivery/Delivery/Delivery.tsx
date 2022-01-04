@@ -19,7 +19,7 @@ import { loggedUser } from 'redux/slices/loggedUser/loggedUserSlice';
 
 
 const canSeeTrackingInfo = (user: User, delivery: Delivery) => {
-  return user && (user.role === 'dispatcher' || (user.role === 'deliverer' && delivery.deliverer.id === user.id));
+  return user && (user.role === 'DISPATCHER' || (user.role === 'DELIVERER' && delivery.deliverer.id === user.id));
 };
 
 const DeliveryComponent = () => {
@@ -42,7 +42,7 @@ const DeliveryComponent = () => {
         <span>
           {delivery.id}
         </span>
-        {user && user.role === 'dispatcher' && delivery.statusHistory[0].deliveryStatus === 'ordered' && <EditDelivery />}
+        {user && user.role === 'DISPATCHER' && delivery.statusHistory[0].deliveryStatus === 'ordered' && <EditDelivery />}
         <Chip className="boxStatus" size="small" label={toUpperCase(tagStatus)} sx={{ backgroundColor: getDeliveryStatusColor(tagStatus) }} />
       </h3>
       <h6 className="subTitle">

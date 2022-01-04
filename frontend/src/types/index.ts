@@ -1,5 +1,6 @@
 type BoxStatus = 'free' | 'assigned' | 'active' | 'inactive';
 type DeliveryStatus = 'ordered' | 'dispatched' | 'delivered' | 'collected';
+type UserRole = 'DISPATCHER' | 'DELIVERER' | 'CUSTOMER';
 
 type BoxAddress = {
   addressLine1: string,
@@ -13,7 +14,7 @@ type User = {
   username: string,
   firstName: string,
   surname: string,
-  role: string,
+  role: UserRole,
   email: string,
 };
 

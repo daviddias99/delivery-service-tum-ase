@@ -17,7 +17,7 @@ import { loggedUser } from 'redux/slices/loggedUser/loggedUserSlice';
 import { User } from 'types';
 
 const canViewPage = (paramsUserId: string, user: User) => {
-  return user.role === 'dispatcher' || (user.role === 'customer' && user.id === paramsUserId);
+  return user.role === 'DISPATCHER' || (user.role === 'CUSTOMER' && user.id === paramsUserId);
 };
 
 const OrdersPage = () => {

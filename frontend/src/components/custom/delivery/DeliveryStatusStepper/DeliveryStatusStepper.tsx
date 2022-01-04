@@ -25,7 +25,7 @@ const steps: { status: DeliveryStatus, description: string, activeText: string }
 
 function showUpdateButtonFun(delivery: Delivery, user: User) {
   return delivery.statusHistory[0].deliveryStatus === 'ordered' &&
-    user.role === 'deliverer' &&
+    user.role === 'DELIVERER' &&
     user.id === delivery.deliverer.id;
 }
 

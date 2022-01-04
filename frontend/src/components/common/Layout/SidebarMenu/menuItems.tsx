@@ -11,37 +11,37 @@ export const sideBarListItems = (userId: string) => [
     title: 'Boxes',
     icon: (<MarkunreadMailboxIcon />),
     link: '/box',
-    roles: ['dispatcher']
+    roles: ['DISPATCHER']
   },
   {
     title: 'Deliveries',
     icon: (<Inventory2 />),
     link: '/delivery',
-    roles: ['dispatcher']
+    roles: ['DISPATCHER']
   },
   {
     title: 'My Orders',
     icon: (<ShoppingCartOutlinedIcon />),
     link: `/customer/${userId}/orders`,
-    roles: ['customer']
+    roles: ['CUSTOMER']
   },
   {
     title: 'My Deliveries',
     icon: (<LocalShippingIcon />),
     link: `/deliverer/${userId}/deliveries`,
-    roles: ['deliverer']
+    roles: ['DELIVERER']
   },
   {
     title: 'Users List',
     icon: (<AdminPanelSettingsIcon />),
     link: '/dispatcher/usersList/',
-    roles: ['dispatcher']
+    roles: ['DISPATCHER']
   },
   {
     title: 'Create User',
     icon: (<AddCircleIcon />),
     link: '/dispatcher/userManagement/',
-    roles: ['dispatcher']
+    roles: ['DISPATCHER']
 
   }
 

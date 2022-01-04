@@ -15,6 +15,7 @@ import UsersListPage from './pages/UsersList/UsersListPage';
 import { useSelector } from 'react-redux';
 import { isLoggedIn, loggedUser } from 'redux/slices/loggedUser/loggedUserSlice';
 import NotFound from 'pages/NotFound/NotFound';
+import { User } from 'types';
 
 type PrivateRouteProps = {
   children: ReactElement,
@@ -28,14 +29,14 @@ const PrivateRoute: FunctionComponent<PrivateRouteProps> = ({ children }) => {
     : <Navigate to="/" />;
 };
 
-const getDefaultRoute = (user: any) => {
+const getDefaultRoute = (user: User) => {
 
   switch (user.role) {
-    case 'dispatcher':
+    case 'DISPATCHER':
       return routes.deliveries.def;
-    case 'deliverer':
+    case 'DELIVERER':
       return routes.deliverer.ref(user.id);
-    case 'customer':
+    case 'CUSTOMER':
       return routes.customer.ref(user.id);
     default:
       return routes.homepage.def;
