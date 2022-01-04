@@ -41,7 +41,7 @@ const DeliveryForm = ({ isOpen, close, initialData, title, description, btnText,
     const requestCallback = (response: AxiosResponse<any, any>) => {
       if (response.data.role !== type) {
         setErrors({ ...errors, ...{ customerIdErrors: 'No user with given ID' } });
-        if (type === 'customer') {
+        if (type === 'CUSTOMER') {
           handleFormDataChange({ customerName: '' });
         } else {
           handleFormDataChange({ delivererName: '' });
@@ -49,7 +49,7 @@ const DeliveryForm = ({ isOpen, close, initialData, title, description, btnText,
         return;
       }
       setErrors({ ...errors, ...{ customerIdErrors: '' } });
-      if (type === 'customer') {
+      if (type === 'CUSTOMER') {
         handleFormDataChange({ customerName: `${response.data.firstName} ${response.data.surname}` });
       } else {
         handleFormDataChange({ delivererName: `${response.data.firstName} ${response.data.surname}` });
@@ -63,7 +63,7 @@ const DeliveryForm = ({ isOpen, close, initialData, title, description, btnText,
       return;
     }
     const requestCallback = (response: AxiosResponse<any, any>) => {
-      // TODO: check if box is free or contains only deliveries from customer
+      // TODO: check if box is free or contains only deliveries from CUSTOMER
 
       if (!response.data.id) {
         setErrors({ ...errors, ...{ boxIdErrors: 'No box with given ID' } });
@@ -140,7 +140,7 @@ const DeliveryForm = ({ isOpen, close, initialData, title, description, btnText,
               type="name"
               fullWidth
               value={formData.customerId}
-              onBlur={(e) => checkUser(e.target.value, 'customer')}
+              onBlur={(e) => checkUser(e.target.value, 'CUSTOMER')}
               onChange={(e) => handleFormDataChange({ customerId: e.target.value })}
               variant="outlined"
               error={errors.customerIdErrors !== ''}
@@ -171,7 +171,7 @@ const DeliveryForm = ({ isOpen, close, initialData, title, description, btnText,
               fullWidth
               value={formData.delivererId}
               onChange={(e) => handleFormDataChange({ delivererId: e.target.value })}
-              onBlur={(e) => checkUser(e.target.value, 'deliverer')}
+              onBlur={(e) => checkUser(e.target.value, 'DELIVERER')}
               variant="outlined"
               error={errors.delivererIdErrors !== ''}
               helperText={errors.delivererIdErrors}
