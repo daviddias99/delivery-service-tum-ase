@@ -87,8 +87,7 @@ public class AuthServiceImpl implements AuthService {
         tempUser.setRole("user");
         tempUser = userRepository.save(tempUser);
         log.warn("Auth Service: Repo works fine");
-        UserDto userDto = modelMapper.map(tempUser, UserDto.class);
-        return userDto;
+        return modelMapper.map(tempUser, UserDto.class);
     }
 
 
