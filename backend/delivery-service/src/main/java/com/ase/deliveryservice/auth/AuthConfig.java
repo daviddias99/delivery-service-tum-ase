@@ -31,7 +31,9 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
 
                 .authorizeRequests()
-                .antMatchers("/user/**").authenticated()
+                .antMatchers("/delivery/track/**").permitAll()
+                .antMatchers("/delivery/**").authenticated()
+                .antMatchers("/**").authenticated()
                 .and()
                 .sessionManagement()
                 .disable();
