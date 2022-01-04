@@ -65,14 +65,14 @@ public class AuthRequestFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader("Authorization");
 
         if (authHeader == null && cookie == null) {
-            //TODO: this situation devolves into error500, doesn't send reply
+            //TODO: when permit all this presents an issue
             response.sendError(HttpStatus.BAD_REQUEST.value(), "No JWT Cookie or Basic Auth Info Found");
 
 
         } else if (authHeader != null && !authHeader.startsWith("Basic") && cookie == null) {
             response.sendError(HttpStatus.UNAUTHORIZED.value(), "unsupported auth format!");
         }
-
+            //TODO: set basic auth not supported
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
 

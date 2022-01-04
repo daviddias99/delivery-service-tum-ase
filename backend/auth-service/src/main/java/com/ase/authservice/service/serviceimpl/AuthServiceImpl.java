@@ -2,11 +2,12 @@ package com.ase.authservice.service.serviceimpl;
 
 import com.ase.authservice.config.CookieConfig;
 import com.ase.authservice.dto.AuthDto;
-import com.ase.authservice.dto.UserDto;
+
 import com.ase.authservice.entity.User;
 import com.ase.authservice.jwt.JwtUtil;
 import com.ase.authservice.repository.UserRepository;
 import com.ase.authservice.service.AuthService;
+import com.ase.client.com.ase.contract.UserDto;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -146,6 +146,38 @@ public class AuthServiceImpl implements AuthService {
 
     public void setAuthenticationToken(Authentication auth){
         SecurityContextHolder.getContext().setAuthentication(auth);
+    }
+
+    @Override
+    public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        Cookie[] cookies = request.getCookies();
+
+
+        if(cookies == null){
+            response.sendError(HttpStatus.FORBIDDEN.value(), "no cookie found in request");
+        }
+        else{
+            Cookie jwtCookie = null;
+            for(int i = 0; i < cookies.length; i++){
+                if(cookies[i].getName().equals("jwt")){
+                    jwtCookie = cookies[i];
+                    break;
+                }
+            }
+            if(jwtCookie != null) {
+                Cookie deletedCookie = cookieConfig.createCookie("jwt", "deleted");
+                deletedCookie.setMaxAge(5);
+                log.warn("jwt value:" + jwtCookie.getValue());
+                log.warn("jwt version:" + jwtCookie.getVersion());
+                response.addCookie(deletedCookie);
+
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            else{
+                response.sendError(HttpStatus.FORBIDDEN.value(), "no JWTcookie found in request");
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

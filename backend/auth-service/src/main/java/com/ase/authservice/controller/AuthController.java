@@ -1,13 +1,14 @@
 package com.ase.authservice.controller;
 
 import com.ase.authservice.dto.AuthDto;
-import com.ase.authservice.dto.UserDto;
 
 import com.ase.authservice.service.AuthService;
 
+import com.ase.client.com.ase.contract.UserDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
@@ -48,4 +49,19 @@ public class AuthController {
         return ResponseEntity.ok("token valid");
     }
 
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    public  ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response){
+        try {
+            return authService.logout(request, response);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>("bad token!", HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @RequestMapping(value = "/testpermitall", method = RequestMethod.GET)
+    public ResponseEntity<String> permitAll() {
+        return ResponseEntity.ok("connection OK");
+    }
 }
