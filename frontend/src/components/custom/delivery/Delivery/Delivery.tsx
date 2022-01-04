@@ -6,9 +6,9 @@ import { Grid } from '@mui/material';
 import BoxAddress from 'components/common/BoxAddress/BoxAddress';
 import DeliveryStatusStepper from '../DeliveryStatusStepper/DeliveryStatusStepper';
 
-import { boxInfo } from 'redux/slices/box/boxSlice';
+import { boxInfo, updateBox } from 'redux/slices/box/boxSlice';
 import { deliveryInfo } from 'redux/slices/delivery/deliverySlice';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { getDeliveryStatusColor, toUpperCase } from 'utils';
 
@@ -16,6 +16,7 @@ import './styles.scss';
 import EditDelivery from '../deliveryManagement/EditDelivery';
 import TrackingInfo from './TrackingInfo';
 import { loggedUser } from 'redux/slices/loggedUser/loggedUserSlice';
+import api from 'services/api';
 
 
 const canSeeTrackingInfo = (user: User, delivery: Delivery) => {
@@ -28,12 +29,14 @@ const DeliveryComponent = () => {
   const delivery: Delivery = useSelector(deliveryInfo);
   const [tagStatus, setTagStatus] = React.useState(delivery.statusHistory[0].deliveryStatus);
   const box: Box = useSelector(boxInfo);
+  const dispatch = useDispatch();
 
   React.useEffect(
     () => {
+      api.getBox(delivery.box.id, (result) => dispatch(updateBox(result.data)));
       setTagStatus(delivery.statusHistory[0].deliveryStatus);
     },
-    [delivery]);
+    [delivery, dispatch]);
 
   return (
     <div id="delivery" >

@@ -33,7 +33,7 @@ public class AuthController {
     }
 
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @PostMapping(value = "/register")
     public ResponseEntity<UserDto> register(@RequestBody AuthDto authDto) {
         log.warn("Auth API: Register request is on");
         return ResponseEntity.ok(authService.register(authDto));
@@ -49,7 +49,7 @@ public class AuthController {
         return ResponseEntity.ok("token valid");
     }
 
-    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    @PostMapping(value = "/logout")
     public  ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response){
         try {
             return authService.logout(request, response);
@@ -60,7 +60,7 @@ public class AuthController {
         }
     }
 
-    @RequestMapping(value = "/testpermitall", method = RequestMethod.GET)
+    @GetMapping(value = "/testpermitall")
     public ResponseEntity<String> permitAll() {
         return ResponseEntity.ok("connection OK");
     }

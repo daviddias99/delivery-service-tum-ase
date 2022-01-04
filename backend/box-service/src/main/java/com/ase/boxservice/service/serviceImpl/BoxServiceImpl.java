@@ -5,9 +5,6 @@ import com.ase.boxservice.entity.Box;
 import com.ase.boxservice.entity.BoxStatus;
 import com.ase.boxservice.repository.BoxRepository;
 import com.ase.boxservice.service.BoxService;
-import com.ase.client.com.ase.contract.ResponseMessage;
-import feign.Response;
-import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
-@Slf4j
 @Service(value = "boxService")
 public class BoxServiceImpl implements BoxService {
     @Autowired
@@ -32,7 +27,7 @@ public class BoxServiceImpl implements BoxService {
     @Transactional
     public BoxDto save(BoxDto boxDto) {
 
-        if(boxRepository.existsByName(boxDto.getName())  || boxDto.getName()==null  || boxDto.getName()==""){
+        if(boxRepository.existsByName(boxDto.getName()).booleanValue()  || boxDto.getName()==null  || boxDto.getName().equals("")){
             return null;
         }
         Box tempBox = modelMapper.map(boxDto, Box.class);
@@ -44,7 +39,7 @@ public class BoxServiceImpl implements BoxService {
 
     @Override
     public BoxDto getById(String id) {
-        if(!boxRepository.existsById(new ObjectId(id)))
+        if(!boxRepository.existsById(new ObjectId(id)).booleanValue())
             return null;
         Box tempBox = boxRepository.findById(new ObjectId(id));
 
@@ -55,15 +50,13 @@ public class BoxServiceImpl implements BoxService {
     @Override
     public List<BoxDto> getAll() {
         List<Box> data = boxRepository.findAll();
-        if(data==null)
-            return null;
         return Arrays.asList(modelMapper.map(data, BoxDto[].class));
     }
 
     @Override
     public Boolean deleteBox(String id) {
         ObjectId objectId = new ObjectId(id);
-        if(boxRepository.existsById(objectId)){
+        if(boxRepository.existsById(objectId).booleanValue()){
             Box dbBox = boxRepository.findById(objectId);
             dbBox.setStatus(BoxStatus.inactive);
             boxRepository.save(dbBox);
@@ -83,8 +76,6 @@ public class BoxServiceImpl implements BoxService {
 
         dbBox.setName(boxDto.getName());
         dbBox.setAddress(boxDto.getAddress());
-        //dbBox.setStatus(boxDto.getStatus());
-
         boxRepository.save(dbBox);
 
         return boxDto;

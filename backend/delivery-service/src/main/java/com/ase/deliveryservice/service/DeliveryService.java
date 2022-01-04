@@ -3,7 +3,6 @@ package com.ase.deliveryservice.service;
 import com.ase.client.com.ase.contract.EmailDto;
 import com.ase.client.com.ase.contract.ResponseMessage;
 import com.ase.deliveryservice.dto.DeliveryDto;
-import com.ase.deliveryservice.entity.DeliveryStatus;
 
 import java.util.List;
 

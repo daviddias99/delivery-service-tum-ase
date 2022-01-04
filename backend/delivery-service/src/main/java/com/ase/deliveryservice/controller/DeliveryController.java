@@ -33,7 +33,7 @@ public class DeliveryController {
 
     }
 
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+    @PutMapping(value = "/update/{id}")
     public ResponseEntity<DeliveryDto> updateDelivery(@RequestBody DeliveryDto deliveryDto, @PathVariable String id) {
         DeliveryDto updatedDto = deliveryService.updateDelivery(deliveryDto, id);
         if (updatedDto == null)

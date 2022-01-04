@@ -4,7 +4,6 @@ import com.ase.client.com.ase.contract.ResponseMessage;
 import com.ase.client.com.ase.contract.UserDto;
 import com.ase.userservice.dto.RegistrationDto;
 
-import javax.servlet.Registration;
 import java.util.List;
 
 public interface UserService {
@@ -23,7 +22,4 @@ public interface UserService {
     UserDto updateUser(UserDto user,String id);
 
     List<UserDto> getAllByRole(String role);
-
-
-
 }

@@ -1,13 +1,11 @@
 package com.ase.userservice.repository;
 
-import com.ase.client.com.ase.contract.UserDto;
 import com.ase.userservice.entity.User;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Repository

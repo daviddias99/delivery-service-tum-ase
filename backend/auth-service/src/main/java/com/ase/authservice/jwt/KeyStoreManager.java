@@ -3,7 +3,6 @@ package com.ase.authservice.jwt;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.Key;
@@ -17,7 +16,7 @@ public class KeyStoreManager {
 
     private String keyAlias;
 
-    private char[] password = "Password1".toCharArray();
+    private char[] password = "password".toCharArray();
 
     public KeyStoreManager() throws KeyStoreException, IOException{
         loadKeyStore();
@@ -26,24 +25,15 @@ public class KeyStoreManager {
     public void loadKeyStore() throws KeyStoreException, IOException{
         keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
 
-        FileInputStream fis = null;
-
-        try{
-            File keystoreFile = ResourceUtils.getFile("classpath:auth.keystore");
-            fis = new FileInputStream(keystoreFile);
+        try(FileInputStream fis = new FileInputStream(ResourceUtils.getFile("classpath:auth.keystore"))) {
             keyStore.load(fis,password);
             keyAlias = keyStore.aliases().nextElement();
         } catch(Exception e){
             System.err.println("Error when loading Keystore");
             e.printStackTrace();
         }
-        finally {
-            if(fis != null){
-                fis.close();
-            }
-        }
     }
-
+    
     protected PublicKey getPublicKey(){
         try{
             return keyStore.getCertificate(keyAlias).getPublicKey();
@@ -56,7 +46,7 @@ public class KeyStoreManager {
 
     protected Key getPrivateKey(){
         try{
-            return keyStore.getKey(keyAlias, "Password1".toCharArray());
+            return keyStore.getKey(keyAlias, password);
         } catch(Exception e){
             e.printStackTrace();
             return null;

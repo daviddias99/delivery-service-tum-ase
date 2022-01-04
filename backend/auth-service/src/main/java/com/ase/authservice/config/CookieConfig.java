@@ -3,7 +3,6 @@ package com.ase.authservice.config;
 import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.http.Cookie;
-import java.util.Date;
 
 @Configuration
 public class CookieConfig {

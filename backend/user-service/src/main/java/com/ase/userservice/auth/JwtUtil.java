@@ -26,15 +26,14 @@ public class JwtUtil {
     }
 
     private String createToken(Map<String, Object> claims, String subject){
-        String jwt = Jwts.builder()
-                .setClaims(claims)
-                .setSubject(subject)
-                .setIssuer("aseDelivery")
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 5))
-                .signWith(keyStoreManager.getPrivateKey(), SignatureAlgorithm.RS256)
-                .compact();
-        return jwt;
+        return Jwts.builder()
+        .setClaims(claims)
+        .setSubject(subject)
+        .setIssuer("aseDelivery")
+        .setIssuedAt(new Date(System.currentTimeMillis()))
+        .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 5))
+        .signWith(keyStoreManager.getPrivateKey(), SignatureAlgorithm.RS256)
+        .compact();
     }
     private JwtParser loadJwtParser(){
         return Jwts.parserBuilder()
@@ -48,8 +47,7 @@ public class JwtUtil {
 
     public String extractUserRoles(String token){
         Claims claims = extractAllClaims(token);
-        String claim = claims.get("roles").toString();
-        return claim;
+        return claims.get("roles").toString();
     }
 
     private Date extractExpiration(String token){

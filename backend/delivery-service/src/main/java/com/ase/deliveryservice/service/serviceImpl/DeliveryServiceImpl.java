@@ -18,14 +18,14 @@ import org.apache.logging.log4j.Logger;
 import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Slf4j
@@ -76,7 +76,6 @@ public class DeliveryServiceImpl implements DeliveryService {
         String newTrackingId = createTrackingId();
         newDelivery.setTrackingNumber(newTrackingId);
 
-        // newDelivery.setCustomer(deliveryDto.getCustomer());
         Status status = new Status();
         status.setDeliveryStatus(DeliveryStatus.ordered);
 
@@ -98,7 +97,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     @Override
     public DeliveryDto getById(String id) {
-        if (!deliveryRepository.existsById(new ObjectId(id)))
+        if (!deliveryRepository.existsById(new ObjectId(id)).booleanValue())
             return null;
         Delivery delivery = deliveryRepository.findById(new ObjectId(id));
         return modelMapper.map(delivery, DeliveryDto.class);
@@ -107,7 +106,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     public ResponseMessage deleteDelivery(String id) {
         ObjectId objectId = new ObjectId(id);
-        if (deliveryRepository.existsById(objectId)) {
+        if (deliveryRepository.existsById(objectId).booleanValue()) {
             deliveryRepository.deleteById(objectId);
             responseMessage.setResponseType(1);
             responseMessage.setResponseMessage("Delivery is deleted!");
@@ -139,7 +138,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     public List<DeliveryDto> getAll() {
         List<Delivery> data = deliveryRepository.findAll();
         if (data.isEmpty())
-            return null;
+            return new LinkedList<>();
         return Arrays.asList(modelMapper.map(data, DeliveryDto[].class));
     }
 
@@ -147,7 +146,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     public List<DeliveryDto> getAllByDelivererId(String delivererId) {
         List<Delivery> deliveries = deliveryRepository.getAllByDeliverer_Id(delivererId);
         if (deliveries.isEmpty())
-            return null;
+            return new LinkedList<>();
         return Arrays.asList(modelMapper.map(deliveries, DeliveryDto[].class));
     }
 
@@ -155,7 +154,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     public List<DeliveryDto> getByCustomerId(String id) {
         List<Delivery> deliveries = deliveryRepository.getAllByCustomer_Id(id);
         if (deliveries.isEmpty())
-            return null;
+            return new LinkedList<>();
         return Arrays.asList(modelMapper.map(deliveries, DeliveryDto[].class));
     }
 
@@ -163,7 +162,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     public List<DeliveryDto> getByBoxId(String id) {
         List<Delivery> deliveries = deliveryRepository.getAllByBox_Id(id);
         if (deliveries.isEmpty())
-            return null;
+            return new LinkedList<>();
         return Arrays.asList(modelMapper.map(deliveries, DeliveryDto[].class));
     }
 
@@ -188,7 +187,11 @@ public class DeliveryServiceImpl implements DeliveryService {
         emailDto.setHeader(header);
         emailDto.setContent(content);
 
-        Boolean response = notificationServiceClient.sendEmail(emailDto).getBody().booleanValue();
+        ResponseEntity<Boolean> emailResponse = notificationServiceClient.sendEmail(emailDto);
+
+        if(emailResponse == null) {
+            return null;
+        }
 
         return emailDto;
     }
@@ -197,8 +200,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     public ResponseMessage dispatch(String id) {
         Delivery delivery = deliveryRepository.findById(new ObjectId(id));
 
-        if (delivery.equals(null)) {
-
+        if (delivery == null) {
             responseMessage.setResponseMessage("Bad delivery ID!");
             responseMessage.setResponseType(0);
             return responseMessage;
@@ -214,7 +216,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 
         final Date date = new Date();
 
-        Status status = new Status(DeliveryStatus.dispatched,date.toInstant().toString());
+        Status status = new Status(DeliveryStatus.dispatched, date.toInstant().toString());
         statusList.add(0, status);
         LOGGER.info(status.getStatusUpdate());
 
@@ -226,11 +228,10 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
-    public DeliveryDto getByTrackingNumber(String TrackingNumber) {
-        Delivery delivery = deliveryRepository.getByTrackingNumber(TrackingNumber);
+    public DeliveryDto getByTrackingNumber(String trackingNumber) {
+        Delivery delivery = deliveryRepository.getByTrackingNumber(trackingNumber);
 
-        if (delivery.equals(null)) {
-
+        if (delivery == null) {
             return null;
         }
         return modelMapper.map(delivery, DeliveryDto.class);
