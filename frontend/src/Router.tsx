@@ -10,6 +10,8 @@ import DeliveriesOverview from 'pages/Deliverer/DeliveriesOverview';
 import Box from 'pages/Box/Box';
 import Delivery from 'pages/Delivery/Delivery';
 import Orders from 'pages/Customer/Orders';
+import AddUserPage from './pages/AddUser/AddUserPage';
+import UsersListPage from './pages/UsersList/UsersListPage';
 import { useSelector } from 'react-redux';
 import { isLoggedIn, loggedUser } from 'redux/slices/loggedUser/loggedUserSlice';
 import NotFound from 'pages/NotFound/NotFound';
@@ -89,6 +91,19 @@ const Router = () => {
         <Route path={routes.deliverer.def} element={
           <PrivateRoute>
             <DeliveriesOverview />
+          </PrivateRoute>
+        }
+        />
+
+        <Route path={routes.userMangement.def} element={
+          <PrivateRoute>
+            <AddUserPage />
+          </PrivateRoute>
+        }
+        />
+        <Route path={routes.userList.def} element={
+          <PrivateRoute>
+            <UsersListPage />
           </PrivateRoute>
         }
         />

@@ -36,7 +36,14 @@ const routes = {
   deliverer: route(
     '/deliverer/:delivererId/deliveries',
     (delivererId) =>(`/deliverer/${delivererId}/deliveries`)
+  ),
+  userMangement: route(
+    '/dispatcher/userManagement/',
+  ),
+  userList: route(
+    '/dispatcher/usersList',
   )
+
 };
 
 export default routes;
