@@ -10,14 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
 @Slf4j
-// @CrossOrigin(origins = ApiPaths.LOCAL_CLIENT_BASE_PATH, maxAge = 3600)
 @RequestMapping("/user")
 public class UserController {
 
@@ -25,19 +21,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-/*
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<UserDto> addUser(@RequestBody UserDto userdto){
-        return ResponseEntity.ok(userService.save(userdto));
-    }
-*/
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Boolean> deletebyId (@PathVariable String id) {
         return ResponseEntity.ok(userService.deleteUser(id));
     }
 
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/{id}")
     public ResponseEntity<UserDto> getOne(@PathVariable String id) {
         log.warn("User:getOne method is on. ID:"+id);
         return ResponseEntity.ok(userService.getById(id));
@@ -45,14 +35,14 @@ public class UserController {
 
 
 
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    @GetMapping(value = "/all")
     public ResponseEntity<List<UserDto>> listUsers() {
         List<UserDto> data = userService.getAll();
         return ResponseEntity.ok(data);
     }
 
 
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+    @PutMapping(value = "/update/{id}")
     public ResponseEntity<UserDto> updateProfile(@RequestBody UserDto userDto, @PathVariable String id) {
         UserDto user = userService.updateUser(userDto,id);
         if(user==null)
@@ -61,45 +51,45 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "customer/add", method = RequestMethod.POST)
+    @PostMapping(value = "customer/add")
     public ResponseEntity<ResponseMessage> addCustomer(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody RegistrationDto registrationDto){
 
         return ResponseEntity.ok(userService.save(registrationDto,"CUSTOMER",cookie));
     }
 
 
-    @RequestMapping(value = "deliverer/add", method = RequestMethod.POST)
+    @PostMapping(value = "deliverer/add")
     public ResponseEntity<ResponseMessage> addDeliverer(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody RegistrationDto registrationDto){
         return ResponseEntity.ok(userService.save(registrationDto,"DELIVERER",cookie));
     }
 
 
-    @RequestMapping(value = "dispatcher/add", method = RequestMethod.POST)
+    @PostMapping(value = "dispatcher/add")
     public ResponseEntity<ResponseMessage> addDispatcher(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody RegistrationDto registrationDto){
         return ResponseEntity.ok(userService.save(registrationDto,"DISPATCHER",cookie));
     }
 
 
-    @RequestMapping(value = "/dispatcher/all",  method = RequestMethod.GET)
+    @GetMapping(value = "/dispatcher/all")
     public ResponseEntity<List<UserDto>> getAllDispatchers(){
         List<UserDto> data = userService.getAllByRole("DISPATCHER");
         return ResponseEntity.ok(data);
     }
 
-    @RequestMapping(value = "/customer/all",  method = RequestMethod.GET)
+    @GetMapping(value = "/customer/all")
     public ResponseEntity<List<UserDto>> getAllcustomers(){
         List<UserDto> data = userService.getAllByRole("CUSTOMER");
         return ResponseEntity.ok(data);
     }
 
-    @RequestMapping(value = "/deliverer/all",  method = RequestMethod.GET)
+    @GetMapping(value = "/deliverer/all")
     public ResponseEntity<List<UserDto>> getallDeliverers(){
         List<UserDto> data = userService.getAllByRole("DELIVERER");
         return ResponseEntity.ok(data);
     }
 
 
-    @RequestMapping(value = "/dispatcher/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/dispatcher/{id}")
     public ResponseEntity<UserDto> getDispatcher(@PathVariable String id) {
         UserDto userDto = userService.getById(id);
         if(userDto==null)
@@ -108,7 +98,7 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "/customer/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/customer/{id}")
     public ResponseEntity<UserDto> getCustomer(@PathVariable String id) {
         UserDto userDto = userService.getById(id);
         if(userDto==null)
@@ -117,14 +107,11 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "/deliverer/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/deliverer/{id}")
     public ResponseEntity<UserDto> getDeliverer(@PathVariable String id) {
         UserDto userDto = userService.getById(id);
         if(userDto==null)
             return ResponseEntity.badRequest().body(userDto);
         return ResponseEntity.ok(userDto);
     }
-
-
-
 }

@@ -91,7 +91,7 @@ public class AuthRequestFilter extends OncePerRequestFilter {
     }
 
     public Collection<? extends GrantedAuthority> makeRole(String role) {
-        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
+        List<GrantedAuthority> list = new ArrayList<>();
 
         list.add(new SimpleGrantedAuthority(role));
 
