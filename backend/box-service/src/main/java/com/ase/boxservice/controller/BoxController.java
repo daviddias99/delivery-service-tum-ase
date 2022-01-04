@@ -3,7 +3,6 @@ package com.ase.boxservice.controller;
 
 import com.ase.boxservice.dto.BoxDto;
 import com.ase.boxservice.service.BoxService;
-import com.ase.client.com.ase.contract.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +16,7 @@ public class BoxController {
     @Autowired
     private BoxService boxService;
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @PostMapping(value = "/add")
     public ResponseEntity<BoxDto> addBox(@RequestBody BoxDto boxDto){
         BoxDto savedDto =  boxService.save(boxDto);
         if(savedDto==null)
@@ -25,23 +24,23 @@ public class BoxController {
         return ResponseEntity.ok(savedDto);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/{id}")
     public ResponseEntity<BoxDto> getById (@PathVariable String id){
         return ResponseEntity.ok(boxService.getById(id));
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Boolean> deleteById (@PathVariable String id){
         return ResponseEntity.ok(boxService.deleteBox(id));
     }
 
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    @GetMapping(value = "/all")
     public ResponseEntity<List<BoxDto>> listBoxes(){
         List<BoxDto> data = boxService.getAll();
         return ResponseEntity.ok(data);
     }
 
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+    @PutMapping(value = "/update/{id}")
     public ResponseEntity<BoxDto> updateBox(@RequestBody BoxDto boxDto, @PathVariable String id) {
         BoxDto updatedDto = boxService.updateBox(boxDto,id);
         if(updatedDto==null)
