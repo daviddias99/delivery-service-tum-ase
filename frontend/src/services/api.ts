@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 
 /**
  * Constant variables
@@ -10,7 +10,7 @@ const API_URL: string = process.env.REACT_APP_API_URI ?? DEFAULT_API_URL;
  * All the server API routes.
  */
 const routes = {
-  login: '/login',
+  login: '/auth',
   logout: '/logout',
   delivery: (id: string) => `/delivery/${id}`,
   deliveryByTracking: (id: string) => `/delivery/track/${id}`,
@@ -36,39 +36,36 @@ const routes = {
 
 type RestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'get' | 'post' | 'put' | 'delete';
 
-type RequestResponse = {
-  status: string,
-  data?: any,
-  error?: any
-}
+const errorHandler = (err: AxiosError, callback: (_res: AxiosResponse<any, any>) => void) => {
+  if (err.response) { // Server replied with non 2xx
+  } else if (err.request) { // Network error / Server did not reply
+  } else { // Other error
+  }
 
-const request = (path: string, method: RestMethod, data: any, callback: (_res: RequestResponse, _status: number) => any) => {
+  const errorResponse: AxiosResponse<any, any> = {
+    data: err,
+    status: 500,
+    statusText: 'An error occured',
+    headers: {},
+    config: {},
+  };
+
+  callback(errorResponse);
+};
+
+const request = (path: string, method: RestMethod, data: any, callback: (_res: AxiosResponse<any, any>) => void) => {
 
   path = path.startsWith('/') ? path : '/' + path;
   path = path.endsWith('/') ? path : path + '/';
 
-  const headers = {};
-
-  // TODO: Add authorization headers here
-
-  const errorHandler = (err: AxiosError) => {
-    if (err.response) { // Server replied with non 2xx
-    } else if (err.request) { // Network error / Server did not reply
-    } else { // Other error
-    }
-
-    const res = { status: 'error', error: err };
-    callback(res, 500);
-  };
-
   if (method.toLowerCase() === 'get') {
-    axios.get(API_URL + path, { headers, params: data }).then((res) => callback(res.data, res.status)).catch(errorHandler);
+    axios.get(API_URL + path, { withCredentials: true, params: data }).then((res) => callback(res)).catch((err) => errorHandler(err, callback));
   } else if (method.toLowerCase() === 'post') {
-    axios.post(API_URL + path, data, { headers }).then((res) => callback(res.data, res.status)).catch(errorHandler);
+    axios.post(API_URL + path, data, { withCredentials: true }).then((res) => callback(res)).catch((err) => errorHandler(err, callback));
   } else if (method.toLowerCase() === 'delete') {
-    axios.delete(API_URL + path, { headers }).then((res) => callback(res.data, res.status)).catch(errorHandler);
+    axios.delete(API_URL + path, { withCredentials: true }).then((res) => callback(res)).catch((err) => errorHandler(err, callback));
   } else if (method.toLowerCase() === 'put') {
-    axios.put(API_URL + path, data, { headers }).then((res) => callback(res.data, res.status)).catch(errorHandler);
+    axios.put(API_URL + path, data, { withCredentials: true }).then((res) => callback(res)).catch((err) => errorHandler(err, callback));
   }
 };
 
@@ -78,8 +75,6 @@ const asyncRequest = async (path: string, method: RestMethod, data: any) => {
   path = path.endsWith('/') ? path : path + '/';
 
   const headers = {};
-
-  // TODO: Add authorization headers here
 
   if (method.toLowerCase() === 'get') {
     return axios.get(API_URL + path, { headers, params: data });
@@ -97,46 +92,46 @@ const asyncRequest = async (path: string, method: RestMethod, data: any) => {
  * the app and the server.
  */
 const api = {
-  login: (data: any, callback: (_res: RequestResponse, _status: number) => any) => {
-    request(routes.login, 'post', data, callback);
+  login: (data: any, callback: (_res: AxiosResponse<any, any>) => void) => {
+    axios.post(API_URL + routes.login, {}, { withCredentials: true, auth: data }).then((res) => callback(res)).catch((err) => errorHandler(err, callback));
   },
-  logout: (callback: (_res: RequestResponse, _status: number) => any) => {
+  logout: (callback: (_res: AxiosResponse<any, any>) => void) => {
     request(routes.logout, 'post', null, callback);
   },
-  getAllDeliveries: (callback: (_res: RequestResponse, _status: number) => any) => {
+  getAllDeliveries: (callback: (_res: AxiosResponse<any, any>) => void) => {
     request(routes.allDeliveries, 'get', null, callback);
   },
-  getAllBoxes: (callback: (_res: RequestResponse, _status: number) => any) => {
+  getAllBoxes: (callback: (_res: AxiosResponse<any, any>) => void) => {
     request(routes.allBoxes, 'get', null, callback);
   },
-  getUser: (id: string, callback: (_res: RequestResponse, _status: number) => any) => {
+  getUser: (id: string, callback: (_res: AxiosResponse<any, any>) => void) => {
     request(routes.user(id), 'get', null, callback);
   },
-  getBox: (id: string, callback: (_res: RequestResponse, _status: number) => any) => {
+  getBox: (id: string, callback: (_res: AxiosResponse<any, any>) => void) => {
     request(routes.box(id), 'get', null, callback);
   },
-  getBoxDeliveries: (id: string, callback: (_res: RequestResponse, _status: number) => any) => {
+  getBoxDeliveries: (id: string, callback: (_res: AxiosResponse<any, any>) => void) => {
     request(routes.boxDeliveries(id), 'get', null, callback);
   },
-  getDelivery: (id: string, callback: (_res: RequestResponse, _status: number) => any) => {
+  getDelivery: (id: string, callback: (_res: AxiosResponse<any, any>) => void) => {
     request(routes.delivery(id), 'get', null, callback);
   },
-  createBox: (data: any, callback: (_res: RequestResponse, _status: number) => any) => {
+  createBox: (data: any, callback: (_res: AxiosResponse<any, any>) => void) => {
     request(routes.createBox, 'post', data, callback);
   },
-  deleteBox: (id: string, callback: (_res: RequestResponse, _status: number) => any) => {
+  deleteBox: (id: string, callback: (_res: AxiosResponse<any, any>) => void) => {
     request(routes.box(id), 'delete', null, callback);
   },
-  getByTrackingCode: (id: string, callback: (_res: RequestResponse, _status: number) => any) => {
+  getByTrackingCode: (id: string, callback: (_res: AxiosResponse<any, any>) => void) => {
     request(routes.deliveryByTracking(id), 'get', null, callback);
   },
-  editBox: (id: string, data: any, callback: (_res: RequestResponse, _status: number) => any) => {
+  editBox: (id: string, data: any, callback: (_res: AxiosResponse<any, any>) => void) => {
     request(routes.updateBox(id), 'put', data, callback);
   },
-  getCustomer: (id: string, callback: (_res: RequestResponse, _status: number) => any) => {
+  getCustomer: (id: string, callback: (_res: AxiosResponse<any, any>) => void) => {
     request(routes.customer(id), 'get', null, callback);
   },
-  getCustomerDeliveries: (id: string, callback: (_res: RequestResponse, _status: number) => any) => {
+  getCustomerDeliveries: (id: string, callback: (_res: AxiosResponse<any, any>) => void) => {
     request(routes.customerDeliveries(id), 'get', null, callback);
   },
 };

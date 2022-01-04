@@ -1,10 +1,10 @@
 import { Divider } from '@mui/material';
 import React from 'react';
-import { Deliverer, Delivery } from 'types';
+import { User, Delivery } from 'types';
 import { CurrentDeliveriesTable, PastDeliveriesTable } from 'components/common/DeliveriesTable/DeliveriesTable';
 import './styles.scss';
 type delivererProps = {
-  deliverer: Deliverer,
+  deliverer: User,
   deliveries: Delivery[]
 }
 

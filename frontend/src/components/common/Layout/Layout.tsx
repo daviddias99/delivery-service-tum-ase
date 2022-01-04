@@ -7,19 +7,25 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Sidebar from './Sidebar/Sidebar';
+
+import { Button } from '@mui/material';
+import LoginModal from './LoginModal/LoginModal';
 import AppLogo from 'components/common/Layout/AppLogo/AppLogo'; // Import using relative path
 import Image from 'assets/images/bg-blured_small.jpg'; // Import using relative path
 import ProfileMenu from 'components/common/Layout/AppBarMenu/ProfileMenu';
+import { isLoggedIn } from 'redux/slices/loggedUser/loggedUserSlice';
+import { useSelector } from 'react-redux';
 
 const drawerWidth: number = 240;
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
+  hassidebar: string;
 }
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
-})<AppBarProps & { hassidebar: boolean }>(({ theme, open, hassidebar }) => ({
+})<AppBarProps>(({ theme, open, hassidebar }) => ({
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(['width', 'margin'], {
     easing: theme.transitions.easing.sharp,
@@ -27,7 +33,7 @@ const AppBar = styled(MuiAppBar, {
   },
   ),
   backgroundColor: 'primary',
-  ...(open && hassidebar && {
+  ...(open && hassidebar === 'true' && {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
@@ -43,6 +49,8 @@ type LayoutProps = {
 }
 
 const Layout = ({ hasSidebar, children }: LayoutProps) => {
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const loggedIn = useSelector(isLoggedIn);
   const [open, setOpen] = useState(hasSidebar);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -51,7 +59,7 @@ const Layout = ({ hasSidebar, children }: LayoutProps) => {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="absolute" open={open} hassidebar={hasSidebar}>
+      <AppBar position="absolute" open={open} hassidebar={hasSidebar ? 'true' : 'false'}>
         <Toolbar
           sx={{
             pr: '24px', // keep right padding when drawer closed
@@ -71,9 +79,19 @@ const Layout = ({ hasSidebar, children }: LayoutProps) => {
               <MenuIcon />
             </IconButton>}
           <AppLogo />
-          <IconButton color="inherit">
+
+          {
+            loggedIn &&
             <ProfileMenu />
-          </IconButton>
+          }
+          {
+            !loggedIn &&
+            <React.Fragment>
+              <Button sx={{ borderColor: 'white', color: 'white' }} variant="outlined" onClick={() => setLoginModalOpen(true)}>Login</Button>
+              <LoginModal open={loginModalOpen} setOpen={setLoginModalOpen} />
+            </React.Fragment>
+          }
+
         </Toolbar>
       </AppBar>
       {hasSidebar && <Sidebar open={open} toggleDrawer={toggleDrawer} />}

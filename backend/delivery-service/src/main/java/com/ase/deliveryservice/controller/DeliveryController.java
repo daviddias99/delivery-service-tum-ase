@@ -1,21 +1,14 @@
 package com.ase.deliveryservice.controller;
 
-
 import com.ase.client.com.ase.contract.ResponseMessage;
-import com.ase.client.com.ase.contract.UserDto;
 import com.ase.deliveryservice.dto.DeliveryDto;
-import com.ase.deliveryservice.entity.Delivery;
-import com.ase.deliveryservice.entity.DeliveryStatus;
-import com.ase.deliveryservice.entity.Status;
+
 import com.ase.deliveryservice.service.DeliveryService;
-import feign.Response;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.jni.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -29,9 +22,8 @@ public class DeliveryController {
     @Autowired
     private ResponseMessage responseMessage;
 
-
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<DeliveryDto> addDelivery(@RequestBody DeliveryDto deliveryDto){
+    @PostMapping(value = "/add")
+    public ResponseEntity<DeliveryDto> addDelivery(@RequestBody DeliveryDto deliveryDto) {
 
         log.warn("add method is up");
 
@@ -39,85 +31,73 @@ public class DeliveryController {
 
         return ResponseEntity.ok(deliveryDto1);
 
-
     }
-
-
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     public ResponseEntity<DeliveryDto> updateDelivery(@RequestBody DeliveryDto deliveryDto, @PathVariable String id) {
-        DeliveryDto updatedDto = deliveryService.updateDelivery(deliveryDto,id);
-        if(updatedDto==null)
+        DeliveryDto updatedDto = deliveryService.updateDelivery(deliveryDto, id);
+        if (updatedDto == null)
             return ResponseEntity.badRequest().body(null);
 
         return ResponseEntity.ok(updatedDto);
     }
 
-
-    @RequestMapping(value = "/{deliveryId}", method = RequestMethod.GET)
+    @GetMapping(value = "/{deliveryId}")
     public ResponseEntity<DeliveryDto> getOne(@PathVariable String deliveryId) {
         return ResponseEntity.ok(deliveryService.getById(deliveryId));
     }
 
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<ResponseMessage> deletebyId (@PathVariable String id) {
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<ResponseMessage> deletebyId(@PathVariable String id) {
 
         responseMessage = deliveryService.deleteDelivery(id);
 
-        if(responseMessage.getResponseType()==0){
+        if (responseMessage.getResponseType() == 0) {
             return ResponseEntity.badRequest().body(responseMessage);
         }
 
         return ResponseEntity.ok(responseMessage);
 
-
     }
 
-
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    @GetMapping(value = "/all")
     public ResponseEntity<List<DeliveryDto>> listDelivery() {
         List<DeliveryDto> data = deliveryService.getAll();
         return ResponseEntity.ok(data);
     }
 
-
-
-    @RequestMapping(value = "/all/deliverer/{delivererId}", method = RequestMethod.GET)
+    @GetMapping(value = "/all/deliverer/{delivererId}")
     public ResponseEntity<List<DeliveryDto>> getAllDeliveriesByDelivererId(@PathVariable String delivererId) {
         List<DeliveryDto> data = deliveryService.getAllByDelivererId(delivererId);
         return ResponseEntity.ok(data);
     }
 
-    @RequestMapping(value = "/all/box/{boxId}", method = RequestMethod.GET)
+    @GetMapping(value = "/all/box/{boxId}")
     public ResponseEntity<List<DeliveryDto>> getAllDeliveriesByBoxId(@PathVariable String boxId) {
         List<DeliveryDto> data = deliveryService.getByBoxId(boxId);
         return ResponseEntity.ok(data);
     }
 
-
-    @RequestMapping(value = "/all/customer/{customerId}", method = RequestMethod.GET)
+    @GetMapping(value = "/all/customer/{customerId}")
     public ResponseEntity<List<DeliveryDto>> getAllDeliveriesByCustomerId(@PathVariable String customerId) {
         List<DeliveryDto> data = deliveryService.getByCustomerId(customerId);
         return ResponseEntity.ok(data);
     }
 
-    @RequestMapping(value = "track/{trackingNumber}", method = RequestMethod.GET)
+    @GetMapping(value = "track/{trackingNumber}")
     public ResponseEntity<DeliveryDto> getByTrackingId(@PathVariable String trackingNumber) {
         return ResponseEntity.ok(deliveryService.getByTrackingNumber(trackingNumber));
     }
 
-    @RequestMapping(value = "dispatch/{id}", method = RequestMethod.POST)
-    public ResponseEntity<ResponseMessage> updateDeliveryStatus(@PathVariable String id){
+    @PostMapping(value = "dispatch/{id}")
+    public ResponseEntity<ResponseMessage> updateDeliveryStatus(@PathVariable String id) {
 
         responseMessage = deliveryService.dispatch(id);
 
-        if(responseMessage.getResponseType()==0){
+        if (responseMessage.getResponseType() == 0) {
             return ResponseEntity.badRequest().body(responseMessage);
         }
 
         return ResponseEntity.ok(responseMessage);
     }
-
-
 }

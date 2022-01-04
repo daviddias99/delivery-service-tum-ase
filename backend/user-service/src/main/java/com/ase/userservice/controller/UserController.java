@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -59,21 +62,21 @@ public class UserController {
 
 
     @RequestMapping(value = "customer/add", method = RequestMethod.POST)
-    public ResponseEntity<ResponseMessage> addCustomer(@RequestBody RegistrationDto registrationDto){
-        log.warn("customer creation request is on");
-        return ResponseEntity.ok(userService.save(registrationDto,"CUSTOMER"));
+    public ResponseEntity<ResponseMessage> addCustomer(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody RegistrationDto registrationDto){
+
+        return ResponseEntity.ok(userService.save(registrationDto,"CUSTOMER",cookie));
     }
 
 
     @RequestMapping(value = "deliverer/add", method = RequestMethod.POST)
-    public ResponseEntity<ResponseMessage> addDeliverer(@RequestBody RegistrationDto registrationDto){
-        return ResponseEntity.ok(userService.save(registrationDto,"DELIVERER"));
+    public ResponseEntity<ResponseMessage> addDeliverer(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody RegistrationDto registrationDto){
+        return ResponseEntity.ok(userService.save(registrationDto,"DELIVERER",cookie));
     }
 
 
     @RequestMapping(value = "dispatcher/add", method = RequestMethod.POST)
-    public ResponseEntity<ResponseMessage> addDispatcher(@RequestBody RegistrationDto registrationDto){
-        return ResponseEntity.ok(userService.save(registrationDto,"DISPATCHER"));
+    public ResponseEntity<ResponseMessage> addDispatcher(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody RegistrationDto registrationDto){
+        return ResponseEntity.ok(userService.save(registrationDto,"DISPATCHER",cookie));
     }
 
 

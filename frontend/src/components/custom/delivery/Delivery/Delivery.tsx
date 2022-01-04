@@ -1,11 +1,6 @@
 import * as React from 'react';
 import Chip from '@mui/material/Chip';
-import { Delivery, Box } from 'types';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
+import { Delivery, Box, User } from 'types';
 import { Grid } from '@mui/material';
 
 import BoxAddress from 'components/common/BoxAddress/BoxAddress';
@@ -19,9 +14,12 @@ import { getDeliveryStatusColor, toUpperCase } from 'utils';
 
 import './styles.scss';
 import EditDelivery from '../deliveryManagement/EditDelivery';
+import TrackingInfo from './TrackingInfo';
+import { loggedUser } from 'redux/slices/loggedUser/loggedUserSlice';
 
 const DeliveryComponent = () => {
 
+  const user: User = useSelector(loggedUser);
   const delivery: Delivery = useSelector(deliveryInfo);
   const box: Box = useSelector(boxInfo);
 
@@ -34,7 +32,7 @@ const DeliveryComponent = () => {
         <span>
           {delivery.id}
         </span>
-        <EditDelivery />
+        {user && user.role === 'dispatcher' && <EditDelivery />}
         <Chip className="boxStatus" size="small" label={toUpperCase(latestStatus.deliveryStatus)} sx={{ backgroundColor: getDeliveryStatusColor(latestStatus.deliveryStatus) }} />
       </h3>
       <h6 className="subTitle">
@@ -69,75 +67,7 @@ const DeliveryComponent = () => {
               </section>
             </Grid>
             <Grid item xs={12}>
-              <section className="trackingInfo">
-                <h4 className="sectionTitle">
-                  Tracking Info (REMOVE FOR CUSTOMER):
-                </h4>
-
-                <Table sx={{ width: '70%' }} aria-label="simple table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell></TableCell>
-                      <TableCell style={{ fontWeight: 'bold' }}>Name</TableCell>
-                      <TableCell style={{ fontWeight: 'bold' }}>ID</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    <TableRow
-                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                    >
-                      <TableCell style={{ fontWeight: 'bold' }} component="th" scope="row">
-                        Customer
-                      </TableCell>
-                      <TableCell >
-                        <a href={`/customer/${delivery.customer.id}`}>
-                          {delivery.customer.name}
-                        </a>
-                      </TableCell>
-                      <TableCell >
-                        <a href={`/customer/${delivery.customer.id}`}>
-                          {delivery.customer.id}
-                        </a>
-                      </TableCell>
-                    </TableRow>
-
-                    <TableRow
-                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                    >
-                      <TableCell style={{ fontWeight: 'bold' }} component="th" scope="row">
-                        Dispatcher
-                      </TableCell>
-                      <TableCell >
-                        <a href={`/dispatcher/${delivery.dispatcher.id}`}>
-                          {delivery.dispatcher.name}
-                        </a>
-                      </TableCell>
-                      <TableCell >
-                        <a href={`/dispatcher/${delivery.dispatcher.id}`}>
-                          {delivery.dispatcher.id}
-                        </a>
-                      </TableCell>
-                    </TableRow>
-                    <TableRow
-                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                    >
-                      <TableCell style={{ fontWeight: 'bold' }} variant="head" scope="row">
-                        Deliverer
-                      </TableCell>
-                      <TableCell >
-                        <a href={`/deliverer/${delivery.deliverer.id}`}>
-                          {delivery.deliverer.name}
-                        </a>
-                      </TableCell>
-                      <TableCell >
-                        <a href={`/deliverer/${delivery.deliverer.id}`}>
-                          {delivery.deliverer.id}
-                        </a>
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </section>
+              {user && user.role !== 'customer' && <TrackingInfo delivery={delivery} />}
             </Grid>
           </Grid>
         </Grid>
@@ -147,7 +77,7 @@ const DeliveryComponent = () => {
               Status:
             </h4>
 
-            <DeliveryStatusStepper statusHistory={delivery.statusHistory} />
+            <DeliveryStatusStepper />
           </section >
         </Grid>
       </Grid>

@@ -27,7 +27,7 @@ public class AuthController {
 
 
     @PostMapping
-    public ResponseEntity<String> login(@RequestHeader("Authorization") String authorization, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ResponseEntity<AuthResponse> login(@RequestHeader("Authorization") String authorization, HttpServletRequest request, HttpServletResponse response) throws Exception {
         log.warn("Atuh API id on. request:", request.getUserPrincipal());
         return authService.authenticateUser(authorization, request, response);
     }
@@ -39,12 +39,12 @@ public class AuthController {
         return ResponseEntity.ok(authService.register(authDto));
     }
 
-    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    @PostMapping(value = "/test")
     public ResponseEntity<UserDto> testAdd() {
         return ResponseEntity.ok(authService.register(new AuthDto("", "test1", "test1", "bob", "bob", "bob@bob.bob", "user")));
     }
 
-    @RequestMapping(value = "/testtoken", method = RequestMethod.GET)
+    @GetMapping(value = "/testtoken")
     public ResponseEntity<String> checkToken() {
         return ResponseEntity.ok("token valid");
     }
