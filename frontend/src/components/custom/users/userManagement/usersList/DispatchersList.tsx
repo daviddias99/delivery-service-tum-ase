@@ -1,36 +1,32 @@
 import React, {useEffect, useState} from 'react';
 import {DataGrid} from '@mui/x-data-grid';
-import {usersTableColumns} from 'components/custom/users/usersList/common/helper';
+import {escapeRegExp, usersTableColumns} from 'components/custom/users/userManagement/usersList/common/helper';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  customersList,
-  selectedCustomersList,
-  updateCustomer,
-  updateSelectedCustomers
-} from '../../../../redux/slices/users/customersSlice';
 import Delete from './common/Delete';
 import {TextField} from '@mui/material';
-import {User} from '../../../../types';
+import {
+  selectedDispatchersList,
+  dispatchersList,
+  updateSelectedDispatchers, updateDispatchers
+} from 'redux/slices/users/dispatcherSlice';
 
 
 
 
-function escapeRegExp(value: string): string {
-  return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
-}
 
 
 
-const CustomersList = () => {
+
+const DispatchersList = () => {
   const [pageSize, setPageSize] = useState(10);
   const [searchInput, setSearchInput] = useState('');
-  const list = useSelector(customersList);
+  const list = useSelector(dispatchersList);
   const [showList, setShowList] = useState(list);
   const dispatch = useDispatch();
-  const selectedList = useSelector(selectedCustomersList);
-  const selectionModel = ((selectedCustomerList: User[]) => {
+  const selectedList = useSelector(selectedDispatchersList);
+  const selectionModel = ((selectedDispatchersList: any[]) => {
     const selectedIds: any[] =[];
-    selectedCustomerList.forEach(element => {
+    selectedDispatchersList.forEach(element => {
       selectedIds.push(element.id);
     });
     return selectedIds;
@@ -49,12 +45,11 @@ const CustomersList = () => {
   };
 
   useEffect(() => {
-    console.log('search input changed');
     const displayCopy = [...list];
     const newDisplay = displayCopy.filter(contains);
     setShowList(newDisplay);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchInput, list]);
+  }, [searchInput]);
 
   useEffect(() => {
     console.log('list Changed');
@@ -64,7 +59,7 @@ const CustomersList = () => {
 
   return (
     <div>
-      <Delete selector={customersList} selectedSelector={selectedCustomersList} updateSelected={updateSelectedCustomers} update={updateCustomer}></Delete>
+      <Delete selector={dispatchersList} selectedSelector={selectedDispatchersList} updateSelected={updateSelectedDispatchers} update={updateDispatchers}></Delete>
       <div style={{width: '100%', textAlign: 'right', marginTop: '10px', marginBottom: '10px'}}>
         <TextField id="Search" label="Search" variant="outlined" sx={{width: '40%'}} value={searchInput} onChange={e => searchChanged(e.target.value)} />
       </div>
@@ -84,7 +79,7 @@ const CustomersList = () => {
             const selectedRows = list.filter((row:any) =>
               selectedIDs.has(row.id),
             );
-            dispatch(updateSelectedCustomers(selectedRows));
+            dispatch(updateSelectedDispatchers(selectedRows));
           }}
           selectionModel={selectionModel(selectedList)}
           disableSelectionOnClick
@@ -94,4 +89,4 @@ const CustomersList = () => {
   );
 };
 
-export default CustomersList;
+export default DispatchersList;

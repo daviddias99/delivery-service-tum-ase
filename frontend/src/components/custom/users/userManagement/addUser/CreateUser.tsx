@@ -3,9 +3,9 @@ import {AppBar, Box, Tab, Tabs, Typography} from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
-import CustomerManagement from './CustomerManagement';
-import DelivererManagement from './DelivererManagement';
-import DispatcherManagement from './DispatcherManegement';
+import CreateCustomer from './CreateCustomer';
+import CreateDeliverer from './CreateDeliverer';
+import CreateDispatcher from './CreateDispatcher';
 
 
 interface TabPanelProps {
@@ -42,7 +42,7 @@ function a11yProps(index: number) {
   };
 }
 
-const UserManagement = () => {
+const CreateUser = () => {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: any, newValue: any) => {
@@ -66,17 +66,17 @@ const UserManagement = () => {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <CustomerManagement />
+        <CreateCustomer />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <DelivererManagement />
+        <CreateDeliverer />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <DispatcherManagement />
+        <CreateDispatcher />
       </TabPanel>
     </Box>
   );
 
 
 };
-export default UserManagement;
+export default CreateUser;

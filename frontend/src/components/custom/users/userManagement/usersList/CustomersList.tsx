@@ -1,33 +1,36 @@
 import React, {useEffect, useState} from 'react';
 import {DataGrid} from '@mui/x-data-grid';
-import {escapeRegExp, usersTableColumns} from 'components/custom/users/usersList/common/helper';
+import {usersTableColumns} from 'components/custom/users/userManagement/usersList/common/helper';
 import {useDispatch, useSelector} from 'react-redux';
+import {
+  customersList,
+  selectedCustomersList,
+  updateCustomer,
+  updateSelectedCustomers
+} from '../../../../../redux/slices/users/customersSlice';
 import Delete from './common/Delete';
 import {TextField} from '@mui/material';
-import {User} from '../../../../types';
-import {
-  deliverersList,
-  selectedDeliverersList, updateDeliverers,
-  updateSelctedDeliveres
-} from 'redux/slices/users/delivererSlice';
+import {User} from '../../../../../types';
 
 
 
 
+function escapeRegExp(value: string): string {
+  return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+}
 
 
 
-
-const DeliverersList = () => {
+const CustomersList = () => {
   const [pageSize, setPageSize] = useState(10);
   const [searchInput, setSearchInput] = useState('');
-  const list = useSelector(deliverersList);
+  const list = useSelector(customersList);
   const [showList, setShowList] = useState(list);
   const dispatch = useDispatch();
-  const selectedList = useSelector(selectedDeliverersList);
-  const selectionModel = ((selectedDeliverersList: User[]) => {
+  const selectedList = useSelector(selectedCustomersList);
+  const selectionModel = ((selectedCustomerList: User[]) => {
     const selectedIds: any[] =[];
-    selectedDeliverersList.forEach(element => {
+    selectedCustomerList.forEach(element => {
       selectedIds.push(element.id);
     });
     return selectedIds;
@@ -46,11 +49,12 @@ const DeliverersList = () => {
   };
 
   useEffect(() => {
+    console.log('search input changed');
     const displayCopy = [...list];
     const newDisplay = displayCopy.filter(contains);
     setShowList(newDisplay);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchInput]);
+  }, [searchInput, list]);
 
   useEffect(() => {
     console.log('list Changed');
@@ -60,7 +64,7 @@ const DeliverersList = () => {
 
   return (
     <div>
-      <Delete selector={deliverersList} selectedSelector={selectedDeliverersList} updateSelected={updateSelctedDeliveres} update={updateDeliverers}></Delete>
+      <Delete selector={customersList} selectedSelector={selectedCustomersList} updateSelected={updateSelectedCustomers} update={updateCustomer}></Delete>
       <div style={{width: '100%', textAlign: 'right', marginTop: '10px', marginBottom: '10px'}}>
         <TextField id="Search" label="Search" variant="outlined" sx={{width: '40%'}} value={searchInput} onChange={e => searchChanged(e.target.value)} />
       </div>
@@ -80,7 +84,7 @@ const DeliverersList = () => {
             const selectedRows = list.filter((row:any) =>
               selectedIDs.has(row.id),
             );
-            dispatch(updateSelctedDeliveres(selectedRows));
+            dispatch(updateSelectedCustomers(selectedRows));
           }}
           selectionModel={selectionModel(selectedList)}
           disableSelectionOnClick
@@ -90,4 +94,4 @@ const DeliverersList = () => {
   );
 };
 
-export default DeliverersList;
+export default CustomersList;

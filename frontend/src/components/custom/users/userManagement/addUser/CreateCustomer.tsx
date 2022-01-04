@@ -1,24 +1,26 @@
 
 import React, {useEffect, useState} from 'react';
 import {
-  Alert,
+  Alert, Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  Grid,
+  Grid, InputLabel, MenuItem, Select, SelectChangeEvent,
   TextField
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {AxiosResponse} from 'axios';
-import api from '../../../../services/api';
+import api from '../../../../../services/api';
+import FormControl from '@mui/material/FormControl';
 
 
-const CustomerManagement = () => {
+const CreateCustomer = () => {
   const [showError, setError] = useState(false);
   const [showSuccess, setSuccess] = useState(false);
+  const [RFID, setRFID] = useState('0');
   const [open, setOpen] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [userName, setUserName] = useState('');
@@ -38,6 +40,11 @@ const CustomerManagement = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setRFID(event.target.value as string);
+  };
+
 
   const confirmClicked = () => {
     const newCustomer = {username: userName, firstName: firstName, surname: surname, password: 'password', email: email};
@@ -132,6 +139,22 @@ const CustomerManagement = () => {
           />
         </Grid>
         <Grid item xs={12} sm={12}>
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">RFID</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={RFID}
+              label="RFID"
+              onChange={handleChange}
+            >
+              <MenuItem value={10}>1</MenuItem>
+              <MenuItem value={20}>2</MenuItem>
+              <MenuItem value={30}>3</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={12}>
           <TextField
             required
             margin="dense"
@@ -172,4 +195,4 @@ const CustomerManagement = () => {
   );
 };
 
-export default CustomerManagement;
+export default CreateCustomer;

@@ -13,10 +13,10 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {AxiosResponse} from 'axios';
-import api from '../../../../services/api';
+import api from '../../../../../services/api';
 
 
-const DispatcherManagement = () => {
+const CreateDispatcher = () => {
   const [showError, setError] = useState(false);
   const [showSuccess, setSuccess] = useState(false);
   const [open, setOpen] = useState(false);
@@ -167,4 +167,4 @@ const DispatcherManagement = () => {
 
   );
 };
-export default DispatcherManagement;
+export default CreateDispatcher;
