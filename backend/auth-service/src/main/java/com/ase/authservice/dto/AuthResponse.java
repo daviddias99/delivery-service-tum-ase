@@ -1,10 +1,10 @@
 package com.ase.authservice.dto;
 
 public class AuthResponse {
-  public UserDto user;
+  public AuthDto user;
   public String statusMessage;
 
-  public AuthResponse(UserDto user, String statusMessage) {
+  public AuthResponse(AuthDto user, String statusMessage) {
     this.user = user;
     this.statusMessage = statusMessage;
   }

@@ -4,16 +4,19 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useDispatch } from 'react-redux';
 import { logout } from 'redux/slices/loggedUser/loggedUserSlice';
 import { useNavigate } from 'react-router-dom';
-
+import api from 'services/api';
 
 const LogoutButton = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleClick = () => {
-    // TODO logout API call
-    dispatch(logout());
-    navigate('/');
+    const callback = () => {
+      dispatch(logout());
+      navigate('/');
+    };
+
+    api.logout(callback);
   };
 
   return (

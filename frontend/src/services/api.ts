@@ -12,7 +12,7 @@ const API_URL: string = process.env.REACT_APP_API_URI ?? DEFAULT_API_URL;
 const routes = {
   // Auth
   login: '/auth',
-  logout: '/logout',
+  logout: '/auth/logout',
 
   // Delivery
   delivery: (id: string) => `/delivery/${id}`,
