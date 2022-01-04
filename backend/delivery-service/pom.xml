@@ -13,7 +13,7 @@
         <artifactId>service-parent</artifactId>
         <groupId>com.ase</groupId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath/>
+        <relativePath>../service-parent/pom.xml</relativePath>
     </parent>
 
 

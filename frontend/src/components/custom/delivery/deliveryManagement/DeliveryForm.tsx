@@ -11,11 +11,12 @@ type FormProps = {
   title: string,
   description: string,
   btnText: string,
+  error: string,
   // eslint-disable-next-line no-unused-vars
   handler: (formData: any) => void
 };
 
-const DeliveryForm = ({ isOpen, close, initialData, title, description, btnText, handler }: FormProps) => {
+const DeliveryForm = ({ isOpen, close, initialData, title, description, btnText, error, handler }: FormProps) => {
 
   const [formData, setFormData] = React.useState(initialData);
 
@@ -124,6 +125,9 @@ const DeliveryForm = ({ isOpen, close, initialData, title, description, btnText,
       <DialogContent>
         <DialogContentText>
           {description}
+          <p style={{color: 'red'}}>
+            {error}
+          </p>
         </DialogContentText>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={12}>
