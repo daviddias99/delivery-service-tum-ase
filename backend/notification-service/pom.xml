@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>notification-service</artifactId>
-
+    <packaging>jar</packaging>
     <parent>
         <artifactId>service-parent</artifactId>
         <groupId>com.ase</groupId>

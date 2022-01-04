@@ -11,7 +11,7 @@
         <version>1.0-SNAPSHOT</version>
         <relativePath>../service-parent/pom.xml</relativePath>
     </parent>
-
+    <packaging>jar</packaging>
     <artifactId>box-service</artifactId>
     <groupId>com.ase</groupId>
     <version>1.0-SNAPSHOT</version>

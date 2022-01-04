@@ -11,7 +11,7 @@
 		<relativePath>../service-parent/pom.xml</relativePath>
 	</parent>
 
-
+	<packaging>jar</packaging>
 
 	<groupId>com.ase</groupId>
 	<artifactId>user-service</artifactId>

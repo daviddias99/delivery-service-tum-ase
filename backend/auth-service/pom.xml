@@ -11,7 +11,7 @@
         <version>1.0-SNAPSHOT</version>
         <relativePath>../service-parent/pom.xml</relativePath>
     </parent>
-
+    <packaging>jar</packaging>
     <artifactId>auth-service</artifactId>
     <groupId>com.ase</groupId>
     <version>1.0-SNAPSHOT</version>
@@ -21,8 +21,6 @@
         <java.version>11</java.version>
     </properties>
     <dependencies>
-
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
