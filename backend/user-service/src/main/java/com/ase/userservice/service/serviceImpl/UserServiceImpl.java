@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,7 +72,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public ResponseMessage save(RegistrationDto registrationDto, String role) {
+    public ResponseMessage save(RegistrationDto registrationDto, String role,String cookie) {
         log.warn("UserService: save method is on");
         ResponseMessage saveResp = new ResponseMessage();
         registrationDto.setEmail(registrationDto.getEmail().toLowerCase());
@@ -90,12 +92,14 @@ public class UserServiceImpl implements UserService {
         User tempuser = modelMapper.map(registrationDto, User.class);
         tempuser.setRole(role);
 
-        /*
+/*
         //SAVE BY USING AUTH'S REGISTER METHOD
-        String token = "Bearer eyJhbGciOiJSUzI1NiJ9.eyJyb2xlcyI6W3sicm9sZSI6IlJPTEVfQ1VTVE9NRVIifV0sInN1YiI6InRlc3QxIiwiaXNzIjoiYXNlRGVsaXZlcnkiLCJpYXQiOjE2Mzk4MjIxMjgsImV4cCI6MTYzOTg0MDEyOH0.OsPDnG2AT6CSKHQXSWh0EUQ8ZvQ_ZrvsbizliHjX2kExQKhqG1z5Q-1Wu6IxQgVf1qSg56shzIun7n_dGnrprpG3NaPOBOkTDVe0kNfgjyeYpmKem77MjTnIfzSaZqUOjVM3y69JiN8ubTxW2gQ0jYZO_GihhHNbbfisJYH0wKl7A1QdgM0bLzAvindizXFDeag1gmHeijImt6lfu3aOM9T2GBJ4iSx8a6B4_zjFXTHGhiBQhr3dsDW2aIj_NHkBReqBYzP08Y4O2emSfjvisxLZtothb0FYMgF4304dUE3oJNLF-kav1oDR-W2AA4FoXDiHtW2E7An8RpP-zhw5Qw";
-        userDto.setRole(role);
-        UserDto dbUser = authServiceClient.register(token,userDto).getBody();
-        */
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDto userDto = modelMapper.map(registrationDto, UserDto.class);
+        UserDto dbUser = authServiceClient.register(cookie,userDto).getBody();
+        return saveResp;
+*/
+
 
         try {
             userRepository.save(tempuser);
@@ -110,7 +114,6 @@ public class UserServiceImpl implements UserService {
         saveResp.setResponseType(1);
         saveResp.setResponseMessage("Successfull registration!");
         return saveResp;
-
     }
 
 

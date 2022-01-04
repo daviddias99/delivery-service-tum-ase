@@ -39,6 +39,8 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
                 .antMatchers("/auth/testtoken").authenticated()
                 .antMatchers("/auth/register").permitAll()
+                .antMatchers("/auth/permitAllTest").permitAll()
+                .antMatchers("/auth/logout").authenticated()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/**").authenticated()
 
