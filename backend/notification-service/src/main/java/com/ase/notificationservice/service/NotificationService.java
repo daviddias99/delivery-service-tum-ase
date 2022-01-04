@@ -6,7 +6,5 @@ import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
 
 public interface NotificationService {
-
-
     Boolean sendEmail(EmailDto newEmail) throws MessagingException, UnsupportedEncodingException;
 }
