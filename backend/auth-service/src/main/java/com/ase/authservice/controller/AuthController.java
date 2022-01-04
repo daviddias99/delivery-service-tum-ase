@@ -1,7 +1,7 @@
 package com.ase.authservice.controller;
 
 import com.ase.authservice.dto.AuthDto;
-
+import com.ase.authservice.dto.AuthResponse;
 import com.ase.authservice.service.AuthService;
 
 import com.ase.client.com.ase.contract.UserDto;

@@ -2,7 +2,7 @@ package com.ase.authservice.service.serviceimpl;
 
 import com.ase.authservice.config.CookieConfig;
 import com.ase.authservice.dto.AuthDto;
-
+import com.ase.authservice.dto.AuthResponse;
 import com.ase.authservice.entity.User;
 import com.ase.authservice.jwt.JwtUtil;
 import com.ase.authservice.repository.UserRepository;
@@ -128,7 +128,7 @@ public class AuthServiceImpl implements AuthService {
                 response.addCookie(jwtCookie);
                 User tempUser = userRepository.findByUsername(username);
                 
-                return new ResponseEntity<>(new AuthResponse(modelMapper.map(tempUser, UserDto.class), "Login Successful"), HttpStatus.OK);
+                return new ResponseEntity<>(new AuthResponse(modelMapper.map(tempUser, AuthDto.class), "Login Successful"), HttpStatus.OK);
             }
             else{
                 return new ResponseEntity<>(new AuthResponse("Email or password is incorrect"), HttpStatus.BAD_REQUEST);
