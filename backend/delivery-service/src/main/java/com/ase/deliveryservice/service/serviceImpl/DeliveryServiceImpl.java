@@ -122,10 +122,18 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     public DeliveryDto updateDelivery(DeliveryDto deliveryDto, String id) {
 
+        //TODO: inquire user-db about dispatcher id
+
+
+
         Delivery delivery = deliveryRepository.findById(new ObjectId(id));
 
         if (delivery == null) {
             return null;
+        }
+        ArrayList<Status> statusList = delivery.getStatusHistory();
+        if (statusList.get(statusList.size() - 1).getDeliveryStatus() != DeliveryStatus.ordered) {
+            return deliveryDto;
         }
 
         delivery = modelMapper.map(deliveryDto, Delivery.class);

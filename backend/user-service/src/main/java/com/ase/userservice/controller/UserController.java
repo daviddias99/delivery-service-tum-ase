@@ -8,6 +8,7 @@ import com.ase.client.com.ase.contract.UserDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -100,9 +101,16 @@ public class UserController {
 
     @GetMapping(value = "/customer/{id}")
     public ResponseEntity<UserDto> getCustomer(@PathVariable String id) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        String authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         UserDto userDto = userService.getById(id);
         if(userDto==null)
             return ResponseEntity.badRequest().body(userDto);
+        if(!authorities.equals("ROLE_DISPATCHER")) {
+            if (!userDto.getUsername().equals(username)) {
+                return ResponseEntity.badRequest().body(null);
+            }
+        }
         return ResponseEntity.ok(userDto);
     }
 
