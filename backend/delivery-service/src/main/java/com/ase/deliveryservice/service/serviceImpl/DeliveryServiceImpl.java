@@ -136,6 +136,10 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     @Override
     public List<DeliveryDto> getAll() {
+        log.warn("GetxxAll is on");
+        UserDto user = userServiceClient.getByUsername("erengulummmmmm").getBody();
+        log.warn("GetAll user:",user.getFirstName());
+
         List<Delivery> data = deliveryRepository.findAll();
         if (data.isEmpty())
             return new LinkedList<>();
