@@ -136,9 +136,9 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     @Override
     public List<DeliveryDto> getAll() {
-        log.warn("GetxxAll is on");
-        UserDto user = userServiceClient.getByUsername("erengulummmmmm").getBody();
-        log.warn("GetAll user:",user.getFirstName());
+        log.warn("Get All is on");
+        //UserDto user = userServiceClient.getByUsername(cookie,"erengulummmmmm").getBody();
+        //log.warn("GetAll user:"+user.getFirstName());
 
         List<Delivery> data = deliveryRepository.findAll();
         if (data.isEmpty())
@@ -173,8 +173,8 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     public EmailDto prepareSendEmail(DeliveryDto deliveryDto) {
         EmailDto emailDto = new EmailDto();
-
-        UserDto receiver = userServiceClient.getOne(deliveryDto.getCustomer().getId()).getBody();
+        //SET THE COOKIE!
+        UserDto receiver = userServiceClient.getOne(null,deliveryDto.getCustomer().getId()).getBody();
 
         if (receiver == null) {
             log.warn("The user is null. Id is probably wrong!");

@@ -63,7 +63,7 @@ public class DeliveryController {
     }
 
     @GetMapping(value = "/all")
-    public ResponseEntity<List<DeliveryDto>> listDelivery() {
+    public ResponseEntity<List<DeliveryDto>> listDelivery(@RequestHeader(value = "Cookie", required = true) String cookie) {
 
         List<DeliveryDto> data = deliveryService.getAll();
         return ResponseEntity.ok(data);

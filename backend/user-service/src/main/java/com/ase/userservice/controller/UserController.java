@@ -38,9 +38,8 @@ public class UserController {
     }
 
     @GetMapping(value = "/uname/{username}")
-    public ResponseEntity<UserDto> getByUsername(@PathVariable String username) {
-        log.warn("User:sfsdfsfsd method is on. sdfs:"+username);
-        log.warn("User:getbyUsername method is on. Username:"+username);
+    public ResponseEntity<UserDto> getByUsername(@RequestHeader(value = "Cookie", required = true) String cookie,@PathVariable String username) {
+        log.warn("User:sfsdfsfsd method is on:"+username);
 
         UserDto user = userService.getByUsername(username);
         if(user==null)
