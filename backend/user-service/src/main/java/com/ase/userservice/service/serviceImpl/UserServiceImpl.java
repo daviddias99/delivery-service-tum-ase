@@ -41,6 +41,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDto getByUsername(String username) {
+
+        if (!userRepository.existsByUsername(username).booleanValue())
+            return null;
+
+        User tempUser = userRepository.findByUsername(username);
+
+
+        return modelMapper.map(tempUser, UserDto.class);
+    }
+
+    @Override
     public List<UserDto> getAll() {
         List<User> data = userRepository.findAll();
         return Arrays.asList(modelMapper.map(data, UserDto[].class));
@@ -70,7 +82,7 @@ public class UserServiceImpl implements UserService {
         }
 
         if (userRepository.existsByEmail(registrationDto.getEmail()).booleanValue()) {
-            saveResp.setResponseType(1);
+            saveResp.setResponseType(0);
             saveResp.setResponseMessage("This e-mail already is in use. Please enter a new one");
             return saveResp;
 

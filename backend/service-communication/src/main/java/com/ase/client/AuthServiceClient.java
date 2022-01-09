@@ -12,5 +12,5 @@ import org.springframework.web.bind.annotation.RequestHeader;
 public interface AuthServiceClient {
 
     @PostMapping(value = "/auth/register")
-    public ResponseEntity<UserDto> register(@RequestHeader(value = "Cookie", required = true) String authorizationHeader, @RequestBody UserDto userDto);
+    public ResponseEntity<UserDto> register(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody UserDto userDto);
 }

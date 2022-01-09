@@ -12,6 +12,8 @@ public interface UserService {
 
     UserDto getById(String id);
 
+    UserDto getByUsername(String username);
+
     List<UserDto> getAll();
 
 

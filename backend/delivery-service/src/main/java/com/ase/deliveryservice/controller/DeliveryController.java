@@ -44,6 +44,8 @@ public class DeliveryController {
 
     @GetMapping(value = "/{deliveryId}")
     public ResponseEntity<DeliveryDto> getOne(@PathVariable String deliveryId) {
+        log.warn("GetOne controller is on");
+
         return ResponseEntity.ok(deliveryService.getById(deliveryId));
     }
 
@@ -61,7 +63,8 @@ public class DeliveryController {
     }
 
     @GetMapping(value = "/all")
-    public ResponseEntity<List<DeliveryDto>> listDelivery() {
+    public ResponseEntity<List<DeliveryDto>> listDelivery(@RequestHeader(value = "Cookie", required = true) String cookie) {
+
         List<DeliveryDto> data = deliveryService.getAll();
         return ResponseEntity.ok(data);
     }
