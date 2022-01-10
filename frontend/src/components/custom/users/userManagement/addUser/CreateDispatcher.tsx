@@ -51,6 +51,7 @@ const CreateDispatcher = () => {
       if (response.status !== 200) {
         setError(true);
         setSuccess(false);
+        handleClose();
         return;
       }
       setError(false);
