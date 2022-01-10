@@ -37,12 +37,18 @@ const routes = {
     '/deliverer/:delivererId/deliveries',
     (delivererId) =>(`/deliverer/${delivererId}/deliveries`)
   ),
-  userMangement: route(
+
+  userManagement: route(
     '/dispatcher/userManagement/',
   ),
+
   userList: route(
     '/dispatcher/usersList',
-  )
+  ),
+
+  userProfile: route(
+    '/user/profile',
+  ),
 
 };
 

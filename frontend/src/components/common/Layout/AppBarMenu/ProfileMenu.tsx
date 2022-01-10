@@ -1,5 +1,6 @@
 import React from 'react';
-import { Avatar, Box, IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
+import {Avatar, Box, Button, IconButton, Link, Menu, MenuItem, Tooltip} from '@mui/material';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutButton from 'components/common/Layout/Logout/LogoutButton';
 import { loggedUser } from 'redux/slices/loggedUser/loggedUserSlice';
 import { useSelector } from 'react-redux';
@@ -59,6 +60,14 @@ const ProfileMenu = () => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
+        <MenuItem>
+          <Link href={'/user/profile'} underline="none">
+            <Button startIcon={<AccountCircleIcon />}>
+              {user.username}
+            </Button>
+          </Link>
+
+        </MenuItem>
         <MenuItem>
           <LogoutButton />
         </MenuItem>
