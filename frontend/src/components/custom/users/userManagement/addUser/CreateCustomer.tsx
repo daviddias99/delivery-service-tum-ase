@@ -59,11 +59,10 @@ const CreateCustomer = () => {
       if (response.status !== 200) {
         setError(true);
         setSuccess(false);
-        handleClose();
-        return;
+      } else {
+        setError(false);
+        setSuccess(true);
       }
-      setError(false);
-      setSuccess(true);
       handleResetClicked();
       handleClose();
     };
