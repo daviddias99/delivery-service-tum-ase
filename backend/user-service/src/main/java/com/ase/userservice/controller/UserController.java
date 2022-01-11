@@ -30,9 +30,10 @@ public class UserController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserDto> getOne(@PathVariable String id) {
         log.warn("User:getOne method is on. ID:"+id);
+        System.out.println("reached the get request");
         UserDto user = userService.getById(id);
-        if(user==null)
-            return ResponseEntity.badRequest().body(null);
+//        if(user==null)
+//            return ResponseEntity.badRequest().body(null);
 
         return ResponseEntity.ok(user);
     }

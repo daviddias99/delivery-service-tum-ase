@@ -1,4 +1,4 @@
-package com.ase.deliveryservice.entity;
+package com.ase.client.entity;
 
 
 public enum DeliveryStatus {

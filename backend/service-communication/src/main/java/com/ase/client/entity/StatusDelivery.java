@@ -1,7 +1,5 @@
-package com.ase.deliveryservice.entity;
+package com.ase.client.entity;
 
-
-import com.ase.client.entity.DeliveryStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,8 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Status {
-
+public class StatusDelivery {
     private DeliveryStatus deliveryStatus;
 
     private String statusUpdate; //timestamp

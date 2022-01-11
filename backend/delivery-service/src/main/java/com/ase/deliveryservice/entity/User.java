@@ -1,9 +1,8 @@
 package com.ase.deliveryservice.entity;
 
 
-import org.springframework.data.mongodb.core.mapping.Field;
-
 import lombok.Data;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
 public class User {
