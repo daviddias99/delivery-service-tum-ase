@@ -31,7 +31,6 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
 
                 .authorizeRequests()
-                .antMatchers("/delivery/track/**").permitAll()
                 .antMatchers("/delivery/**").authenticated()
                 .antMatchers("/**").authenticated()
                 .and()
