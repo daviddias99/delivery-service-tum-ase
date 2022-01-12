@@ -34,12 +34,12 @@ public class DeliveryController {
     }
 
     @PutMapping(value = "/update/{id}")
-    public ResponseEntity<DeliveryDto> updateDelivery(@RequestBody DeliveryDto deliveryDto, @PathVariable String id) {
-        DeliveryDto updatedDto = deliveryService.updateDelivery(deliveryDto, id);
-        if (updatedDto == null)
-            return ResponseEntity.badRequest().body(null);
-
-        return ResponseEntity.ok(updatedDto);
+    public ResponseEntity<ResponseMessage> updateDelivery(@RequestBody DeliveryDto deliveryDto, @PathVariable String id) {
+        ResponseMessage responseMessage = deliveryService.updateDelivery(deliveryDto, id);
+        if (responseMessage.getResponseType() == 0) {
+            return ResponseEntity.badRequest().body(responseMessage);
+        }
+        return ResponseEntity.ok(responseMessage);
     }
 
     @GetMapping(value = "/{deliveryId}")
