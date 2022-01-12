@@ -31,7 +31,22 @@ public class UserController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserDto> getOne(@PathVariable String id) {
         log.warn("User:getOne method is on. ID:"+id);
-        return ResponseEntity.ok(userService.getById(id));
+        UserDto user = userService.getById(id);
+        if(user==null)
+            return ResponseEntity.badRequest().body(null);
+
+        return ResponseEntity.ok(user);
+    }
+
+    @GetMapping(value = "/uname/{username}")
+    public ResponseEntity<UserDto> getByUsername(@RequestHeader(value = "Cookie", required = true) String cookie,@PathVariable String username) {
+        log.warn("User:sfsdfsfsd method is on:"+username);
+
+        UserDto user = userService.getByUsername(username);
+        if(user==null)
+            return ResponseEntity.badRequest().body(null);
+
+        return ResponseEntity.ok(user);
     }
 
 
@@ -55,19 +70,31 @@ public class UserController {
     @PostMapping(value = "customer/add")
     public ResponseEntity<ResponseMessage> addCustomer(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody RegistrationDto registrationDto){
 
-        return ResponseEntity.ok(userService.save(registrationDto,"CUSTOMER",cookie));
+        ResponseMessage responseMessage = userService.save(registrationDto,"CUSTOMER",cookie);
+        if(responseMessage.getResponseType()==0)
+            return ResponseEntity.badRequest().body(responseMessage);
+
+        return ResponseEntity.ok(responseMessage);
     }
 
 
     @PostMapping(value = "deliverer/add")
     public ResponseEntity<ResponseMessage> addDeliverer(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody RegistrationDto registrationDto){
-        return ResponseEntity.ok(userService.save(registrationDto,"DELIVERER",cookie));
+        ResponseMessage responseMessage = userService.save(registrationDto,"DELIVERER",cookie);
+        if(responseMessage.getResponseType()==0)
+            return ResponseEntity.badRequest().body(responseMessage);
+
+        return ResponseEntity.ok(responseMessage);
     }
 
 
     @PostMapping(value = "dispatcher/add")
     public ResponseEntity<ResponseMessage> addDispatcher(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody RegistrationDto registrationDto){
-        return ResponseEntity.ok(userService.save(registrationDto,"DISPATCHER",cookie));
+        ResponseMessage responseMessage = userService.save(registrationDto,"DISPATCHER",cookie);
+        if(responseMessage.getResponseType()==0)
+            return ResponseEntity.badRequest().body(responseMessage);
+
+        return ResponseEntity.ok(responseMessage);
     }
 
 
