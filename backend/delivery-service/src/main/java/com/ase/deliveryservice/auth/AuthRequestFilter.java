@@ -55,15 +55,8 @@ public class AuthRequestFilter extends OncePerRequestFilter {
             username = jwtUtil.extractUsername(jwt);
         }
 
-        final String authHeader = request.getHeader("Authorization");
-
-        if (authHeader == null && cookie == null) {
-
+        if (cookie == null) {
             response.sendError(HttpStatus.BAD_REQUEST.value(), "No JWT Cookie or Basic Auth Info Found");
-
-
-        } else if (authHeader != null && !authHeader.startsWith("Basic") && cookie == null) {
-            response.sendError(HttpStatus.UNAUTHORIZED.value(), "unsupported auth format!");
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
