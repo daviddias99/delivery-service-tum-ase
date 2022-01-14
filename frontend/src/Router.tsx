@@ -16,6 +16,7 @@ import { useSelector } from 'react-redux';
 import { isLoggedIn, loggedUser } from 'redux/slices/loggedUser/loggedUserSlice';
 import NotFound from 'pages/NotFound/NotFound';
 import { User } from 'types';
+import OrderSearchPage from 'pages/OrderSearch/OrderSearch';
 
 type PrivateRouteProps = {
   children: ReactElement,
@@ -37,7 +38,7 @@ const getDefaultRoute = (user: User) => {
     case 'DELIVERER':
       return routes.deliverer.ref(user.id);
     case 'CUSTOMER':
-      return routes.customer.ref(user.id);
+      return routes.orderSearch.ref(user.id);
     default:
       return routes.homepage.def;
   }
@@ -78,14 +79,21 @@ const Router = () => {
           </PrivateRoute>
         }
         />
-
         <Route path={routes.delivery.def} element={
-          <Delivery />
+          <PrivateRoute>
+            <Delivery />
+          </PrivateRoute>
         }
         />
         <Route path={routes.customer.def} element={
           <PrivateRoute>
             <Orders />
+          </PrivateRoute>
+        }
+        />
+        <Route path={routes.orderSearch.def} element={
+          <PrivateRoute>
+            <OrderSearchPage />
           </PrivateRoute>
         }
         />

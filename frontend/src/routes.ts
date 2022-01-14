@@ -42,8 +42,10 @@ const routes = {
   ),
   userList: route(
     '/dispatcher/usersList',
+  ),
+  orderSearch: route(
+    '/orders/search'
   )
-
 };
 
 export default routes;
