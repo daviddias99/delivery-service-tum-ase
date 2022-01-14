@@ -5,6 +5,7 @@ import com.ase.client.com.ase.contract.ResponseMessage;
 import com.ase.userservice.dto.RegistrationDto;
 import com.ase.userservice.service.UserService;
 import com.ase.client.com.ase.contract.UserDto;
+import com.ase.userservice.service.serviceImpl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -69,7 +70,8 @@ public class UserController {
 
     @PostMapping(value = "customer/add")
     public ResponseEntity<ResponseMessage> addCustomer(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody RegistrationDto registrationDto){
-
+        String randomRfid = UserServiceImpl.getAlphaNumericString(10);
+        registrationDto.setRfId(randomRfid);
         ResponseMessage responseMessage = userService.save(registrationDto,"CUSTOMER",cookie);
         if(responseMessage.getResponseType()==0)
             return ResponseEntity.badRequest().body(responseMessage);
