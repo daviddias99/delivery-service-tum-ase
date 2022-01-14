@@ -30,7 +30,7 @@ public class BoxController {
     }
 
     @PostMapping(value = "/check")
-    public ResponseEntity<ResponseMessage> addBox(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody UserAndBox userAndBox){
+    public ResponseEntity<ResponseMessage> checkAndUpdateBox(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody UserAndBox userAndBox){
         responseMessage = boxService.checkBox(cookie,userAndBox.userId, userAndBox.boxId);
         if (responseMessage.getResponseType() == 0) {
             return ResponseEntity.badRequest().body(responseMessage);

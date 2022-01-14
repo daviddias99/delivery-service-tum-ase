@@ -98,6 +98,7 @@ public class BoxServiceImpl implements BoxService {
 
         dbBox.setName(boxDto.getName());
         dbBox.setAddress(boxDto.getAddress());
+        dbBox.setStatus(boxDto.getStatus());
         boxRepository.save(dbBox);
 
         return boxDto;
@@ -122,7 +123,7 @@ public class BoxServiceImpl implements BoxService {
                     ArrayList<StatusDelivery> statusList = (ArrayList<StatusDelivery>) delivery.getStatusHistory();
 
                     if (statusList.get(0).getDeliveryStatus() != DeliveryStatus.dispatched) {
-                        responseMessage.setResponseMessage("Bad delivery status! Status is not dispatched! It is " + statusList.get(statusList.size() - 1).getDeliveryStatus());
+                        responseMessage.setResponseMessage("Bad delivery status! Status is not dispatched! It is " + statusList.get(0).getDeliveryStatus());
                         responseMessage.setResponseType(0);
                         return responseMessage;
                     }
@@ -146,9 +147,8 @@ public class BoxServiceImpl implements BoxService {
                 if(delivery.getBox().getId().equals(boxId)){
                     deliveryAssignedToCustomer = true;
                     ArrayList<StatusDelivery> statusList = (ArrayList<StatusDelivery>) delivery.getStatusHistory();
-
                     if (statusList.get(0).getDeliveryStatus() != DeliveryStatus.delivered) {
-                        responseMessage.setResponseMessage("Bad delivery status!Status is not delivered! it is " + statusList.get(statusList.size() - 1).getDeliveryStatus());
+                        responseMessage.setResponseMessage("Bad delivery status!Status is not delivered! it is " + statusList.get(0).getDeliveryStatus());
                         responseMessage.setResponseType(0);
                         return responseMessage;
                     }
@@ -181,16 +181,17 @@ public class BoxServiceImpl implements BoxService {
         boolean ifBoxFree = true;
         for(DeliveryClientDto delivery: deliveryList){
             ArrayList<StatusDelivery> statusList = (ArrayList<StatusDelivery>) delivery.getStatusHistory();
-            if ((statusList.get(statusList.size() - 1).getDeliveryStatus() == DeliveryStatus.delivered) ) {
+            if ((statusList.get(0).getDeliveryStatus().equals(DeliveryStatus.delivered)) ) {
                 ifBoxFree = false;
                 break;
             }
         }
-        if(boxDto.getStatus() == BoxStatus.active && ifBoxFree){
+
+        if((boxDto.getStatus().equals(BoxStatus.active) || boxDto.getStatus().equals(BoxStatus.assigned))  && ifBoxFree){
             boxDto.setStatus(BoxStatus.free);
             updateBox(boxDto, boxId);
             log.debug("Box status changed to free");
-        }else if (boxDto.getStatus() == BoxStatus.free && !ifBoxFree){
+        }else if (boxDto.getStatus().equals(BoxStatus.free) && !ifBoxFree){
             boxDto.setStatus(BoxStatus.active);
             updateBox(boxDto, boxId);
             log.debug("Box status changed to active from free");
