@@ -2,7 +2,7 @@ package com.ase.boxservice.controller;
 
 
 import com.ase.boxservice.dto.BoxDto;
-import com.ase.boxservice.entity.UserAndBox;
+import com.ase.boxservice.dto.UserAndBoxDto;
 import com.ase.boxservice.service.BoxService;
 import com.ase.client.com.ase.contract.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +30,8 @@ public class BoxController {
     }
 
     @PostMapping(value = "/check")
-    public ResponseEntity<ResponseMessage> checkAndUpdateBox(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody UserAndBox userAndBox){
-        responseMessage = boxService.checkBox(cookie,userAndBox.userId, userAndBox.boxId);
+    public ResponseEntity<ResponseMessage> checkAndUpdateBox(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody UserAndBoxDto userAndBoxDto){
+        responseMessage = boxService.checkBox(cookie, userAndBoxDto.userId, userAndBoxDto.boxId);
         if (responseMessage.getResponseType() == 0) {
             return ResponseEntity.badRequest().body(responseMessage);
         }

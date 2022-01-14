@@ -1,9 +1,9 @@
-package com.ase.boxservice.entity;
+package com.ase.boxservice.dto;
 
 import lombok.Data;
 
 @Data
-public class UserAndBox {
+public class UserAndBoxDto {
 
     public String boxId;
     public String userId;
