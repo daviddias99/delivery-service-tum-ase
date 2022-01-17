@@ -1,4 +1,4 @@
-package com.ase.deliveryservice.auth;
+package com.ase.notificationservice.auth;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +34,7 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
                 .and()
 
                 .authorizeRequests()
-                .antMatchers("/delivery/**").authenticated()
-                .antMatchers("/**").authenticated()
+                .antMatchers("/user/**").authenticated()
                 .and()
                 .sessionManagement()
                 .disable();

@@ -9,6 +9,7 @@ import com.ase.userservice.service.serviceImpl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -118,6 +119,11 @@ public class UserController {
         UserDto userDto = userService.getById(id,"CUSTOMER");
         if(userDto==null)
             return ResponseEntity.badRequest().body(userDto);
+        if(!authorities.equals("ROLE_DISPATCHER")) {
+            if (!userDto.getUsername().equals(username)) {
+                return ResponseEntity.badRequest().body(null);
+            }
+        }
         return ResponseEntity.ok(userDto);
     }
 
