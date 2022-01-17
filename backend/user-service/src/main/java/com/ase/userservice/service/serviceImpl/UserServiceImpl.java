@@ -37,8 +37,8 @@ public class UserServiceImpl implements UserService {
       return null;
     }
 
-    if(tempUser.getRole() != role){
-      log.warn("wrong role");
+    if(!tempUser.getRole().equals(role)){
+      log.warn("wrong role:"+tempUser.getRole()+":->"+role);
       return null;
     }
 
