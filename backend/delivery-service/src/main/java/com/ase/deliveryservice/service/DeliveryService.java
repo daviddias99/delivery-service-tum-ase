@@ -1,8 +1,9 @@
 package com.ase.deliveryservice.service;
 
+import com.ase.client.com.ase.contract.DeliveryClientDto;
+import com.ase.deliveryservice.dto.DeliveryDto;
 import com.ase.client.com.ase.contract.EmailDto;
 import com.ase.client.com.ase.contract.ResponseMessage;
-import com.ase.deliveryservice.dto.DeliveryDto;
 
 import java.util.List;
 
@@ -18,17 +19,17 @@ public interface DeliveryService {
 
     public ResponseMessage deleteDelivery(String id);
 
-    ResponseMessage updateDelivery(DeliveryDto deliveryDto, String id);
+    DeliveryClientDto updateDelivery(DeliveryDto deliveryDto, String id);
 
     public List<DeliveryDto> getAll();
 
 
-    public List<DeliveryDto> getAllByDelivererId(String delivererId);
+    public List<DeliveryClientDto> getAllByDelivererId(String delivererId);
 
 
-    public List<DeliveryDto> getByCustomerId(String id);
+    public List<DeliveryClientDto> getByCustomerId(String id);
 
-    public List<DeliveryDto> getByBoxId(String id);
+    public List<DeliveryClientDto> getByBoxId(String id);
 
     public EmailDto prepareSendEmail(DeliveryDto deliveryDto);
 

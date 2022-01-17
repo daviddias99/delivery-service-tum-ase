@@ -2,7 +2,9 @@ package com.ase.boxservice.controller;
 
 
 import com.ase.boxservice.dto.BoxDto;
+import com.ase.boxservice.dto.UserAndBoxDto;
 import com.ase.boxservice.service.BoxService;
+import com.ase.client.com.ase.contract.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +18,25 @@ public class BoxController {
     @Autowired
     private BoxService boxService;
 
+    @Autowired
+    ResponseMessage responseMessage;
+
     @PostMapping(value = "/add")
     public ResponseEntity<BoxDto> addBox(@RequestBody BoxDto boxDto){
         BoxDto savedDto =  boxService.save(boxDto);
         if(savedDto==null)
             return ResponseEntity.badRequest().body(null);
         return ResponseEntity.ok(savedDto);
+    }
+
+    @PostMapping(value = "/check")
+    public ResponseEntity<ResponseMessage> checkAndUpdateBox(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody UserAndBoxDto userAndBoxDto){
+        responseMessage = boxService.checkBox(cookie, userAndBoxDto.userId, userAndBoxDto.boxId);
+        if (responseMessage.getResponseType() == 0) {
+            return ResponseEntity.badRequest().body(responseMessage);
+        }
+
+        return ResponseEntity.ok(responseMessage);
     }
 
     @GetMapping(value = "/{id}")
@@ -41,6 +56,7 @@ public class BoxController {
     }
 
     @PutMapping(value = "/update/{id}")
+
     public ResponseEntity<BoxDto> updateBox(@RequestBody BoxDto boxDto, @PathVariable String id) {
         BoxDto updatedDto = boxService.updateBox(boxDto,id);
         if(updatedDto==null)

@@ -5,6 +5,7 @@ import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import SearchIcon from '@mui/icons-material/Search';
 // Contains list items of the sidebar
 export const sideBarListItems = (userId: string) => [
   {
@@ -18,6 +19,12 @@ export const sideBarListItems = (userId: string) => [
     icon: (<Inventory2 />),
     link: '/delivery',
     roles: ['DISPATCHER']
+  },
+  {
+    title: 'Order search',
+    icon: (<SearchIcon />),
+    link: '/orders/search',
+    roles: ['CUSTOMER']
   },
   {
     title: 'My Orders',
@@ -44,6 +51,4 @@ export const sideBarListItems = (userId: string) => [
     roles: ['DISPATCHER']
 
   }
-
-
 ];

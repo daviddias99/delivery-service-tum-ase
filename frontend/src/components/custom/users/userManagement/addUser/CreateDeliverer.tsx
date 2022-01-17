@@ -7,17 +7,20 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Grid,
+  Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Snackbar,
   TextField
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {AxiosResponse} from 'axios';
 import api from '../../../../../services/api';
+import FormControl from '@mui/material/FormControl';
 
 
 const CreateDeliverer = () => {
   const [showError, setError] = useState(false);
+  const [RFID, setRFID] = useState('0');
+
   const [showSuccess, setSuccess] = useState(false);
   const [open, setOpen] = useState(false);
   const [firstName, setFirstName] = useState('');
@@ -37,6 +40,15 @@ const CreateDeliverer = () => {
   const handleClose = () => {
     setOpen(false);
   };
+  const handleSuccess = () => {
+    setSuccess(false);
+  };
+  const handleError = () => {
+    setError(false);
+  };
+  const handleChange = (event: SelectChangeEvent) => {
+    setRFID(event.target.value as string);
+  };
 
 
   const confirmClicked = () => {
@@ -46,11 +58,10 @@ const CreateDeliverer = () => {
       if (response.status !== 200) {
         setError(true);
         setSuccess(false);
-        handleClose();
-        return;
+      } else {
+        setError(false);
+        setSuccess(true);
       }
-      setError(false);
-      setSuccess(true);
       handleResetClicked();
       handleClose();
     };
@@ -63,14 +74,16 @@ const CreateDeliverer = () => {
       <h2>
         Create new Deliverer.
       </h2>
-      {showError? (
-        <Alert severity="error">An error occured and the box was not created</Alert>
-      ):( <React.Fragment />
-      )}
-      {showSuccess? (
-        <Alert severity="success">This is a success alert — succesfully added</Alert>
-      ):( <React.Fragment />
-      )}
+      <Snackbar open={showError} autoHideDuration={6000} onClose={handleError}>
+        <Alert severity="error" sx={{ width: '100%' }}>
+          This is a error message!
+        </Alert>
+      </Snackbar>
+      <Snackbar open={showSuccess} autoHideDuration={6000} onClose={handleSuccess}>
+        <Alert severity="success" sx={{ width: '100%' }}>
+          Customer succesfully added.
+        </Alert>
+      </Snackbar>
       <p>
         Fill these information to create a new Deliverer.
       </p>
@@ -130,6 +143,22 @@ const CreateDeliverer = () => {
           />
         </Grid>
         <Grid item xs={12} sm={12}>
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">RFID</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={RFID}
+              label="RFID"
+              onChange={handleChange}
+            >
+              <MenuItem value={10}>1</MenuItem>
+              <MenuItem value={20}>2</MenuItem>
+              <MenuItem value={30}>3</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={12}>
           <TextField
             required
             margin="dense"
@@ -153,7 +182,7 @@ const CreateDeliverer = () => {
         </Button>
       </Grid>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Delete Box</DialogTitle>
+        <DialogTitle>Create Deliverer</DialogTitle>
         <React.Fragment>
           <DialogContent>
             <Alert severity="warning">Are you sure!</Alert>

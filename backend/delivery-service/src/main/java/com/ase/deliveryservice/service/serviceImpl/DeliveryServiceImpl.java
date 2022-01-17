@@ -1,13 +1,14 @@
 package com.ase.deliveryservice.service.serviceImpl;
 
 import com.ase.client.UserServiceClient;
+import com.ase.client.com.ase.contract.DeliveryClientDto;
+import com.ase.deliveryservice.dto.DeliveryDto;
 import com.ase.client.com.ase.contract.EmailDto;
 import com.ase.client.NotificationServiceClient;
 import com.ase.client.com.ase.contract.ResponseMessage;
 import com.ase.client.com.ase.contract.UserDto;
-import com.ase.deliveryservice.dto.DeliveryDto;
 import com.ase.deliveryservice.entity.Delivery;
-import com.ase.deliveryservice.entity.DeliveryStatus;
+import com.ase.client.entity.DeliveryStatus;
 import com.ase.deliveryservice.entity.Status;
 import com.ase.deliveryservice.entity.User;
 import com.ase.deliveryservice.repository.DeliveryRepository;
@@ -132,8 +133,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
-    public ResponseMessage updateDelivery(DeliveryDto deliveryDto, String id) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+    public DeliveryClientDto updateDelivery(DeliveryDto deliveryDto, String id) {
 
         Delivery delivery = deliveryRepository.findById(new ObjectId(id));
 
@@ -149,24 +149,16 @@ public class DeliveryServiceImpl implements DeliveryService {
             responseMessage.setResponseMessage("not your delivery!");
         }
 
-        ArrayList<Status> statusList = delivery.getStatusHistory();
-        if (statusList.get(statusList.size() - 1).getDeliveryStatus() != DeliveryStatus.ordered) {
-            responseMessage.setResponseType(1);
-            responseMessage.setResponseMessage("Delivery status invalid!");
-        }
 
-        if(responseMessage.getResponseType() == 0) {
-            delivery = modelMapper.map(deliveryDto, Delivery.class);
-            deliveryRepository.save(delivery);
-        }
-        return responseMessage;
+
+        return modelMapper.map(deliveryDto, DeliveryClientDto.class);
     }
 
     @Override
     public List<DeliveryDto> getAll() {
         log.warn("Get All is on");
-        //UserDto user = userServiceClient.getByUsername(cookie,"erengulummmmmm").getBody();
-        //log.warn("GetAll user:"+user.getFirstName());
+//        UserDto user = userServiceClient.getByUsername(cookie,"erengulummmmmm").getBody();
+//        log.warn("GetAll user:"+user.getFirstName());
 
         List<Delivery> data = deliveryRepository.findAll();
         if (data.isEmpty())
@@ -175,27 +167,27 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
-    public List<DeliveryDto> getAllByDelivererId(String delivererId) {
+    public List<DeliveryClientDto> getAllByDelivererId(String delivererId) {
         List<Delivery> deliveries = deliveryRepository.getAllByDeliverer_Id(delivererId);
         if (deliveries.isEmpty())
             return new LinkedList<>();
-        return Arrays.asList(modelMapper.map(deliveries, DeliveryDto[].class));
+        return Arrays.asList(modelMapper.map(deliveries, DeliveryClientDto[].class));
     }
 
     @Override
-    public List<DeliveryDto> getByCustomerId(String id) {
+    public List<DeliveryClientDto> getByCustomerId(String id) {
         List<Delivery> deliveries = deliveryRepository.getAllByCustomer_Id(id);
         if (deliveries.isEmpty())
             return new LinkedList<>();
-        return Arrays.asList(modelMapper.map(deliveries, DeliveryDto[].class));
+        return Arrays.asList(modelMapper.map(deliveries, DeliveryClientDto[].class));
     }
 
     @Override
-    public List<DeliveryDto> getByBoxId(String id) {
+    public List<DeliveryClientDto> getByBoxId(String id) {
         List<Delivery> deliveries = deliveryRepository.getAllByBox_Id(id);
         if (deliveries.isEmpty())
             return new LinkedList<>();
-        return Arrays.asList(modelMapper.map(deliveries, DeliveryDto[].class));
+        return Arrays.asList(modelMapper.map(deliveries, DeliveryClientDto[].class));
     }
 
     @Override

@@ -10,7 +10,7 @@ public interface UserService {
 
     ResponseMessage save(RegistrationDto user, String role,String cookie);
 
-    UserDto getById(String id);
+    UserDto getById(String id,String role);
 
     UserDto getByUsername(String username);
 

@@ -35,4 +35,7 @@ public class User {
 
     @Field(name = "role")
     private String role;
+
+    @Field(name = "rfId")
+    private String rfId;
 }

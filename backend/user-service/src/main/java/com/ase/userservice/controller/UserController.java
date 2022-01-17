@@ -5,6 +5,7 @@ import com.ase.client.com.ase.contract.ResponseMessage;
 import com.ase.userservice.dto.RegistrationDto;
 import com.ase.userservice.service.UserService;
 import com.ase.client.com.ase.contract.UserDto;
+import com.ase.userservice.service.serviceImpl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,20 +29,8 @@ public class UserController {
     }
 
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<UserDto> getOne(@PathVariable String id) {
-        log.warn("User:getOne method is on. ID:"+id);
-        UserDto user = userService.getById(id);
-        if(user==null)
-            return ResponseEntity.badRequest().body(null);
-
-        return ResponseEntity.ok(user);
-    }
-
     @GetMapping(value = "/uname/{username}")
     public ResponseEntity<UserDto> getByUsername(@RequestHeader(value = "Cookie", required = true) String cookie,@PathVariable String username) {
-        log.warn("User:sfsdfsfsd method is on:"+username);
-
         UserDto user = userService.getByUsername(username);
         if(user==null)
             return ResponseEntity.badRequest().body(null);
@@ -69,7 +58,6 @@ public class UserController {
 
     @PostMapping(value = "customer/add")
     public ResponseEntity<ResponseMessage> addCustomer(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody RegistrationDto registrationDto){
-
         ResponseMessage responseMessage = userService.save(registrationDto,"CUSTOMER",cookie);
         if(responseMessage.getResponseType()==0)
             return ResponseEntity.badRequest().body(responseMessage);
@@ -119,7 +107,7 @@ public class UserController {
 
     @GetMapping(value = "/dispatcher/{id}")
     public ResponseEntity<UserDto> getDispatcher(@PathVariable String id) {
-        UserDto userDto = userService.getById(id);
+        UserDto userDto = userService.getById(id,"DISPATCHER");
         if(userDto==null)
             return ResponseEntity.badRequest().body(userDto);
         return ResponseEntity.ok(userDto);
@@ -128,9 +116,7 @@ public class UserController {
 
     @GetMapping(value = "/customer/{id}")
     public ResponseEntity<UserDto> getCustomer(@PathVariable String id) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-        String authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
-        UserDto userDto = userService.getById(id);
+        UserDto userDto = userService.getById(id,"CUSTOMER");
         if(userDto==null)
             return ResponseEntity.badRequest().body(userDto);
         if(!authorities.equals("ROLE_DISPATCHER")) {
@@ -144,7 +130,7 @@ public class UserController {
 
     @GetMapping(value = "/deliverer/{id}")
     public ResponseEntity<UserDto> getDeliverer(@PathVariable String id) {
-        UserDto userDto = userService.getById(id);
+        UserDto userDto = userService.getById(id,"DELIVERER");
         if(userDto==null)
             return ResponseEntity.badRequest().body(userDto);
         return ResponseEntity.ok(userDto);
