@@ -187,7 +187,7 @@ const CreateCustomer = () => {
         </Button>
       </Grid>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Delete Box</DialogTitle>
+        <DialogTitle>Create Customer</DialogTitle>
         <React.Fragment>
           <DialogContent>
             <Alert severity="warning">Are you sure!</Alert>

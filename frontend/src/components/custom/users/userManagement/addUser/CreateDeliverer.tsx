@@ -159,7 +159,7 @@ const CreateDeliverer = () => {
         </Button>
       </Grid>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Delete Box</DialogTitle>
+        <DialogTitle>Create Deliverer</DialogTitle>
         <React.Fragment>
           <DialogContent>
             <Alert severity="warning">Are you sure!</Alert>
