@@ -134,11 +134,6 @@ public class UserController {
         UserDto userDto = userService.getByIdandCheckRole(id,"CUSTOMER");
         if(userDto==null)
             return ResponseEntity.badRequest().body(userDto);
-        if(!authorities.equals("ROLE_DISPATCHER")) {
-            if (!userDto.getUsername().equals(username)) {
-                return ResponseEntity.badRequest().body(null);
-            }
-        }
         return ResponseEntity.ok(userDto);
     }
 
