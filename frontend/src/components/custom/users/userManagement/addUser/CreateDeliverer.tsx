@@ -7,17 +7,20 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Grid, Snackbar,
+  Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Snackbar,
   TextField
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {AxiosResponse} from 'axios';
 import api from '../../../../../services/api';
+import FormControl from '@mui/material/FormControl';
 
 
 const CreateDeliverer = () => {
   const [showError, setError] = useState(false);
+  const [RFID, setRFID] = useState('0');
+
   const [showSuccess, setSuccess] = useState(false);
   const [open, setOpen] = useState(false);
   const [firstName, setFirstName] = useState('');
@@ -43,6 +46,10 @@ const CreateDeliverer = () => {
   const handleError = () => {
     setError(false);
   };
+  const handleChange = (event: SelectChangeEvent) => {
+    setRFID(event.target.value as string);
+  };
+
 
   const confirmClicked = () => {
     const newDeliverer = {username: userName, firstName: firstName, surname: surname, password: 'password', email: email};
@@ -134,6 +141,22 @@ const CreateDeliverer = () => {
             onChange={(change:any) => setSurname(change.target.value)}
             value={surname}
           />
+        </Grid>
+        <Grid item xs={12} sm={12}>
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">RFID</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={RFID}
+              label="RFID"
+              onChange={handleChange}
+            >
+              <MenuItem value={10}>1</MenuItem>
+              <MenuItem value={20}>2</MenuItem>
+              <MenuItem value={30}>3</MenuItem>
+            </Select>
+          </FormControl>
         </Grid>
         <Grid item xs={12} sm={12}>
           <TextField
