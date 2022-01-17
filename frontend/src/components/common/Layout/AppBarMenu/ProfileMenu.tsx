@@ -63,7 +63,7 @@ const ProfileMenu = () => {
         <MenuItem>
           <Link href={'/user/profile'} underline="none">
             <Button startIcon={<AccountCircleIcon />}>
-              {user.username}
+              { user.firstName.substring(0, 1) +user.firstName.substring(1).toLowerCase() + ' ' + user.surname}
             </Button>
           </Link>
 

@@ -18,11 +18,11 @@ const UserProfilePage = () => {
         <Paper sx={{ p: '2em', display: 'flex', flexDirection: 'column' }}>
           <Container maxWidth="xl">
             <Box sx={{ bgcolor: '#152238', height: '10vh', position: 'relative'}}>
-              <Avatar sx={{ border: '5px solid', borderRadius: '50%', color: '#000000', bgcolor: '#FFFFFF', width: 120, height: 120, marginLeft: 'auto', marginRight: 'auto', fontSize: '40px'}}>
+              <Avatar sx={{ border: '5px solid', borderRadius: '50%', color: '#000000', bgcolor: '#FFFFFF', width: '120px', height: '120px', marginLeft: 'auto', marginRight: 'auto', fontSize: '40px'}}>
                 {user.username.charAt(0).toUpperCase()}
               </Avatar>
             </Box>
-            <Box sx={{marginTop: '2%'}}>
+            <Box sx={{marginTop: '45px'}}>
               <div style={{textAlign: 'center', fontSize: '30px'}} >
                 {user.firstName}
                 {' ' + user.surname}
