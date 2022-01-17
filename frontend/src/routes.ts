@@ -50,6 +50,9 @@ const routes = {
     '/user/profile',
   ),
 
+  orderSearch: route(
+    '/orders/search'
+  )
 };
 
 export default routes;

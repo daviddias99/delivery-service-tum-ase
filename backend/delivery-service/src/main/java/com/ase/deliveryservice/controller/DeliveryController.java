@@ -1,7 +1,8 @@
 package com.ase.deliveryservice.controller;
 
-import com.ase.client.com.ase.contract.ResponseMessage;
+import com.ase.client.com.ase.contract.DeliveryClientDto;
 import com.ase.deliveryservice.dto.DeliveryDto;
+import com.ase.client.com.ase.contract.ResponseMessage;
 
 import com.ase.deliveryservice.service.DeliveryService;
 import lombok.extern.slf4j.Slf4j;
@@ -34,8 +35,8 @@ public class DeliveryController {
     }
 
     @PutMapping(value = "/update/{id}")
-    public ResponseEntity<DeliveryDto> updateDelivery(@RequestBody DeliveryDto deliveryDto, @PathVariable String id) {
-        DeliveryDto updatedDto = deliveryService.updateDelivery(deliveryDto, id);
+    public ResponseEntity<DeliveryClientDto> updateDelivery(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody DeliveryDto deliveryDto, @PathVariable String id) {
+        DeliveryClientDto updatedDto = deliveryService.updateDelivery(deliveryDto, id);
         if (updatedDto == null)
             return ResponseEntity.badRequest().body(null);
 
@@ -70,20 +71,20 @@ public class DeliveryController {
     }
 
     @GetMapping(value = "/all/deliverer/{delivererId}")
-    public ResponseEntity<List<DeliveryDto>> getAllDeliveriesByDelivererId(@PathVariable String delivererId) {
-        List<DeliveryDto> data = deliveryService.getAllByDelivererId(delivererId);
+    public ResponseEntity<List<DeliveryClientDto>> getAllDeliveriesByDelivererId(@RequestHeader(value = "Cookie", required = true) String cookie, @PathVariable String delivererId) {
+        List<DeliveryClientDto> data = deliveryService.getAllByDelivererId(delivererId);
         return ResponseEntity.ok(data);
     }
 
     @GetMapping(value = "/all/box/{boxId}")
-    public ResponseEntity<List<DeliveryDto>> getAllDeliveriesByBoxId(@PathVariable String boxId) {
-        List<DeliveryDto> data = deliveryService.getByBoxId(boxId);
+    public ResponseEntity<List<DeliveryClientDto>> getAllDeliveriesByBoxId(@RequestHeader(value = "Cookie", required = true) String cookie, @PathVariable String boxId) {
+        List<DeliveryClientDto> data = deliveryService.getByBoxId(boxId);
         return ResponseEntity.ok(data);
     }
 
     @GetMapping(value = "/all/customer/{customerId}")
-    public ResponseEntity<List<DeliveryDto>> getAllDeliveriesByCustomerId(@PathVariable String customerId) {
-        List<DeliveryDto> data = deliveryService.getByCustomerId(customerId);
+    public ResponseEntity<List<DeliveryClientDto>> getAllDeliveriesByCustomerId(@RequestHeader(value = "Cookie", required = true) String cookie, @PathVariable String customerId) {
+        List<DeliveryClientDto> data = deliveryService.getByCustomerId(customerId);
         return ResponseEntity.ok(data);
     }
 
@@ -93,7 +94,7 @@ public class DeliveryController {
     }
 
     @PostMapping(value = "dispatch/{id}")
-    public ResponseEntity<ResponseMessage> updateDeliveryStatus(@PathVariable String id) {
+    public ResponseEntity<ResponseMessage> updateDeliveryStatus(@RequestHeader(value = "Cookie", required = true) String cookie,@PathVariable String id) {
 
         responseMessage = deliveryService.dispatch(id);
 

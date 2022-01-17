@@ -15,7 +15,7 @@ public interface UserServiceClient {
     @RequestMapping(value = "/user/{id}")
     public ResponseEntity<UserDto> getOne(@RequestHeader(value = "Cookie", required = true) String cookie,@PathVariable String id);
 
-    @GetMapping(value = "user/uname/{username}")
+    @GetMapping(value = "/user/uname/{username}")
     public ResponseEntity<UserDto> getByUsername(@RequestHeader(value = "Cookie", required = true) String cookie,@PathVariable String username);
 
 

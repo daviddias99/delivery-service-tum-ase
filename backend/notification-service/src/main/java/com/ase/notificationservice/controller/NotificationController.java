@@ -23,7 +23,7 @@ public class NotificationController {
 
     @PostMapping(value = "/email")
     public ResponseEntity<Boolean> sendEmail(@RequestBody EmailDto emailDto) throws MessagingException, UnsupportedEncodingException {
-
+        System.out.println("EMail callled");
         log.warn("Notification Controller: send e-mail is up");
         Boolean response = notificationService.sendEmail(emailDto);
 
