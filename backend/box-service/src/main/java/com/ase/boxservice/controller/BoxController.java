@@ -21,6 +21,8 @@ public class BoxController {
     @Autowired
     ResponseMessage responseMessage;
 
+
+
     @PostMapping(value = "/add")
     public ResponseEntity<BoxDto> addBox(@RequestBody BoxDto boxDto){
         BoxDto savedDto =  boxService.save(boxDto);
@@ -30,8 +32,8 @@ public class BoxController {
     }
 
     @PostMapping(value = "/check")
-    public ResponseEntity<ResponseMessage> checkAndUpdateBox(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody UserAndBoxDto userAndBoxDto){
-        responseMessage = boxService.checkBox(cookie, userAndBoxDto.userId, userAndBoxDto.boxId);
+    public ResponseEntity<ResponseMessage> checkAndUpdateBox( @RequestBody UserAndBoxDto userAndBoxDto){
+        responseMessage = boxService.checkBox(userAndBoxDto.userId, userAndBoxDto.boxId);
         if (responseMessage.getResponseType() == 0) {
             return ResponseEntity.badRequest().body(responseMessage);
         }

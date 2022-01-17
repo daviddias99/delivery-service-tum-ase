@@ -28,8 +28,21 @@ public class UserController {
     }
 
 
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<UserDto> getOne(@PathVariable String id) {
+        log.warn("User:getOne method is on. ID:"+id);
+        System.out.println("reached the get request");
+        UserDto user = userService.getById(id);
+//        if(user==null)
+//            return ResponseEntity.badRequest().body(null);
+
+        return ResponseEntity.ok(user);
+    }
+
     @GetMapping(value = "/uname/{username}")
     public ResponseEntity<UserDto> getByUsername(@RequestHeader(value = "Cookie", required = true) String cookie,@PathVariable String username) {
+        log.warn("User:sfsdfsfsd method is on:"+username);
+
         UserDto user = userService.getByUsername(username);
         if(user==null)
             return ResponseEntity.badRequest().body(null);
@@ -57,6 +70,8 @@ public class UserController {
 
     @PostMapping(value = "customer/add")
     public ResponseEntity<ResponseMessage> addCustomer(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody RegistrationDto registrationDto){
+        String randomRfid = UserServiceImpl.getAlphaNumericString(10);
+        registrationDto.setRfId(randomRfid);
         ResponseMessage responseMessage = userService.save(registrationDto,"CUSTOMER",cookie);
         if(responseMessage.getResponseType()==0)
             return ResponseEntity.badRequest().body(responseMessage);
@@ -106,7 +121,7 @@ public class UserController {
 
     @GetMapping(value = "/dispatcher/{id}")
     public ResponseEntity<UserDto> getDispatcher(@PathVariable String id) {
-        UserDto userDto = userService.getById(id,"DISPATCHER");
+        UserDto userDto = userService.getByIdandCheckRole(id,"DISPATCHER");
         if(userDto==null)
             return ResponseEntity.badRequest().body(userDto);
         return ResponseEntity.ok(userDto);
@@ -115,7 +130,7 @@ public class UserController {
 
     @GetMapping(value = "/customer/{id}")
     public ResponseEntity<UserDto> getCustomer(@PathVariable String id) {
-        UserDto userDto = userService.getById(id,"CUSTOMER");
+        UserDto userDto = userService.getByIdandCheckRole(id,"CUSTOMER");
         if(userDto==null)
             return ResponseEntity.badRequest().body(userDto);
         return ResponseEntity.ok(userDto);
@@ -124,7 +139,7 @@ public class UserController {
 
     @GetMapping(value = "/deliverer/{id}")
     public ResponseEntity<UserDto> getDeliverer(@PathVariable String id) {
-        UserDto userDto = userService.getById(id,"DELIVERER");
+        UserDto userDto = userService.getByIdandCheckRole(id,"DELIVERER");
         if(userDto==null)
             return ResponseEntity.badRequest().body(userDto);
         return ResponseEntity.ok(userDto);

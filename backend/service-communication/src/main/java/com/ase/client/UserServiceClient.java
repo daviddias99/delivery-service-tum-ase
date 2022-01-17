@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @FeignClient("user-service")
 public interface UserServiceClient {
 
-    @RequestMapping(value = "/user/{id}")
+
+    @GetMapping(value = "/user/{id}")
     public ResponseEntity<UserDto> getOne(@RequestHeader(value = "Cookie", required = true) String cookie,@PathVariable String id);
 
     @GetMapping(value = "/user/uname/{username}")

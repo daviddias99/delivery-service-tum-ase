@@ -35,6 +35,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     Logger LOGGER = LogManager.getLogger(DeliveryServiceImpl.class);
 
+
     @Autowired
     private DeliveryRepository deliveryRepository;
 
@@ -140,8 +141,8 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     public List<DeliveryDto> getAll() {
         log.warn("Get All is on");
-//        UserDto user = userServiceClient.getByUsername(cookie,"erengulummmmmm").getBody();
-//        log.warn("GetAll user:"+user.getFirstName());
+//        UserDto user = userServiceClient.getByUsername(fixedCookie,"erengulummmmmm").getBody();
+  //    log.warn("GetAll user:"+user.getFirstName());
 
         List<Delivery> data = deliveryRepository.findAll();
         if (data.isEmpty())
