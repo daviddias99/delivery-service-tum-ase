@@ -19,5 +19,5 @@ public interface BoxService {
 
     BoxDto updateBox(BoxDto boxDto, String id);
 
-    ResponseMessage checkBox(String cookie, String userId, String boxId);
+    ResponseMessage checkBox( String userId, String boxId);
 }

@@ -25,8 +25,28 @@ public class UserServiceImpl implements UserService {
   @Autowired private UserRepository userRepository;
   @Autowired private ModelMapper modelMapper;
 
+
+
   @Override
-  public UserDto getById(String id,String role) {
+  public UserDto getById(String id) {
+
+    if (!userRepository.existsById(new ObjectId(id)).booleanValue()) return null;
+
+    User tempUser = userRepository.findById(new ObjectId(id));
+
+    if (tempUser == null) {
+      log.warn("user can't be found");
+      return null;
+    }
+
+
+
+    return modelMapper.map(tempUser, UserDto.class);
+  }
+
+
+  @Override
+  public UserDto getByIdandCheckRole(String id,String role) {
 
     if (!userRepository.existsById(new ObjectId(id)).booleanValue()) return null;
 
