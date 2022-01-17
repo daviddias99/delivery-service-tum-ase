@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
   @Autowired private ModelMapper modelMapper;
 
   @Override
-  public UserDto getById(String id) {
+  public UserDto getById(String id,String role) {
 
     if (!userRepository.existsById(new ObjectId(id)).booleanValue()) return null;
 
@@ -36,6 +36,13 @@ public class UserServiceImpl implements UserService {
       log.warn("user can't be found");
       return null;
     }
+
+    if(tempUser.getRole() != role){
+      log.warn("wrong role");
+      return null;
+    }
+
+
     return modelMapper.map(tempUser, UserDto.class);
   }
 
@@ -83,6 +90,7 @@ public class UserServiceImpl implements UserService {
       return saveResp;
     }
 
+    registrationDto.setRfId( getAlphaNumericString(10));
     User tempuser = modelMapper.map(registrationDto, User.class);
     tempuser.setRole(role);
 
