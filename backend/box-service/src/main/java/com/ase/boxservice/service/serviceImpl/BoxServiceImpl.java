@@ -79,11 +79,13 @@ public class BoxServiceImpl implements BoxService {
     @Override
     public Boolean deleteBox(String id) {
         ObjectId objectId = new ObjectId(id);
-        if(boxRepository.existsById(objectId).booleanValue()){
+        if(boxRepository.existsById(objectId).booleanValue()) {
             Box dbBox = boxRepository.findById(objectId);
-            dbBox.setStatus(BoxStatus.inactive);
-            boxRepository.save(dbBox);
-            return true;
+            if (dbBox.getStatus() == BoxStatus.free) {
+                dbBox.setStatus(BoxStatus.inactive);
+                boxRepository.save(dbBox);
+                return true;
+            }
         }
         return false;
     }

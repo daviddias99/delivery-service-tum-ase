@@ -10,6 +10,7 @@ import com.ase.client.com.ase.contract.UserDto;
 import com.ase.deliveryservice.entity.Delivery;
 import com.ase.client.entity.DeliveryStatus;
 import com.ase.deliveryservice.entity.Status;
+import com.ase.deliveryservice.entity.User;
 import com.ase.deliveryservice.repository.DeliveryRepository;
 import com.ase.deliveryservice.service.DeliveryService;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,8 @@ import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -34,6 +37,14 @@ import java.util.concurrent.ThreadLocalRandom;
 public class DeliveryServiceImpl implements DeliveryService {
 
     Logger LOGGER = LogManager.getLogger(DeliveryServiceImpl.class);
+
+    private final String service_cookie = "jwt=eyJhbGciOiJSUzI1NiJ9.eyJyb2xlcyI6W3sicm9sZS" +
+            "I6IlJPTEVfU0VSVklDRSJ9XSwic3ViIjoiU0VSVklDRSIsImlzcyI6ImFzZURlbGl2ZXJ5IiwiaWF0Ij" +
+            "oxNjQyMDA1MTY4fQ.F6p7eQB2rtRhK7NBNDEP2bX-883mSydiumsFv-dqpGa9YY5gfy7bzKfK3Z4zTtPKCS" +
+            "QK_AbrbfxUUnX1ooWFTgjWdxvzVOSWSB8PduxJT6DhR6q99gk_HQ2hkHpqDYxWRqrrcI_7IBc_Drwvya9DNl" +
+            "QBhZ6vQnnGGsTXEZynhyKR2VvOwXXqFXqTjXkWlYTyX3N6Dw9DeIzfcWkS0yQwvidAv2HBmQW4V53dw1tvr" +
+            "-D9sUQ_mYJXDogIgZA6Tn0GNle_QJ81bMk27TGzT8C-7MIkmEWvdoQih8TfdzicSTY8Nf_S-zCBi66eHtg1ME" +
+            "UZM36Hmv_EBmUagDgJX0ByyA; Path=/; HttpOnly;";
 
 
     @Autowired
@@ -126,12 +137,17 @@ public class DeliveryServiceImpl implements DeliveryService {
 
         Delivery delivery = deliveryRepository.findById(new ObjectId(id));
 
+
+
         if (delivery == null) {
-            return null;
+            responseMessage.setResponseType(1);
+            responseMessage.setResponseMessage("Delivery does not exist!");
         }
 
-        delivery = modelMapper.map(deliveryDto, Delivery.class);
-        deliveryRepository.save(delivery);
+        if(!delivery.getDeliverer().getName().equals(username)){
+            responseMessage.setResponseType(1);
+            responseMessage.setResponseMessage("not your delivery!");
+        }
 
 
 
