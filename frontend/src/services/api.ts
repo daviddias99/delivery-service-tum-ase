@@ -12,6 +12,7 @@ const API_URL: string = process.env.REACT_APP_API_URI ?? DEFAULT_API_URL;
 const routes = {
   // Auth
   login: '/auth',
+  xsrf: '/auth',
   logout: '/auth/logout',
 
   // Delivery
@@ -42,7 +43,7 @@ const routes = {
   delivererDeliveries: (id: string) => `/delivery/all/deliverer/${id}`,
   dispatcher: (id: string) => `/user/dispatcher/${id}`,
   dispatcherDeliveries: (id: string) => `/delivery/all/dispatcher/${id}`,
-  dispatch: (id: string) => `/delivery/dispatch/${id}`
+  dispatch: (id: string) => `/delivery/dispatch/${id}`,
 };
 
 /**
@@ -63,8 +64,6 @@ const errorHandler = (err: AxiosError, callback: (_res: AxiosResponse<any, any>)
     headers: {},
     config: {},
   };
-
-  console.log('zebi');
 
   callback(errorResponse);
 };
@@ -191,6 +190,9 @@ const api = {
   },
   dispatch: (id: string, callback: (_res: AxiosResponse<any, any>) => void) => {
     request(routes.dispatch(id), 'post', null, callback);
+  },
+  getXSRF: (callback: (_res: AxiosResponse<any, any>) => void) => {
+    request(routes.xsrf, 'get', null, callback);
   },
 };
 

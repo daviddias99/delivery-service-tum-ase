@@ -1,9 +1,10 @@
 
 import { Button, Card, CardActions, CardContent, CardHeader, TextField, Theme, Modal } from '@mui/material';
 import { createStyles, makeStyles } from '@mui/styles';
-import { AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Cookie from 'js-cookie';
 import './styles.scss';
 
 import React from 'react';
@@ -79,7 +80,22 @@ const LoginModal = ({ open, setOpen }: LoginModalProps) => {
       navigate('/');
     };
 
-    api.login({ username: email, password: password }, loginHandler);
+    const xsrfHandler = (response: AxiosResponse<any, any>) => {
+      // if (response.status !== 200) {
+      //   setErrorText('Invalid credentials.');
+      //   return;
+      // }
+      // axios.defaults.headers.common['X'] = document.cookie.;
+      const xsrfToken = Cookie.get('XSRF-TOKEN');
+      if (!xsrfToken) {
+        return;
+      }
+
+      axios.defaults.headers.post['X-XSRF-TOKEN'] = xsrfToken;
+      api.login({ username: email, password: password }, loginHandler);
+    };
+
+    api.getXSRF(xsrfHandler);
   };
 
   const styles = useStyles();
