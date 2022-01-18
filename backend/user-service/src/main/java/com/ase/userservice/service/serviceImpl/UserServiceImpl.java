@@ -122,7 +122,6 @@ public class UserServiceImpl implements UserService {
       return saveResp;
     }
 
-    registrationDto.setRfId( getAlphaNumericString(10));
     User tempuser = modelMapper.map(registrationDto, User.class);
     tempuser.setRole(role);
 
