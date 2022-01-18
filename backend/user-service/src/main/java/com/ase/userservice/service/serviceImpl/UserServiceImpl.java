@@ -77,6 +77,18 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  public UserDto getByRfid(String rfId) {
+    if (!userRepository.existsByRfId(rfId).booleanValue()) {
+      log.warn("user can't be found with the rfid " + rfId);
+      return null;
+    }
+
+    User tempUser = userRepository.findByRfId(rfId);
+
+    return modelMapper.map(tempUser, UserDto.class);
+  }
+
+  @Override
   public List<UserDto> getAll() {
     List<User> data = userRepository.findAll();
     return Arrays.asList(modelMapper.map(data, UserDto[].class));

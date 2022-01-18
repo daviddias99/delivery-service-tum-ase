@@ -144,10 +144,7 @@ public class DeliveryServiceImpl implements DeliveryService {
             responseMessage.setResponseMessage("Delivery does not exist!");
         }
 
-        if(!delivery.getDeliverer().getName().equals(username)){
-            responseMessage.setResponseType(1);
-            responseMessage.setResponseMessage("not your delivery!");
-        }
+
 
 
 
