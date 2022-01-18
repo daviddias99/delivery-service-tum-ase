@@ -94,7 +94,7 @@ public class DeliveryController {
     }
 
     @PostMapping(value = "dispatch/{id}")
-    public ResponseEntity<ResponseMessage> updateDeliveryStatus(@RequestHeader(value = "Cookie", required = true) String cookie,@PathVariable String id) {
+    public ResponseEntity<ResponseMessage> updateDeliveryStatus(@PathVariable String id) {
 
         responseMessage = deliveryService.dispatch(id);
 

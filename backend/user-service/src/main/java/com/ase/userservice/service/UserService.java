@@ -16,6 +16,8 @@ public interface UserService {
 
     UserDto getByUsername(String username);
 
+    UserDto getByRfid(String rfId);
+
     List<UserDto> getAll();
 
 

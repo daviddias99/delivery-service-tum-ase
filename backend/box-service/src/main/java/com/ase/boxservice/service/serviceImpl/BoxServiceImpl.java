@@ -6,7 +6,6 @@ import com.ase.boxservice.entity.BoxStatus;
 import com.ase.boxservice.repository.BoxRepository;
 import com.ase.boxservice.service.BoxService;
 import com.ase.client.DeliveryServiceClient;
-import com.ase.client.NotificationServiceClient;
 import com.ase.client.UserServiceClient;
 import com.ase.client.com.ase.contract.DeliveryClientDto;
 import com.ase.client.com.ase.contract.ResponseMessage;
@@ -24,8 +23,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-@Slf4j
-@Service
+
+@Service(value = "boxService")
 public class BoxServiceImpl implements BoxService {
     @Autowired
     private BoxRepository boxRepository;
@@ -108,8 +107,14 @@ public class BoxServiceImpl implements BoxService {
     }
 
     @Override
-    public ResponseMessage checkBox(String userId, String boxId) {
-        UserDto userDto = userServiceClient.getOne( fixedCookie, userId).getBody();
+    public ResponseMessage checkBox(String rfId, String boxId) {
+        UserDto userDto = userServiceClient.getByRfId(fixedCookie, rfId).getBody();
+        if(userDto == null){
+            responseMessage.setResponseMessage("User is null");
+            responseMessage.setResponseType(0);
+            return responseMessage;
+        }
+        String userId = userDto.getId();
         BoxDto boxDto = getById(boxId);
         if(boxDto.getStatus() == BoxStatus.inactive){
             responseMessage.setResponseMessage("Box is inactive!");
@@ -176,7 +181,6 @@ public class BoxServiceImpl implements BoxService {
             responseMessage.setResponseType(0);
         }
         changeBoxStatusOnCondition(deliveryOnBoxDtoList, boxId, boxDto);
-        log.debug("response message is " + responseMessage);
         return responseMessage;
     }
 
@@ -193,11 +197,9 @@ public class BoxServiceImpl implements BoxService {
         if((boxDto.getStatus().equals(BoxStatus.active) || boxDto.getStatus().equals(BoxStatus.assigned))  && ifBoxFree){
             boxDto.setStatus(BoxStatus.free);
             updateBox(boxDto, boxId);
-            log.debug("Box status changed to free");
         }else if (boxDto.getStatus().equals(BoxStatus.free) && !ifBoxFree){
             boxDto.setStatus(BoxStatus.active);
             updateBox(boxDto, boxId);
-            log.debug("Box status changed to active from free");
         }
     }
 }

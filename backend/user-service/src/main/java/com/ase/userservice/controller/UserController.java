@@ -51,6 +51,17 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    @GetMapping(value = "/rfid/{rfId}")
+    public ResponseEntity<UserDto> getByRfId(@RequestHeader(value = "Cookie", required = true) String cookie,@PathVariable String rfId) {
+        UserDto user = userService.getByRfid(rfId);
+        if(user==null){
+            log.warn("user is null");
+            return ResponseEntity.badRequest().body(null);
+        }
+
+
+        return ResponseEntity.ok(user);
+    }
 
 
     @GetMapping(value = "/all")
@@ -83,6 +94,8 @@ public class UserController {
 
     @PostMapping(value = "deliverer/add")
     public ResponseEntity<ResponseMessage> addDeliverer(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody RegistrationDto registrationDto){
+        String randomRfid = UserServiceImpl.getAlphaNumericString(10);
+        registrationDto.setRfId(randomRfid);
         ResponseMessage responseMessage = userService.save(registrationDto,"DELIVERER",cookie);
         if(responseMessage.getResponseType()==0)
             return ResponseEntity.badRequest().body(responseMessage);
@@ -93,6 +106,8 @@ public class UserController {
 
     @PostMapping(value = "dispatcher/add")
     public ResponseEntity<ResponseMessage> addDispatcher(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody RegistrationDto registrationDto){
+        String randomRfid = UserServiceImpl.getAlphaNumericString(10);
+        registrationDto.setRfId(randomRfid);
         ResponseMessage responseMessage = userService.save(registrationDto,"DISPATCHER",cookie);
         if(responseMessage.getResponseType()==0)
             return ResponseEntity.badRequest().body(responseMessage);
