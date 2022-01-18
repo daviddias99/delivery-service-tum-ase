@@ -82,8 +82,6 @@ public class UserController {
 
     @PostMapping(value = "customer/add")
     public ResponseEntity<ResponseMessage> addCustomer(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody RegistrationDto registrationDto){
-        String randomRfid = UserServiceImpl.getAlphaNumericString(10);
-        registrationDto.setRfId(randomRfid);
         ResponseMessage responseMessage = userService.save(registrationDto,"CUSTOMER",cookie);
         if(responseMessage.getResponseType()==0)
             return ResponseEntity.badRequest().body(responseMessage);
@@ -94,8 +92,6 @@ public class UserController {
 
     @PostMapping(value = "deliverer/add")
     public ResponseEntity<ResponseMessage> addDeliverer(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody RegistrationDto registrationDto){
-        String randomRfid = UserServiceImpl.getAlphaNumericString(10);
-        registrationDto.setRfId(randomRfid);
         ResponseMessage responseMessage = userService.save(registrationDto,"DELIVERER",cookie);
         if(responseMessage.getResponseType()==0)
             return ResponseEntity.badRequest().body(responseMessage);
@@ -106,8 +102,6 @@ public class UserController {
 
     @PostMapping(value = "dispatcher/add")
     public ResponseEntity<ResponseMessage> addDispatcher(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody RegistrationDto registrationDto){
-        String randomRfid = UserServiceImpl.getAlphaNumericString(10);
-        registrationDto.setRfId(randomRfid);
         ResponseMessage responseMessage = userService.save(registrationDto,"DISPATCHER",cookie);
         if(responseMessage.getResponseType()==0)
             return ResponseEntity.badRequest().body(responseMessage);
