@@ -63,7 +63,7 @@ public class AuthRequestFilter extends OncePerRequestFilter {
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null ||
-                !username.equals(SecurityContextHolder.getContext().getAuthentication().getPrincipal())) {
+                username != null && !username.equals(SecurityContextHolder.getContext().getAuthentication().getPrincipal())) {
 
 
             String principal = username;
