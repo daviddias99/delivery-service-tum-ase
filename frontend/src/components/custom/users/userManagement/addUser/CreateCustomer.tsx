@@ -7,7 +7,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Grid, InputLabel, MenuItem, Select, SelectChangeEvent,
+  Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Snackbar,
   TextField
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
@@ -45,6 +45,12 @@ const CreateCustomer = () => {
     setRFID(event.target.value as string);
   };
 
+  const handleError = () => {
+    setError(false);
+  };
+  const handleSuccess = () => {
+    setSuccess(false);
+  };
 
   const confirmClicked = () => {
     const newCustomer = {username: userName, firstName: firstName, surname: surname, password: 'password', email: email};
@@ -53,11 +59,10 @@ const CreateCustomer = () => {
       if (response.status !== 200) {
         setError(true);
         setSuccess(false);
-        handleClose();
-        return;
+      } else {
+        setError(false);
+        setSuccess(true);
       }
-      setError(false);
-      setSuccess(true);
       handleResetClicked();
       handleClose();
     };
@@ -73,14 +78,17 @@ const CreateCustomer = () => {
       <h2>
         Create new Customer.
       </h2>
-      {showError? (
-        <Alert severity="error">An error occured and the box was not created</Alert>
-      ):( <React.Fragment />
-      )}
-      {showSuccess? (
-        <Alert severity="success">This is a success alert — succesfully added</Alert>
-      ):( <React.Fragment />
-      )}
+      <Snackbar open={showError} autoHideDuration={6000} onClose={handleError}>
+        <Alert severity="error" sx={{ width: '100%' }}>
+          This is a error message!
+        </Alert>
+      </Snackbar>
+      <Snackbar open={showSuccess} autoHideDuration={6000} onClose={handleSuccess}>
+        <Alert severity="success" sx={{ width: '100%' }}>
+          Customer succesfully added.
+        </Alert>
+      </Snackbar>
+
       <p>
         Fill these information to create a new Customer.
       </p>
@@ -179,7 +187,7 @@ const CreateCustomer = () => {
         </Button>
       </Grid>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Delete Box</DialogTitle>
+        <DialogTitle>Create Customer</DialogTitle>
         <React.Fragment>
           <DialogContent>
             <Alert severity="warning">Are you sure!</Alert>

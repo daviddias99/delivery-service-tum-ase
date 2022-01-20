@@ -16,6 +16,7 @@ import { useSelector } from 'react-redux';
 import { isLoggedIn, loggedUser } from 'redux/slices/loggedUser/loggedUserSlice';
 import NotFound from 'pages/NotFound/NotFound';
 import { User } from 'types';
+import UserProfilePage from 'pages/UserProfile/UserProfilePage';
 import OrderSearchPage from 'pages/OrderSearch/OrderSearch';
 
 type PrivateRouteProps = {
@@ -104,7 +105,7 @@ const Router = () => {
         }
         />
 
-        <Route path={routes.userMangement.def} element={
+        <Route path={routes.userManagement.def} element={
           <PrivateRoute>
             <AddUserPage />
           </PrivateRoute>
@@ -113,6 +114,12 @@ const Router = () => {
         <Route path={routes.userList.def} element={
           <PrivateRoute>
             <UsersListPage />
+          </PrivateRoute>
+        }
+        />
+        <Route path={routes.userProfile.def} element={
+          <PrivateRoute>
+            <UserProfilePage />
           </PrivateRoute>
         }
         />

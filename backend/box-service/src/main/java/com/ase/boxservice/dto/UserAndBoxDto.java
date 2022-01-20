@@ -6,5 +6,5 @@ import lombok.Data;
 public class UserAndBoxDto {
 
     public String boxId;
-    public String userId;
+    public String rfId;
 }

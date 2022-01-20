@@ -25,6 +25,8 @@ public class UserServiceImpl implements UserService {
   @Autowired private UserRepository userRepository;
   @Autowired private ModelMapper modelMapper;
 
+
+
   @Override
   public UserDto getById(String id) {
 
@@ -36,6 +38,31 @@ public class UserServiceImpl implements UserService {
       log.warn("user can't be found");
       return null;
     }
+
+
+
+    return modelMapper.map(tempUser, UserDto.class);
+  }
+
+
+  @Override
+  public UserDto getByIdandCheckRole(String id,String role) {
+
+    if (!userRepository.existsById(new ObjectId(id)).booleanValue()) return null;
+
+    User tempUser = userRepository.findById(new ObjectId(id));
+
+    if (tempUser == null) {
+      log.warn("user can't be found");
+      return null;
+    }
+
+    if(!tempUser.getRole().equals(role)){
+      log.warn("wrong role:"+tempUser.getRole()+":->"+role);
+      return null;
+    }
+
+
     return modelMapper.map(tempUser, UserDto.class);
   }
 
@@ -45,6 +72,18 @@ public class UserServiceImpl implements UserService {
     if (!userRepository.existsByUsername(username).booleanValue()) return null;
 
     User tempUser = userRepository.findByUsername(username);
+
+    return modelMapper.map(tempUser, UserDto.class);
+  }
+
+  @Override
+  public UserDto getByRfid(String rfId) {
+    if (!userRepository.existsByRfId(rfId).booleanValue()) {
+      log.warn("user can't be found with the rfid " + rfId);
+      return null;
+    }
+
+    User tempUser = userRepository.findByRfId(rfId);
 
     return modelMapper.map(tempUser, UserDto.class);
   }

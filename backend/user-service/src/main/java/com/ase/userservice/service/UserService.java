@@ -12,7 +12,11 @@ public interface UserService {
 
     UserDto getById(String id);
 
+    UserDto getByIdandCheckRole(String id,String role);
+
     UserDto getByUsername(String username);
+
+    UserDto getByRfid(String rfId);
 
     List<UserDto> getAll();
 

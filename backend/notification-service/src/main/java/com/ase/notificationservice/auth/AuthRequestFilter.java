@@ -1,7 +1,6 @@
-package com.ase.authservice.filter;
+package com.ase.notificationservice.auth;
 
-import com.ase.authservice.jwt.JwtUtil;
-import com.ase.authservice.service.AuthService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -24,8 +23,7 @@ import java.util.List;
 
 @Component
 public class AuthRequestFilter extends OncePerRequestFilter {
-    @Autowired
-    private AuthService authService;
+
 
     @Autowired
     private JwtUtil jwtUtil;
@@ -33,18 +31,16 @@ public class AuthRequestFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        //TODO: fix nullptr issue if no cookies attached
         Cookie[] cookies = request.getCookies();
-        if (cookies == null) {
+        if(cookies == null){
             response.sendError(HttpStatus.BAD_REQUEST.value(), "No Cookies Found");
         }
-
         Cookie cookie = null;
 
-        if (cookies != null) {
-            for (int i = 0; i < cookies.length; i++) {
-                if (cookies[i].getName().equals("jwt")) {
-                    cookie = cookies[i];
-                }
+        for (int i = 0; i < cookies.length; i++) {
+            if (cookies[i].getName().equals("jwt")) {
+                cookie = cookies[i];
             }
         }
 
@@ -61,17 +57,11 @@ public class AuthRequestFilter extends OncePerRequestFilter {
             username = jwtUtil.extractUsername(jwt);
         }
 
-        final String authHeader = request.getHeader("Authorization");
 
-        if (authHeader == null && cookie == null) {
-            //TODO: when permit all this presents an issue
-            response.sendError(HttpStatus.BAD_REQUEST.value(), "No JWT Cookie or Basic Auth Info Found");
-
-
-        } else if (authHeader != null && !authHeader.startsWith("Basic") && cookie == null) {
-            response.sendError(HttpStatus.UNAUTHORIZED.value(), "unsupported auth format!");
+        if (cookie == null) {
+            response.sendError(HttpStatus.BAD_REQUEST.value(), "No JWT Cookie Found");
         }
-        //TODO: set basic auth not supported
+
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null ||
                 username != null && !username.equals(SecurityContextHolder.getContext().getAuthentication().getPrincipal())) {
 
@@ -79,11 +69,11 @@ public class AuthRequestFilter extends OncePerRequestFilter {
             String principal = username;
             String roles = jwtUtil.extractUserRoles(jwt);
             String role = roles.split("=")[1];
-            role = role.substring(0, role.length() - 2);
+            role = role.substring(0, role.length()-2);
 
             //TODO: discuss if this is valid / OK practice, inquire next monday
-            PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(principal, "[Protected]", makeRole(role));
-            authService.setAuthenticationToken(token);
+            PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(principal,"[Protected]", makeRole(role));
+            SecurityContextHolder.getContext().setAuthentication(token);
 
             Authentication authContext = SecurityContextHolder.getContext().getAuthentication();
             System.out.println(String.format("Authenticate Token Set:\n"
@@ -94,7 +84,6 @@ public class AuthRequestFilter extends OncePerRequestFilter {
                     authContext.getCredentials(),
                     authContext.getAuthorities().toString()));
         }
-
         filterChain.doFilter(request, response);
     }
 
@@ -105,5 +94,4 @@ public class AuthRequestFilter extends OncePerRequestFilter {
 
         return list;
     }
-
 }

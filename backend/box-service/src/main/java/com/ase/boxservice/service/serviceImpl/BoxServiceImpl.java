@@ -6,7 +6,6 @@ import com.ase.boxservice.entity.BoxStatus;
 import com.ase.boxservice.repository.BoxRepository;
 import com.ase.boxservice.service.BoxService;
 import com.ase.client.DeliveryServiceClient;
-import com.ase.client.NotificationServiceClient;
 import com.ase.client.UserServiceClient;
 import com.ase.client.com.ase.contract.DeliveryClientDto;
 import com.ase.client.com.ase.contract.ResponseMessage;
@@ -24,8 +23,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-@Slf4j
-@Service
+
+@Service(value = "boxService")
 public class BoxServiceImpl implements BoxService {
     @Autowired
     private BoxRepository boxRepository;
@@ -36,14 +35,15 @@ public class BoxServiceImpl implements BoxService {
     @Autowired
     private UserServiceClient userServiceClient;
 
-    @Autowired
-    private NotificationServiceClient notificationServiceClient;
 
     @Autowired
     private DeliveryServiceClient deliveryServiceClient;
 
     @Autowired
     ResponseMessage responseMessage;
+
+    private String fixedCookie = "jwt=eyJhbGciOiJSUzI1NiJ9.eyJyb2xlcyI6W3sicm9sZSI6IlJPTEVfQk9YIn1dLCJzdWIiOiJCT1giLCJpc3MiOiJhc2VEZWxpdmVyeSIsImlhdCI6MTY0MjAwNTE2OCwiZXhwIjo0MDcyMzUxMjQxfQ.UHdagX4q4DD-3rZd9XoDChRZ926iN0WSqibuXZqI4B3TS5T1PT_Vz1UN_UzpQFxTDWd1Cze7Kj67veeWWA4ZOyHY14At_IHVdcVZqZF2ezxwrKXNKOeHZB7_gFtHqc27uscjf6CbckpCcgnML9r857BMNlOO3kf--Tz1pyYlK-jJzz6sj_sSW1RNln6MZmi6_K59vZryemvFkth4cukKzUkwsNzOu6H2nJtY0Cqhqp5OPKf1QOEKRUgE_aX6EBVf8598aFp3YNoUU9y8HravhiMKV1Y9jDt89sIn_Mf86wpAAnk-zkRAeWdPLvHQRNwRarGWYkBrZb9qZcdCz-AJ1g";
+
 
     @Override
     @Transactional
@@ -78,11 +78,13 @@ public class BoxServiceImpl implements BoxService {
     @Override
     public Boolean deleteBox(String id) {
         ObjectId objectId = new ObjectId(id);
-        if(boxRepository.existsById(objectId).booleanValue()){
+        if(boxRepository.existsById(objectId).booleanValue()) {
             Box dbBox = boxRepository.findById(objectId);
-            dbBox.setStatus(BoxStatus.inactive);
-            boxRepository.save(dbBox);
-            return true;
+            if (dbBox.getStatus() == BoxStatus.free) {
+                dbBox.setStatus(BoxStatus.inactive);
+                boxRepository.save(dbBox);
+                return true;
+            }
         }
         return false;
     }
@@ -105,17 +107,23 @@ public class BoxServiceImpl implements BoxService {
     }
 
     @Override
-    public ResponseMessage checkBox(String cookie, String userId, String boxId) {
-        UserDto userDto = userServiceClient.getOne(cookie, userId).getBody();
+    public ResponseMessage checkBox(String rfId, String boxId) {
+        UserDto userDto = userServiceClient.getByRfId(fixedCookie, rfId).getBody();
+        if(userDto == null){
+            responseMessage.setResponseMessage("User is null");
+            responseMessage.setResponseType(0);
+            return responseMessage;
+        }
+        String userId = userDto.getId();
         BoxDto boxDto = getById(boxId);
         if(boxDto.getStatus() == BoxStatus.inactive){
             responseMessage.setResponseMessage("Box is inactive!");
             responseMessage.setResponseType(0);
             return responseMessage;
         }
-        List<DeliveryClientDto> deliveryOnBoxDtoList = deliveryServiceClient.getAllDeliveriesByBoxId(cookie,boxId).getBody();
+        List<DeliveryClientDto> deliveryOnBoxDtoList = deliveryServiceClient.getAllDeliveriesByBoxId(fixedCookie,boxId).getBody();
         if(userDto.getRole().equals("deliverer")){
-            List<DeliveryClientDto> deliveryDtoList = deliveryServiceClient.getAllDeliveriesByDelivererId(cookie,userId).getBody();
+            List<DeliveryClientDto> deliveryDtoList = deliveryServiceClient.getAllDeliveriesByDelivererId(fixedCookie,userId).getBody();
             boolean deliveryAssignedToDeliverer = false;
             for (DeliveryClientDto delivery : deliveryDtoList){
                 if(delivery.getBox().getId().equals(boxId)){
@@ -131,7 +139,7 @@ public class BoxServiceImpl implements BoxService {
                     StatusDelivery status = new StatusDelivery(DeliveryStatus.delivered, date.toInstant().toString());
                     statusList.add(0, status);
                     delivery.setStatusHistory(statusList);
-                    deliveryServiceClient.updateDelivery(cookie, delivery, delivery.getId());
+                    deliveryServiceClient.updateDelivery(fixedCookie, delivery, delivery.getId());
                     responseMessage.setResponseMessage("Changed from dispatched to delivered!");
                     responseMessage.setResponseType(1);
                 }
@@ -141,7 +149,7 @@ public class BoxServiceImpl implements BoxService {
                 responseMessage.setResponseType(0);
             }
         }else if (userDto.getRole().equals("customer")) {
-            List<DeliveryClientDto> deliveryDtoList = deliveryServiceClient.getAllDeliveriesByCustomerId(cookie, userId).getBody();
+            List<DeliveryClientDto> deliveryDtoList = deliveryServiceClient.getAllDeliveriesByCustomerId(fixedCookie, userId).getBody();
             boolean deliveryAssignedToCustomer = false;
             for (DeliveryClientDto delivery : deliveryDtoList){
                 if(delivery.getBox().getId().equals(boxId)){
@@ -156,7 +164,7 @@ public class BoxServiceImpl implements BoxService {
                     StatusDelivery status = new StatusDelivery(DeliveryStatus.collected, date.toInstant().toString());
                     statusList.add(0, status);
                     delivery.setStatusHistory(statusList);
-                    deliveryServiceClient.updateDelivery(cookie, delivery, delivery.getId());
+                    deliveryServiceClient.updateDelivery(fixedCookie, delivery, delivery.getId());
                     responseMessage.setResponseMessage("changed from delivered to collected");
                     responseMessage.setResponseType(1);
                 }
@@ -173,7 +181,6 @@ public class BoxServiceImpl implements BoxService {
             responseMessage.setResponseType(0);
         }
         changeBoxStatusOnCondition(deliveryOnBoxDtoList, boxId, boxDto);
-        log.debug("response message is " + responseMessage);
         return responseMessage;
     }
 
@@ -190,11 +197,9 @@ public class BoxServiceImpl implements BoxService {
         if((boxDto.getStatus().equals(BoxStatus.active) || boxDto.getStatus().equals(BoxStatus.assigned))  && ifBoxFree){
             boxDto.setStatus(BoxStatus.free);
             updateBox(boxDto, boxId);
-            log.debug("Box status changed to free");
         }else if (boxDto.getStatus().equals(BoxStatus.free) && !ifBoxFree){
             boxDto.setStatus(BoxStatus.active);
             updateBox(boxDto, boxId);
-            log.debug("Box status changed to active from free");
         }
     }
 }
