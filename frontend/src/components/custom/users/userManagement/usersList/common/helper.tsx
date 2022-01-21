@@ -1,11 +1,6 @@
 const usersTableColumns = [
   { field: 'id', headerName: 'ID', width: 90, flex: 0.4 },
   {
-    field: 'username',
-    headerName: 'User Name',
-    flex: 0.5,
-  },
-  {
     field: 'firstName',
     headerName: 'First Name',
     flex: 0.5,

@@ -21,7 +21,7 @@ const ProfileMenu = () => {
         <Tooltip title="Account">
           <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
             <Avatar sx={{ width: 32, height: 32 }}>
-              {user.username.charAt(0).toUpperCase()}
+              {user.firstName.charAt(0).toUpperCase()}
             </Avatar>
           </IconButton>
         </Tooltip>

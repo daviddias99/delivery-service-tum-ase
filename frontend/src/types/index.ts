@@ -11,7 +11,6 @@ type BoxAddress = {
 
 type User = {
   id: string,
-  username: string,
   firstName: string,
   surname: string,
   role: UserRole,
