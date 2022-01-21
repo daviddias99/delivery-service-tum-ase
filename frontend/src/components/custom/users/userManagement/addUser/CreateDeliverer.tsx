@@ -136,8 +136,8 @@ const CreateDeliverer = () => {
               label="RFID"
               onChange={handleChange}
             >
-              <MenuItem value={10}>1</MenuItem>
-              <MenuItem value={20}>2</MenuItem>
+              <MenuItem value={1}>1</MenuItem>
+              <MenuItem value={2}>2</MenuItem>
             </Select>
           </FormControl>
         </Grid>
