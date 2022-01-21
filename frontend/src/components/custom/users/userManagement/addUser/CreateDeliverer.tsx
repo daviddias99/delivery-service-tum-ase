@@ -52,7 +52,6 @@ const CreateDeliverer = () => {
   const confirmClicked = () => {
     const newDeliverer = { firstName: firstName, surname: surname, password: 'password', email: email};
     const callback = (response: AxiosResponse<any, any>) => {
-
       if (response.status !== 200) {
         setError(true);
         setSuccess(false);
@@ -63,6 +62,7 @@ const CreateDeliverer = () => {
       handleResetClicked();
       handleClose();
     };
+    console.log(newDeliverer);
     api.createDeliverer(newDeliverer, callback);
   };
 
@@ -138,7 +138,6 @@ const CreateDeliverer = () => {
             >
               <MenuItem value={10}>1</MenuItem>
               <MenuItem value={20}>2</MenuItem>
-              <MenuItem value={30}>3</MenuItem>
             </Select>
           </FormControl>
         </Grid>
