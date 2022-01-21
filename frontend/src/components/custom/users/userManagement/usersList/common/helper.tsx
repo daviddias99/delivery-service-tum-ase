@@ -15,7 +15,11 @@ const usersTableColumns = [
     headerName: 'email',
     flex: 0.5,
   },
-
+  {
+    field: 'rfId',
+    headerName: 'RFID',
+    flex: 0.5,
+  },
 ];
 function escapeRegExp(value: string): string {
   return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');

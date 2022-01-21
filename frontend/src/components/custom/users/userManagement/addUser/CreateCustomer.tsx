@@ -51,7 +51,7 @@ const CreateCustomer = () => {
   };
 
   const confirmClicked = () => {
-    const newCustomer = { firstName: firstName, surname: surname, password: 'password', email: email};
+    const newCustomer = { firstName: firstName, surname: surname, password: 'password', email: email, rfId: RFID};
     const callback = (response: AxiosResponse<any, any>) => {
 
       if (response.status !== 200) {
@@ -141,9 +141,8 @@ const CreateCustomer = () => {
               label="RFID"
               onChange={handleChange}
             >
-              <MenuItem value={10}>1</MenuItem>
-              <MenuItem value={20}>2</MenuItem>
-              <MenuItem value={30}>3</MenuItem>
+              <MenuItem value={1}>1</MenuItem>
+              <MenuItem value={2}>2</MenuItem>
             </Select>
           </FormControl>
         </Grid>
