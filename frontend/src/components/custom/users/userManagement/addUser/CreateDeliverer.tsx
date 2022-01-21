@@ -24,7 +24,6 @@ const CreateDeliverer = () => {
   const [showSuccess, setSuccess] = useState(false);
   const [open, setOpen] = useState(false);
   const [firstName, setFirstName] = useState('');
-  const [userName, setUserName] = useState('');
   const [surname, setSurname] = useState('');
   const [email, setEmail] = useState('');
   const handleClickOpen = () => {
@@ -33,7 +32,6 @@ const CreateDeliverer = () => {
 
   const handleResetClicked= () => {
     setFirstName('');
-    setUserName('');
     setSurname('');
     setEmail('');
   };
@@ -52,7 +50,7 @@ const CreateDeliverer = () => {
 
 
   const confirmClicked = () => {
-    const newDeliverer = {username: userName, firstName: firstName, surname: surname, password: 'password', email: email};
+    const newDeliverer = { firstName: firstName, surname: surname, password: 'password', email: email};
     const callback = (response: AxiosResponse<any, any>) => {
 
       if (response.status !== 200) {
@@ -100,20 +98,6 @@ const CreateDeliverer = () => {
             fullWidth
             variant="outlined"
             disabled
-          />
-        </Grid>
-        <Grid item xs={12} sm={12}>
-          <TextField
-            required
-            autoFocus
-            margin="dense"
-            id="cName"
-            label="User Name"
-            type="name"
-            fullWidth
-            variant="outlined"
-            onChange={(change:any) => setUserName(change.target.value)}
-            value={userName}
           />
         </Grid>
         <Grid item xs={12} sm={12}>
