@@ -34,7 +34,12 @@ public class AuthController {
     @PostMapping
     public ResponseEntity<AuthResponse> login(@RequestHeader("Authorization") String authorization, HttpServletRequest request, HttpServletResponse response) throws Exception {
         log.warn("Atuh API id on. request:", request.getUserPrincipal());
-        return authService.authenticateUser(authorization, request, response);
+
+        try {
+            return authService.authenticateUser(authorization, request, response);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new AuthResponse("Invalid Login"), HttpStatus.UNAUTHORIZED);
+        }
     }
 
 

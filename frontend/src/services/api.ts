@@ -1,4 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { LOCAL_STORAGE_USER_DATA_KEY, logout } from 'redux/slices/loggedUser/loggedUserSlice';
 
 /**
  * Constant variables
@@ -57,6 +60,12 @@ const routes = {
 type RestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'get' | 'post' | 'put' | 'delete';
 
 const errorHandler = (err: AxiosError, callback: (_res: AxiosResponse<any, any>) => void) => {
+  if (err.response && (err.response.status === 403)) {
+    window.location.href='/';
+    window.localStorage.removeItem(LOCAL_STORAGE_USER_DATA_KEY);
+    return;
+  }
+
   const errorResponse: AxiosResponse<any, any> = {
     data: err,
     status: 500,

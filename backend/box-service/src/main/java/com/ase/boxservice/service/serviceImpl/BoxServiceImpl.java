@@ -122,11 +122,10 @@ public class BoxServiceImpl implements BoxService {
             return responseMessage;
         }
         List<DeliveryClientDto> deliveryOnBoxDtoList = deliveryServiceClient.getAllDeliveriesByBoxId(fixedCookie,boxId).getBody();
-        if(userDto.getRole().equals("deliverer")){
-            List<DeliveryClientDto> deliveryDtoList = deliveryServiceClient.getAllDeliveriesByDelivererId(fixedCookie,userId).getBody();
+        if(userDto.getRole().equals("DELIVERER")){
             boolean deliveryAssignedToDeliverer = false;
-            for (DeliveryClientDto delivery : deliveryDtoList){
-                if(delivery.getBox().getId().equals(boxId)){
+            for (DeliveryClientDto delivery : deliveryOnBoxDtoList){
+                if(delivery.getDeliverer().getId().equals(userId)){
                     deliveryAssignedToDeliverer = true;
                     ArrayList<StatusDelivery> statusList = (ArrayList<StatusDelivery>) delivery.getStatusHistory();
 
@@ -148,7 +147,7 @@ public class BoxServiceImpl implements BoxService {
                 responseMessage.setResponseMessage("The box is not assigned to the deliverer");
                 responseMessage.setResponseType(0);
             }
-        }else if (userDto.getRole().equals("customer")) {
+        }else if (userDto.getRole().equals("CUSTOMER")) {
             List<DeliveryClientDto> deliveryDtoList = deliveryServiceClient.getAllDeliveriesByCustomerId(fixedCookie, userId).getBody();
             boolean deliveryAssignedToCustomer = false;
             for (DeliveryClientDto delivery : deliveryDtoList){
@@ -188,7 +187,8 @@ public class BoxServiceImpl implements BoxService {
         boolean ifBoxFree = true;
         for(DeliveryClientDto delivery: deliveryList){
             ArrayList<StatusDelivery> statusList = (ArrayList<StatusDelivery>) delivery.getStatusHistory();
-            if ((statusList.get(0).getDeliveryStatus().equals(DeliveryStatus.delivered)) ) {
+            DeliveryStatus deliveryStatus = statusList.get(0).getDeliveryStatus();
+            if (!deliveryStatus.equals(DeliveryStatus.collected)) {
                 ifBoxFree = false;
                 break;
             }
@@ -197,7 +197,7 @@ public class BoxServiceImpl implements BoxService {
         if((boxDto.getStatus().equals(BoxStatus.active) || boxDto.getStatus().equals(BoxStatus.assigned))  && ifBoxFree){
             boxDto.setStatus(BoxStatus.free);
             updateBox(boxDto, boxId);
-        }else if (boxDto.getStatus().equals(BoxStatus.free) && !ifBoxFree){
+        } else if (boxDto.getStatus().equals(BoxStatus.assigned) && !ifBoxFree) {
             boxDto.setStatus(BoxStatus.active);
             updateBox(boxDto, boxId);
         }

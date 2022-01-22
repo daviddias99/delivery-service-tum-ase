@@ -28,7 +28,7 @@ export const loggedUserSlice = createSlice({
   },
 });
 
-
+export {LOCAL_STORAGE_USER_DATA_KEY};
 export const { updateLoggedUser, logout } = loggedUserSlice.actions;
 export const isLoggedIn: (state: any) => boolean = (state: any) => state.loggedUser.loggedIn;
 export const loggedUser: (state: any) => User = (state: any) => state.loggedUser.user;
