@@ -26,6 +26,13 @@ public class AuthController {
     private AuthService authService;
 
 
+    @GetMapping
+    public ResponseEntity<String> get()throws Exception{
+        return ResponseEntity.ok("XRSF-Request");
+    }
+
+
+
     @PostMapping
     public ResponseEntity<AuthResponse> login(@RequestHeader("Authorization") String authorization, HttpServletRequest request, HttpServletResponse response) throws Exception {
         log.warn("Atuh API id on. request:", request.getUserPrincipal());

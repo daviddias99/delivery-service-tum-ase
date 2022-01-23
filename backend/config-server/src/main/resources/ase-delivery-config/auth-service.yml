@@ -4,9 +4,9 @@ server:
 eureka:
   client:
     instance:
-      hostname: localhost
+      hostname: ${EUREKA_SERVER_HOSTNAME:localhost}
     serviceUrl:
-      defaultZone: http://localhost:8500/eureka/
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8500/eureka/}
 
 security:oauth2.resource.filter-order: 3
 
@@ -15,4 +15,5 @@ spring:
     mongodb:
       auto-index-creation: 'true'
       database: mongo-ase-user
-      uri: mongodb://localhost:27017
+      host: ${SPRING_DATA_MONGODB_HOST:localhost}
+      port: ${SPRING_DATA_MONGODB_PORT:27017}

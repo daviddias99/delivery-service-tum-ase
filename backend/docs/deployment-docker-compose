@@ -1,0 +1,130 @@
+version: '3.3'
+
+networks:
+  asedelivery:
+
+
+
+
+services:
+  #DB  ----------
+
+
+  ase-mongo-server:
+    image: mongo
+    container_name: ase-mongo-server
+    networks:
+      - asedelivery
+    environment:
+      SPRING_DATA_MONGODB_HOST: ase-mongo-server
+      SPRING_DATA_MONGODB_PORT: 27017
+    ports:
+      - '27017:27017'
+
+
+
+#microservices
+
+
+  # Services ---- http://ase-mongo-server:27017
+
+  ase-user-service:
+    image: user-service:1.0
+    container_name: ase-user-service
+    restart: always
+    depends_on:
+      - ase-eureka-server
+    networks:
+      - asedelivery
+    environment:
+      EUREKA_SERVER_URL: http://ase-eureka-server:8500/eureka/
+      CONFIG_SERVER_URL: http://ase-config-server:8888
+    ports:
+      - '8501:8080'
+
+
+  ase-auth-service:
+    image: auth-service:1.0
+    container_name: ase-auth-service
+    restart: always
+    links:
+      - ase-mongo-server
+    depends_on:
+      - ase-eureka-server
+    networks:
+      - asedelivery
+    environment:
+      EUREKA_SERVER_URL: http://ase-eureka-server:8500/eureka/
+      CONFIG_SERVER_URL: http://ase-config-server:8888
+    ports:
+      - '8504:8080'
+
+
+  ase-box-service:
+    image: box-service:1.0
+    container_name: ase-box-service
+    restart: always
+    links:
+      - ase-mongo-server
+    depends_on:
+      - ase-eureka-server
+    networks:
+      - asedelivery
+    environment:
+      EUREKA_SERVER_URL: http://ase-eureka-server:8500/eureka/
+      CONFIG_SERVER_URL: http://ase-config-server:8888
+    ports:
+      - '8503:8080'
+
+
+
+  # System servers
+  ase-config-server:
+    image: config-server:1.0
+    container_name: ase-config-server
+    restart: always
+    networks:
+      - asedelivery
+    environment:
+      SPRING_DATA_MONGODB_HOST: ase-mongo-server
+      SPRING_DATA_MONGODB_PORT: 27017
+      CONFIG_SERVER_URL: http://ase-config-server:8888
+      SERVER_PORT: 8888
+      EUREKA_SERVER_HOST: ase-eureka-server
+      EUREKA_SERVER_URL: http://ase-eureka-server:8500/eureka/
+    ports:
+      - '8888:8888'
+
+  ase-eureka-server:
+    image: eureka-server:1.0
+    container_name: ase-eureka-server
+    restart: always
+    depends_on:
+      - ase-config-server
+    networks:
+      - asedelivery
+    environment:
+      CONFIG_SERVER_URL: http://ase-config-server:8888
+      SERVER_PORT: 8500
+      EUREKA_SERVER_HOST: ase-eureka-server
+      EUREKA_SERVER_URL: http://ase-eureka-server:8500/eureka/
+    ports:
+      - '8500:8500'
+
+
+
+  ase-gateway-server:
+    image: gateway-server:1.0
+    container_name: ase-gateway-server
+    restart: always
+    depends_on:
+      - ase-eureka-server
+    networks:
+      - asedelivery
+    environment:
+      EUREKA_SERVICE_URL: http://ase-eureka-server:8500
+      SERVER_PORT: 8088
+    ports:
+      - '8088:8088'
+
+
