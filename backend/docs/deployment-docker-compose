@@ -93,6 +93,20 @@ services:
       - '8503:8080'
 
 
+  ase-notification-service:
+    image: notification-service:1.0
+    container_name: ase-notification-service
+    restart: always
+    depends_on:
+      - ase-eureka-server
+    networks:
+      - asedelivery
+    environment:
+      EUREKA_SERVER_URL: http://ase-eureka-server:8500/eureka/
+      CONFIG_SERVER_URL: http://ase-config-server:8888
+    ports:
+      - '8507:8080'
+
 
   # System servers
   ase-config-server:
