@@ -60,6 +60,22 @@ services:
       - '8504:8080'
 
 
+  ase-delivery-service:
+    image: delivery-service:1.0
+    container_name: ase-delivery-service
+    restart: always
+    links:
+      - ase-mongo-server
+    depends_on:
+      - ase-eureka-server
+    networks:
+      - asedelivery
+    environment:
+      EUREKA_SERVER_URL: http://ase-eureka-server:8500/eureka/
+      CONFIG_SERVER_URL: http://ase-config-server:8888
+    ports:
+      - '8502:8080'
+
   ase-box-service:
     image: box-service:1.0
     container_name: ase-box-service
