@@ -47,7 +47,8 @@ const routes = {
   ),
 
   userProfile: route(
-    '/user/profile',
+    '/user/:userId/profile',
+    (userId) => (`/user/${userId}/profile`)
   ),
 
   orderSearch: route(
