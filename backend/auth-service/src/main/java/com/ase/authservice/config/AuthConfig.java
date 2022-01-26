@@ -30,21 +30,11 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
     AuthRequestFilter authRequestFilter;
 
     @Override
-    public void configure(WebSecurity web) {
-        web
-                .ignoring()
-                .antMatchers("/auth/permitalltest");
-    }
-
-    @Override
     protected void configure(HttpSecurity http) throws Exception{
     http
             //TODO: Enable CSRF
             .csrf()
-            .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-            .and()
-            //.cors()
-            //.and()
+            .disable()
             .authorizeRequests()
                 .antMatchers("/auth/testtoken").authenticated()
                 .antMatchers("/auth/register").permitAll()

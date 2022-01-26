@@ -29,4 +29,6 @@ public class HystrixContoller {
     public String authFallback(){
         return "Authentication Service is not available";
     }
+
+
 }
