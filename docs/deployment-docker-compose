@@ -2,10 +2,6 @@ version: '3.3'
 
 networks:
   asedelivery:
-
-
-
-
 services:
   #DB  ----------
 
@@ -34,6 +30,7 @@ services:
     restart: always
     depends_on:
       - ase-eureka-server
+    build: ../backend/user-service/
     networks:
       - asedelivery
     environment:
@@ -47,6 +44,7 @@ services:
     image: auth-service:1.0
     container_name: ase-auth-service
     restart: always
+    build: ../backend/auth-service/
     links:
       - ase-mongo-server
     depends_on:
@@ -64,6 +62,7 @@ services:
     image: delivery-service:1.0
     container_name: ase-delivery-service
     restart: always
+    build: ../backend/delivery-service/
     links:
       - ase-mongo-server
     depends_on:
@@ -80,6 +79,7 @@ services:
     image: box-service:1.0
     container_name: ase-box-service
     restart: always
+    build: ../backend/box-service/
     links:
       - ase-mongo-server
     depends_on:
@@ -96,6 +96,7 @@ services:
   ase-notification-service:
     image: notification-service:1.0
     container_name: ase-notification-service
+    build: ../backend/notification-service/
     restart: always
     depends_on:
       - ase-eureka-server
@@ -113,6 +114,9 @@ services:
     image: config-server:1.0
     container_name: ase-config-server
     restart: always
+    build: 
+      context: ../backend/config-server/
+      dockerfile: Dockerfile
     networks:
       - asedelivery
     environment:
@@ -129,6 +133,7 @@ services:
     image: eureka-server:1.0
     container_name: ase-eureka-server
     restart: always
+    build: ../backend/eureka-server/
     depends_on:
       - ase-config-server
     networks:
@@ -146,9 +151,14 @@ services:
   ase-gateway-server:
     image: gateway-server:1.0
     container_name: ase-gateway-server
+    build:  ../backend/gateway-server/
     restart: always
     depends_on:
-      - ase-eureka-server
+      - ase-user-service
+      - ase-auth-service
+      - ase-delivery-service
+      - ase-box-service
+      - ase-notification-service
     networks:
       - asedelivery
     environment:
@@ -157,4 +167,14 @@ services:
     ports:
       - '8088:8088'
 
-
+  ase-frontend:
+    image: ase-frontend
+    container_name: ase-frontend
+    restart: unless-stopped
+    build:
+      context: ../frontend/
+      dockerfile: Dockerfile
+    depends_on:
+      - ase-gateway-server
+    ports:
+      - "81:3000"
