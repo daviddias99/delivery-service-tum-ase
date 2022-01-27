@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 public class UserDto {
     private String id;
 
-    private String username;
-
     private String firstName;
 
     private String surname;

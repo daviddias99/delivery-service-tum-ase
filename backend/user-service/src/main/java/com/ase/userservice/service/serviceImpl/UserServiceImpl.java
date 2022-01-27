@@ -66,15 +66,6 @@ public class UserServiceImpl implements UserService {
     return modelMapper.map(tempUser, UserDto.class);
   }
 
-  @Override
-  public UserDto getByUsername(String username) {
-
-    if (!userRepository.existsByUsername(username).booleanValue()) return null;
-
-    User tempUser = userRepository.findByUsername(username);
-
-    return modelMapper.map(tempUser, UserDto.class);
-  }
 
   @Override
   public UserDto getByRfid(String rfId) {
@@ -110,11 +101,6 @@ public class UserServiceImpl implements UserService {
     log.warn("UserService: save method is on");
     ResponseMessage saveResp = new ResponseMessage();
     registrationDto.setEmail(registrationDto.getEmail().toLowerCase());
-    if (userRepository.existsByUsername(registrationDto.getUsername()).booleanValue()) {
-      saveResp.setResponseType(0);
-      saveResp.setResponseMessage("This username already is in use. Please enter a new one");
-      return saveResp;
-    }
 
     if (userRepository.existsByEmail(registrationDto.getEmail()).booleanValue()) {
       saveResp.setResponseType(0);

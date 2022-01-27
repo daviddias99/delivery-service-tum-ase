@@ -14,8 +14,6 @@ public interface UserService {
 
     UserDto getByIdandCheckRole(String id,String role);
 
-    UserDto getByUsername(String username);
-
     UserDto getByRfid(String rfId);
 
     List<UserDto> getAll();

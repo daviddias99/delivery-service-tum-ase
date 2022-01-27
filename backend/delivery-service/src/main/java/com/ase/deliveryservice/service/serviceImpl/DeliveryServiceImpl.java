@@ -1,12 +1,11 @@
 package com.ase.deliveryservice.service.serviceImpl;
 
+import com.ase.client.BoxServiceClient;
 import com.ase.client.UserServiceClient;
-import com.ase.client.com.ase.contract.DeliveryClientDto;
+import com.ase.client.com.ase.contract.*;
+import com.ase.client.entity.BoxStatus;
 import com.ase.deliveryservice.dto.DeliveryDto;
-import com.ase.client.com.ase.contract.EmailDto;
 import com.ase.client.NotificationServiceClient;
-import com.ase.client.com.ase.contract.ResponseMessage;
-import com.ase.client.com.ase.contract.UserDto;
 import com.ase.deliveryservice.entity.Delivery;
 import com.ase.client.entity.DeliveryStatus;
 import com.ase.deliveryservice.entity.Status;
@@ -55,6 +54,9 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     @Autowired
     private UserServiceClient userServiceClient;
+
+    @Autowired
+    private BoxServiceClient boxServiceClient;
 
     @Autowired
     private ResponseMessage responseMessage;
@@ -161,6 +163,17 @@ public class DeliveryServiceImpl implements DeliveryService {
         if (data.isEmpty())
             return new LinkedList<>();
         return Arrays.asList(modelMapper.map(data, DeliveryDto[].class));
+    }
+
+    @Override
+    public boolean updateBoxStatus(String boxId) {
+        BoxDto boxDto = boxServiceClient.getById(boxId).getBody();
+        boxDto.setStatus(BoxStatus.assigned);
+        BoxDto updatedBox = boxServiceClient.updateBox(boxDto, boxId).getBody();
+        if(updatedBox == null){
+            return false;
+        }
+        return true;
     }
 
     @Override
