@@ -34,13 +34,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     Logger LOGGER = LogManager.getLogger(DeliveryServiceImpl.class);
 
-    private final String service_cookie = "jwt=eyJhbGciOiJSUzI1NiJ9.eyJyb2xlcyI6W3sicm9sZS" +
-            "I6IlJPTEVfU0VSVklDRSJ9XSwic3ViIjoiU0VSVklDRSIsImlzcyI6ImFzZURlbGl2ZXJ5IiwiaWF0Ij" +
-            "oxNjQyMDA1MTY4fQ.F6p7eQB2rtRhK7NBNDEP2bX-883mSydiumsFv-dqpGa9YY5gfy7bzKfK3Z4zTtPKCS" +
-            "QK_AbrbfxUUnX1ooWFTgjWdxvzVOSWSB8PduxJT6DhR6q99gk_HQ2hkHpqDYxWRqrrcI_7IBc_Drwvya9DNl" +
-            "QBhZ6vQnnGGsTXEZynhyKR2VvOwXXqFXqTjXkWlYTyX3N6Dw9DeIzfcWkS0yQwvidAv2HBmQW4V53dw1tvr" +
-            "-D9sUQ_mYJXDogIgZA6Tn0GNle_QJ81bMk27TGzT8C-7MIkmEWvdoQih8TfdzicSTY8Nf_S-zCBi66eHtg1ME" +
-            "UZM36Hmv_EBmUagDgJX0ByyA; Path=/; HttpOnly;";
+    private final String service_cookie = "jwt=eyJhbGciOiJSUzI1NiJ9.eyJyb2xlcyI6W3sicm9sZSI6IlJPTEVfQk9YIn1dLCJzdWIiOiJCT1giLCJpc3MiOiJhc2VEZWxpdmVyeSIsImlhdCI6MTY0MjAwNTE2OCwiZXhwIjo0MDcyMzUxMjQxfQ.UHdagX4q4DD-3rZd9XoDChRZ926iN0WSqibuXZqI4B3TS5T1PT_Vz1UN_UzpQFxTDWd1Cze7Kj67veeWWA4ZOyHY14At_IHVdcVZqZF2ezxwrKXNKOeHZB7_gFtHqc27uscjf6CbckpCcgnML9r857BMNlOO3kf--Tz1pyYlK-jJzz6sj_sSW1RNln6MZmi6_K59vZryemvFkth4cukKzUkwsNzOu6H2nJtY0Cqhqp5OPKf1QOEKRUgE_aX6EBVf8598aFp3YNoUU9y8HravhiMKV1Y9jDt89sIn_Mf86wpAAnk-zkRAeWdPLvHQRNwRarGWYkBrZb9qZcdCz-AJ1g";
 
 
     @Autowired
@@ -163,10 +157,18 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
-    public boolean updateBoxStatus(String boxId) {
-        BoxDto boxDto = boxServiceClient.getById(boxId).getBody();
-        boxDto.setStatus(BoxStatus.assigned);
-        BoxDto updatedBox = boxServiceClient.updateBox(boxDto, boxId).getBody();
+    public boolean updateBoxStatus(DeliveryDto deliveryDto) {
+        String boxId = deliveryDto.getBox().getId();
+        BoxDto boxDto = boxServiceClient.getById(service_cookie,boxId).getBody();
+
+        if(boxDto.getStatus().equals(BoxStatus.inactive)){
+            log.warn("Box is inactive");
+            return false;
+        }
+        if(boxDto.getStatus().equals(BoxStatus.free)){
+            boxDto.setStatus(BoxStatus.assigned);
+        }
+        BoxDto updatedBox = boxServiceClient.updateBox(service_cookie,boxDto, boxId).getBody();
         if(updatedBox == null){
             return false;
         }
