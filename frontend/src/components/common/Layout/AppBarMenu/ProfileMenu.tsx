@@ -61,7 +61,7 @@ const ProfileMenu = () => {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <MenuItem>
-          <Link href={'/user/profile'} underline="none">
+          <Link href={`/user/${user.id}/profile`} underline="none">
             <Button startIcon={<AccountCircleIcon />}>
               { user.firstName.substring(0, 1) +user.firstName.substring(1).toLowerCase() + ' ' + user.surname}
             </Button>

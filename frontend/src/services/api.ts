@@ -35,7 +35,6 @@ const routes = {
   allCustomers: '/user/customer/all',
   allDispatchers: '/user/dispatcher/all',
   allDeliverers: '/user/deliverer/all',
-  // TODO: change
   user: (id: string) => `/user/${id}`,
   customer: (id: string) => `/user/customer/${id}`,
   customerDeliveries: (id: string) => `/delivery/all/customer/${id}`,
