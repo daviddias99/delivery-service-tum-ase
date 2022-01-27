@@ -23,7 +23,6 @@ const CreateCustomer = () => {
   const [RFID, setRFID] = useState('0');
   const [open, setOpen] = useState(false);
   const [firstName, setFirstName] = useState('');
-  const [userName, setUserName] = useState('');
   const [surname, setSurname] = useState('');
   const [email, setEmail] = useState('');
   const handleClickOpen = () => {
@@ -32,7 +31,6 @@ const CreateCustomer = () => {
 
   const handleResetClicked= () => {
     setFirstName('');
-    setUserName('');
     setSurname('');
     setEmail('');
   };
@@ -53,7 +51,7 @@ const CreateCustomer = () => {
   };
 
   const confirmClicked = () => {
-    const newCustomer = {username: userName, firstName: firstName, surname: surname, password: 'password', email: email};
+    const newCustomer = { firstName: firstName, surname: surname, password: 'password', email: email, rfId: RFID};
     const callback = (response: AxiosResponse<any, any>) => {
 
       if (response.status !== 200) {
@@ -110,20 +108,6 @@ const CreateCustomer = () => {
         <Grid item xs={12} sm={12}>
           <TextField
             required
-            autoFocus
-            margin="dense"
-            id="cName"
-            label="User Name"
-            type="name"
-            fullWidth
-            variant="outlined"
-            onChange={(change:any) => setUserName(change.target.value)}
-            value={userName}
-          />
-        </Grid>
-        <Grid item xs={12} sm={12}>
-          <TextField
-            required
             margin="dense"
             id="cName"
             label="First Name"
@@ -157,9 +141,8 @@ const CreateCustomer = () => {
               label="RFID"
               onChange={handleChange}
             >
-              <MenuItem value={10}>1</MenuItem>
-              <MenuItem value={20}>2</MenuItem>
-              <MenuItem value={30}>3</MenuItem>
+              <MenuItem value={1}>1</MenuItem>
+              <MenuItem value={2}>2</MenuItem>
             </Select>
           </FormControl>
         </Grid>

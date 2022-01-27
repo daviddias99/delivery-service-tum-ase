@@ -25,6 +25,11 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
+    @GetMapping
+    public ResponseEntity<String> get()throws Exception{
+        return ResponseEntity.ok("XRSF-Request");
+    }
+
 
     @GetMapping
     public ResponseEntity<String> get()throws Exception{

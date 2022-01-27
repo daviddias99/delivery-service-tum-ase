@@ -19,7 +19,7 @@ const UserProfilePage = () => {
           <Container maxWidth="xl">
             <Box sx={{ bgcolor: '#152238', height: '10vh', position: 'relative'}}>
               <Avatar sx={{ border: '5px solid', borderRadius: '50%', color: '#000000', bgcolor: '#FFFFFF', width: '120px', height: '120px', marginLeft: 'auto', marginRight: 'auto', fontSize: '40px'}}>
-                {user.username.charAt(0).toUpperCase()}
+                {user.firstName.charAt(0).toUpperCase()}
               </Avatar>
             </Box>
             <Box sx={{marginTop: '45px'}}>
