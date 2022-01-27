@@ -30,7 +30,6 @@ public class AuthController {
         return ResponseEntity.ok("XRSF-Request");
     }
 
-
     @PostMapping
     public ResponseEntity<AuthResponse> login(@RequestHeader("Authorization") String authorization, HttpServletRequest request, HttpServletResponse response) throws Exception {
         log.warn("Atuh API id on. request:", request.getUserPrincipal());

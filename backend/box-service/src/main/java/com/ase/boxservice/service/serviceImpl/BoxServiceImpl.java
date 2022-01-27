@@ -122,7 +122,7 @@ public class BoxServiceImpl implements BoxService {
             return responseMessage;
         }
         List<DeliveryClientDto> deliveryOnBoxDtoList = deliveryServiceClient.getAllDeliveriesByBoxId(fixedCookie,boxId).getBody();
-        if(userDto.getRole().equals("deliverer")){
+        if(userDto.getRole().toLowerCase().equals("deliverer")){
             List<DeliveryClientDto> deliveryDtoList = deliveryServiceClient.getAllDeliveriesByDelivererId(fixedCookie,userId).getBody();
             boolean deliveryAssignedToDeliverer = false;
             for (DeliveryClientDto delivery : deliveryDtoList){
@@ -148,7 +148,7 @@ public class BoxServiceImpl implements BoxService {
                 responseMessage.setResponseMessage("The box is not assigned to the deliverer");
                 responseMessage.setResponseType(0);
             }
-        }else if (userDto.getRole().equals("customer")) {
+        }else if (userDto.getRole().toLowerCase().equals("customer")) {
             List<DeliveryClientDto> deliveryDtoList = deliveryServiceClient.getAllDeliveriesByCustomerId(fixedCookie, userId).getBody();
             boolean deliveryAssignedToCustomer = false;
             for (DeliveryClientDto delivery : deliveryDtoList){
@@ -173,7 +173,7 @@ public class BoxServiceImpl implements BoxService {
                 responseMessage.setResponseMessage("THe box is not assigned to the customer");
                 responseMessage.setResponseType(0);
             }
-        }else if (userDto.getRole().equals("dispatcher")){
+        }else if (userDto.getRole().toLowerCase().equals("dispatcher")){
             responseMessage.setResponseMessage("UserId belongs to a dispatcher! ");
             responseMessage.setResponseType(0);
         }else {
