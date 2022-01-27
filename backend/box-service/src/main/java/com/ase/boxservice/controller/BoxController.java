@@ -42,7 +42,7 @@ public class BoxController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<BoxDto> getById (@PathVariable String id){
+    public ResponseEntity<BoxDto> getById ( @RequestHeader(value = "Cookie", required = true) String cookie, @PathVariable String id){
         return ResponseEntity.ok(boxService.getById(id));
     }
 
@@ -58,7 +58,7 @@ public class BoxController {
     }
 
     @PutMapping(value = "/update/{id}")
-    public ResponseEntity<BoxDto> updateBox(@RequestBody BoxDto boxDto, @PathVariable String id) {
+    public ResponseEntity<BoxDto> updateBox(@RequestHeader(value = "Cookie", required = true) String cookie ,@RequestBody BoxDto boxDto, @PathVariable String id) {
         BoxDto updatedDto = boxService.updateBox(boxDto,id);
         if(updatedDto==null)
             return ResponseEntity.badRequest().body(null);
