@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class GatewayController {
 
     @GetMapping("/")
-    ResponseEntity<String> get()throws Exception{
+    public ResponseEntity<String> get()throws Exception{
         return ResponseEntity.ok("XRSF-Request");
     }
 }

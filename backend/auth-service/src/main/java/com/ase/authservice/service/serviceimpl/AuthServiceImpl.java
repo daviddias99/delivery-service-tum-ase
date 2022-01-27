@@ -57,15 +57,15 @@ public class AuthServiceImpl implements AuthService {
     private BCryptPasswordEncoder encoder;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email);
 
         if (user == null) {
             throw new UsernameNotFoundException("User not found!");
         }
 
         return new org.springframework.security.core.userdetails.User(
-            user.getUsername(),
+            user.getEmail(),
             encoder.encode(user.getPassword()),
             getAuthorities(user));
     }
@@ -100,16 +100,16 @@ public class AuthServiceImpl implements AuthService {
         // decodes request header and splits into username/pw
         String headerString = authorization.substring("Basic".length()).trim();
         String decoded = new String(Base64.getDecoder().decode(headerString));
-        String username = decoded.split(":", 2)[0];
+        String email = decoded.split(":", 2)[0];
         String password = decoded.split(":", 2)[1];
 
-        // get user by given username
-        UserDetails user = loadUserByUsername(username);
+        // get user by given email
+        UserDetails user = loadUserByUsername(email);
         if (user == null) {
             return new ResponseEntity<>(new AuthResponse("Email or password is incorrect"), HttpStatus.BAD_REQUEST);
         }
 
-        // authenticate using authManager and token of username and password
+        // authenticate using authManager and token of email and password
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user, password, user.getAuthorities());
         Authentication auth = null;
 
@@ -125,7 +125,7 @@ public class AuthServiceImpl implements AuthService {
                 Cookie jwtCookie = cookieConfig.createCookie("jwt", jwt);
 
                 response.addCookie(jwtCookie);
-                User tempUser = userRepository.findByUsername(username);
+                User tempUser = userRepository.findByEmail(email);
                 
                 return new ResponseEntity<>(new AuthResponse(modelMapper.map(tempUser, AuthDto.class), "Login Successful"), HttpStatus.OK);
             }

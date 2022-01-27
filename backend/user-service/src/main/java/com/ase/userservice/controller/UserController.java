@@ -4,12 +4,11 @@ package com.ase.userservice.controller;
 import com.ase.client.com.ase.contract.ResponseMessage;
 import com.ase.userservice.dto.RegistrationDto;
 import com.ase.userservice.service.UserService;
-import com.ase.client.com.ase.contract.UserDto;
 import com.ase.userservice.service.serviceImpl.UserServiceImpl;
+import com.ase.client.com.ase.contract.UserDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +17,6 @@ import java.util.List;
 @Slf4j
 @RequestMapping("/user")
 public class UserController {
-
 
     @Autowired
     private UserService userService;

@@ -9,7 +9,6 @@ import com.ase.client.NotificationServiceClient;
 import com.ase.deliveryservice.entity.Delivery;
 import com.ase.client.entity.DeliveryStatus;
 import com.ase.deliveryservice.entity.Status;
-import com.ase.deliveryservice.entity.User;
 import com.ase.deliveryservice.repository.DeliveryRepository;
 import com.ase.deliveryservice.service.DeliveryService;
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +19,6 @@ import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
