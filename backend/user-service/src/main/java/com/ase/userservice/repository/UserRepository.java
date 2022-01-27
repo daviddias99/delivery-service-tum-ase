@@ -14,16 +14,11 @@ public interface UserRepository extends MongoRepository<User,String> {
 
     User findByEmail(String email);
     User findById(ObjectId id);
-    User findByUsername(String username);
     User findByRfId(String rfId);
 
     List<User> findAllByRole(String role);
 
     Boolean existsById(ObjectId id);
-
-
-
-    Boolean existsByUsername(String username);
 
     Boolean existsByRfId(String rfId);
 

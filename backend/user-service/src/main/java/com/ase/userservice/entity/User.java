@@ -15,9 +15,6 @@ public class User {
     @MongoId(value = FieldType.OBJECT_ID)
     private String id;
 
-    @Field("username")
-    @Indexed(unique = true)
-    private String username;
 
     @Field("password")
     private String password;

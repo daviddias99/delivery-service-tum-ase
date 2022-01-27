@@ -1,73 +1,38 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Layout from '../../components/common/Layout/Layout';
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
-import {Avatar, Box, Divider} from '@mui/material';
-import {useSelector} from 'react-redux';
-import {loggedUser} from '../../redux/slices/loggedUser/loggedUserSlice';
+import {useParams} from 'react-router-dom';
+import {AxiosResponse} from 'axios';
+
+import api from '../../services/api';
+import UserProfile from '../../components/custom/users/userProfile/UserProfile';
+import Spinner from '../../components/common/Spinner/Spinner';
 
 
 
 
 const UserProfilePage = () => {
-  const user = useSelector(loggedUser);
+  const [user, setUser] = useState({});
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  const id = useParams();
+  useEffect(() => {
+    const callback = (response: AxiosResponse<any, any>) => {
+      if (response.status !== 200) {
+        return;
+      }
+      setUser(response.data);
+      setIsLoading(false);
+    };
+    api.getUser(String(id.userId), callback);
+  }, [isLoading, id.userId]);
 
   return (
     <Layout hasSidebar={true}>
       <Container maxWidth={false} sx={{ mt: 4, mb: 4 }}>
         <Paper sx={{ p: '2em', display: 'flex', flexDirection: 'column' }}>
-          <Container maxWidth="xl">
-            <Box sx={{ bgcolor: '#152238', height: '10vh', position: 'relative'}}>
-              <Avatar sx={{ border: '5px solid', borderRadius: '50%', color: '#000000', bgcolor: '#FFFFFF', width: '120px', height: '120px', marginLeft: 'auto', marginRight: 'auto', fontSize: '40px'}}>
-                {user.firstName.charAt(0).toUpperCase()}
-              </Avatar>
-            </Box>
-            <Box sx={{marginTop: '45px'}}>
-              <div style={{textAlign: 'center', fontSize: '30px'}} >
-                {user.firstName}
-                {' ' + user.surname}
-              </div>
-              <div style={{textAlign: 'center', fontSize: '20px', color: 'grey'}}>
-                {user.role.substr(0, 1)+user.role.substr(1).toLocaleLowerCase()}
-              </div>
-              <div id="personalInfos" style={{marginTop: '3%', marginBottom: '5%', textAlign: 'center'}}>
-                <Divider />
-                <h3 style={{fontSize: '20px'}}>
-                  Personal Information:
-                </h3>
-                <p style={{marginTop: '10px'}} >
-                  <b className="infoTag" >Id: </b>
-                  {' '}
-                  {user.id}
-                </p>
-                <p style={{marginTop: '10px'}}>
-                  <b className="infoTag">First Name: </b>
-                  {' '}
-                  {user.firstName}
-                </p>
-                <p style={{marginTop: '10px'}}>
-                  <b className="infoTag">Surname: </b>
-                  {' '}
-                  {user.surname}
-                </p>
-                <p style={{marginTop: '10px'}}>
-                  <b className="infoTag">Email: </b>
-                  {' '}
-                  {user.email}
-                </p>
-                <p style={{marginTop: '10px'}}>
-                  <b className="infoTag">Role: </b>
-                  {' '}
-                  {user.role}
-                </p>
-              </div>
-              <Divider />
-            </Box>
-
-          </Container>
-
-
-
+          {isLoading ? <Spinner className="loadingSpinner" /> : <UserProfile user={user}></UserProfile>}
         </Paper>
       </Container>
     </Layout>

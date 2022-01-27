@@ -22,7 +22,15 @@ public class UserController {
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Boolean> deletebyId (@PathVariable String id) {
-        return ResponseEntity.ok(userService.deleteUser(id));
+        UserDto userDto = userService.getById(id);
+        userDto.setEmail("deleted");
+        userDto.setRfId("deleted");
+        userDto.setFirstName("deleted");
+        userDto.setSurname("deleted");
+        UserDto userUpdated = userService.updateUser(userDto,id);
+        if(userUpdated==null)
+            return ResponseEntity.badRequest().body(false);
+        return ResponseEntity.ok(true);
     }
 
 
@@ -31,29 +39,19 @@ public class UserController {
         log.warn("User:getOne method is on. ID:"+id);
         System.out.println("reached the get request");
         UserDto user = userService.getById(id);
-//        if(user==null)
-//            return ResponseEntity.badRequest().body(null);
-
-        return ResponseEntity.ok(user);
-    }
-
-    @GetMapping(value = "/uname/{username}")
-    public ResponseEntity<UserDto> getByUsername(@RequestHeader(value = "Cookie", required = true) String cookie,@PathVariable String username) {
-        log.warn("User:sfsdfsfsd method is on:"+username);
-
-        UserDto user = userService.getByUsername(username);
         if(user==null)
             return ResponseEntity.badRequest().body(null);
 
         return ResponseEntity.ok(user);
     }
 
+
     @GetMapping(value = "/rfid/{rfId}")
     public ResponseEntity<UserDto> getByRfId(@RequestHeader(value = "Cookie", required = true) String cookie,@PathVariable String rfId) {
         UserDto user = userService.getByRfid(rfId);
         if(user==null){
-            log.warn("user is null");
-            return ResponseEntity.badRequest().body(null);
+            log.warn("user doesn't exist");
+            return ResponseEntity.ok().body(null);
         }
 
 
@@ -89,6 +87,8 @@ public class UserController {
 
     @PostMapping(value = "deliverer/add")
     public ResponseEntity<ResponseMessage> addDeliverer(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody RegistrationDto registrationDto){
+        String randomRfid = UserServiceImpl.getAlphaNumericString(10);
+        registrationDto.setRfId(randomRfid);
         ResponseMessage responseMessage = userService.save(registrationDto,"DELIVERER",cookie);
         if(responseMessage.getResponseType()==0)
             return ResponseEntity.badRequest().body(responseMessage);
@@ -99,6 +99,8 @@ public class UserController {
 
     @PostMapping(value = "dispatcher/add")
     public ResponseEntity<ResponseMessage> addDispatcher(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody RegistrationDto registrationDto){
+        String randomRfid = UserServiceImpl.getAlphaNumericString(10);
+        registrationDto.setRfId(randomRfid);
         ResponseMessage responseMessage = userService.save(registrationDto,"DISPATCHER",cookie);
         if(responseMessage.getResponseType()==0)
             return ResponseEntity.badRequest().body(responseMessage);
@@ -151,4 +153,5 @@ public class UserController {
             return ResponseEntity.badRequest().body(userDto);
         return ResponseEntity.ok(userDto);
     }
+
 }

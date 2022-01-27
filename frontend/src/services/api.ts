@@ -15,7 +15,7 @@ const API_URL: string = process.env.REACT_APP_API_URI ?? DEFAULT_API_URL;
 const routes = {
   // Auth
   login: '/auth',
-  xsrf: '/auth',
+  xsrf: '/',
   logout: '/auth/logout',
 
   // Delivery
@@ -38,7 +38,6 @@ const routes = {
   allCustomers: '/user/customer/all',
   allDispatchers: '/user/dispatcher/all',
   allDeliverers: '/user/deliverer/all',
-  // TODO: change
   user: (id: string) => `/user/${id}`,
   customer: (id: string) => `/user/customer/${id}`,
   customerDeliveries: (id: string) => `/delivery/all/customer/${id}`,

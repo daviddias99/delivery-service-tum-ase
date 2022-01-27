@@ -29,11 +29,7 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception{
         http
-                .csrf()
-                .disable()
-                // .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                // .and()
-
+                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/delivery/**").authenticated()
                 .antMatchers("/**").authenticated()
