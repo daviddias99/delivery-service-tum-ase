@@ -58,7 +58,6 @@ public class BoxController {
     }
 
     @PutMapping(value = "/update/{id}")
-
     public ResponseEntity<BoxDto> updateBox(@RequestBody BoxDto boxDto, @PathVariable String id) {
         BoxDto updatedDto = boxService.updateBox(boxDto,id);
         if(updatedDto==null)

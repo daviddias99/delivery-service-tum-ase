@@ -23,6 +23,8 @@ public interface DeliveryService {
 
     public List<DeliveryDto> getAll();
 
+    public boolean updateBoxStatus(String boxId);
+
 
     public List<DeliveryClientDto> getAllByDelivererId(String delivererId);
 

@@ -27,9 +27,11 @@ public class DeliveryController {
     public ResponseEntity<DeliveryDto> addDelivery(@RequestBody DeliveryDto deliveryDto) {
 
         log.warn("add method is up");
-
+        if(deliveryService.updateBoxStatus(deliveryDto.getBox().getId()) == false){
+            log.warn("Box update to assigned failed");
+            return ResponseEntity.badRequest().body(null);
+        }
         DeliveryDto deliveryDto1 = deliveryService.save(deliveryDto);
-
         return ResponseEntity.ok(deliveryDto1);
 
     }
