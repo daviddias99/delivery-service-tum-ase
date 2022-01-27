@@ -164,6 +164,7 @@ services:
     environment:
       EUREKA_SERVICE_URL: http://ase-eureka-server:8500
       SERVER_PORT: 8088
+      FRONTEND_URL: http://ase-frontend:81
     ports:
       - '8088:8088'
 

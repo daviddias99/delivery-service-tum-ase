@@ -12,7 +12,7 @@ const API_URL: string = process.env.REACT_APP_API_URI ?? DEFAULT_API_URL;
 const routes = {
   // Auth
   login: '/auth',
-  xsrf: '/auth',
+  xsrf: '/',
   logout: '/auth/logout',
 
   // Delivery
