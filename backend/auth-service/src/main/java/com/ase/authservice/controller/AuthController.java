@@ -50,7 +50,7 @@ public class AuthController {
 
     @PostMapping(value = "/test")
     public ResponseEntity<UserDto> testAdd() {
-        return ResponseEntity.ok(authService.register(new AuthDto("", "test1", "test1", "bob", "bob", "bob@bob.bob", "user")));
+        return ResponseEntity.ok(authService.register(new AuthDto("", "test1", "bob", "bob", "bob@bob.bob", "user")));
     }
 
     @GetMapping(value = "/testtoken")

@@ -4,6 +4,7 @@ package com.ase.userservice.controller;
 import com.ase.client.com.ase.contract.ResponseMessage;
 import com.ase.userservice.dto.RegistrationDto;
 import com.ase.userservice.service.UserService;
+import com.ase.userservice.service.serviceImpl.UserServiceImpl;
 import com.ase.client.com.ase.contract.UserDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

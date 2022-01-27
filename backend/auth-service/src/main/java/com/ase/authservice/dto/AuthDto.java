@@ -12,8 +12,6 @@ public class AuthDto {
 
     private String id;
 
-    private String username;
-
     private String password;
 
     private String firstName;

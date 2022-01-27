@@ -5,14 +5,17 @@ spring:
 
   cloud:
     gateway:
-
       globalcors:
-        corsConfigurations:
+        cors-configurations:
           '[/**]':
-            allowedOrigins: ${FRONTEND_URL:http://localhost:3000}
-            allowedMethods: "*"
             allowedHeaders: "*"
-            allowCredentials: true
+            allowedOrigins: "http://localhost:3000"
+            allowedMethods:
+            - GET
+            - OPTIONS
+            - POST
+            - PUT
+            - DELETE
 
       routes:
         - id: user-service
