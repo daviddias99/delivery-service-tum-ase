@@ -90,9 +90,8 @@ const LoginModal = ({ open, setOpen }: LoginModalProps) => {
       if (!xsrfToken) {
         return;
       }
-
       axios.defaults.headers.post['X-XSRF-TOKEN'] = xsrfToken;
-      api.login({ email: email, password: password }, loginHandler);
+      api.login({ username: email, password: password }, loginHandler);
     };
 
     api.getXSRF(xsrfHandler);
