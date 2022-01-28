@@ -1,7 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { LOCAL_STORAGE_USER_DATA_KEY, logout } from 'redux/slices/loggedUser/loggedUserSlice';
+import { LOCAL_STORAGE_USER_DATA_KEY } from 'redux/slices/loggedUser/loggedUserSlice';
 
 /**
  * Constant variables

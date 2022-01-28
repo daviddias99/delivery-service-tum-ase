@@ -7,14 +7,13 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Snackbar,
+  Grid, Snackbar,
   TextField
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {AxiosResponse} from 'axios';
 import api from '../../../../../services/api';
-import FormControl from '@mui/material/FormControl';
 
 
 const CreateCustomer = () => {
@@ -39,9 +38,6 @@ const CreateCustomer = () => {
     setOpen(false);
   };
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setRFID(event.target.value as string);
-  };
 
   const handleError = () => {
     setError(false);
