@@ -84,6 +84,7 @@ frontend-service:publish:
     - docker image tag 22 $CI_REGISTRY/$CI_PROJECT_LOCATION:$FRONTEND_IMAGE_NAME
   only:
     changes:
+      - frontend/**/*
 
 
 deploy-job:      # This job runs in the deploy stage.
