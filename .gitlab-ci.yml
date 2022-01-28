@@ -1,16 +1,52 @@
+image: maven:3.3.9-jdk-8
 
+variables:
+  FRONTEND_IMAGE_NAME: frontend-react-service
+
+cache:
+  paths:
+    [.m2/repository]
+
+before_script:
+  - cd $CI_PROJECT_DIR
+
+after_script:
+  - cd $CI_PROJECT_DIR
 
 stages:          # List of stages for jobs, and their order of execution
   - build
   - test
+  - package
+  - publish
   - deploy
 
-build-job:       # This job runs in the build stage, which runs first.
+
+frontend-service:build:
+  stage: build
+  image: node:latest
+  script:
+    - echo "running npm install"
+    - cd frontend/
+    - npm install 
+    - npm install react-scripts
+  artifacts:
+    paths:
+      - frontend/build
+      - frontend/node_modules
+  only:
+    changes:
+      - frontend/**/*
+
+# build-jobs:       # This job runs in the build stage, which runs first.
+backend-service:build:  
   stage: build
   script:
-    - echo "Compiling the code..."
-    - docker version
-    - echo "Compile complete."
+    - echo "Compiling the code"
+    - cd backend/ && mvn clean compile
+    - echo "Compile complete"
+  only:
+    changes:
+      - backend/**/*
 
 unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
@@ -23,6 +59,32 @@ lint-test-job:   # This job also runs in the test stage.
   script:
     - echo "Linting code... This will take about 10 seconds."
     - echo "No lint issues found in the project."
+
+backend-service:package:
+  stage: package
+  script: cd backend/ && mvn package -DskiptTests-true
+  artifacts:
+    paths:
+      - backend/target/*.jar
+  only:
+    changes:
+      - backend/**/*
+
+frontend-service:publish:
+  stage: publish
+  image: docker:19.03.12
+  script:
+    - cd frontend/
+    - echo "CI registry " $CI_REGISTRY
+
+    - docker login -u $CI_REGISTRY_USER -p $CI_PASSWORD $CI_REGISTRY
+
+    - docker build -t $FRONTEND_IMAGE_NAME:latest
+
+    - docker image tag 22 $CI_REGISTRY/$CI_PROJECT_LOCATION:$FRONTEND_IMAGE_NAME
+  only:
+    changes:
+
 
 deploy-job:      # This job runs in the deploy stage.
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
