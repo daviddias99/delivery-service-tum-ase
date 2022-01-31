@@ -21,16 +21,16 @@ picked up successfully_
 ### Usage
 The best way to run the whole system (both front-end and backend) is with IDEs or by using Docker.
 If you want to run the backend in your local, you need to have Maven and JDK11+.  If you run it on the local, then you should follow order below:
-1- Run Config Server and compose the docker-compose.yml file in doc folder
-2- Run Eureka and Gateway Server and Auth Service
-3- From now on you can run any other services.
+1. Run Config Server and compose the docker-compose.yml file in doc folder
+2. Run Eureka and Gateway Server and Auth Service
+3. From now on you can run any other services.
 
 If you want to run the whole system in docker:
-1- Build root module to create all .jar files
-2- Go to docs folder
-3- Run the command: docker-compose deployment-docker-compose up -d
-4- The config container must be run first, as the config service has all the required configuration. Then database and Eureka-server containers should be run.
-5- All remaining containers can be run together after completing the previous step.
+1. Build root module to create all .jar files
+2. Go to docs folder
+3. Run the command: docker-compose deployment-docker-compose up -d
+4. The config container must be run first, as the config service has all the required configuration. Then database and Eureka-server containers should be run.
+5. All remaining containers can be run together after completing the previous step.
 
 ## Architecture
 
