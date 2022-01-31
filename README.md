@@ -47,4 +47,4 @@ Our system consists of the following modules:
 
  Following image illustrates the basic architecture of the whole system
 
-<img src="https://postimg.cc/wyXX13KC"><br/>
+<img src="https://i.postimg.cc/4dMBFhWx/Microservices-Diagram-Page-2-1.jpg"><br/>
