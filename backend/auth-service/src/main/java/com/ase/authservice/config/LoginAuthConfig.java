@@ -11,6 +11,7 @@ public class LoginAuthConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .cors().disable()
                 .antMatcher("/auth/**")
                 .authorizeRequests(authorize ->
                         authorize.anyRequest().permitAll())

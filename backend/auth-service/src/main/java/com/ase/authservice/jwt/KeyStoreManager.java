@@ -1,10 +1,9 @@
 package com.ase.authservice.jwt;
 
 import org.springframework.stereotype.Component;
-import org.springframework.util.ResourceUtils;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.Key;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -25,7 +24,7 @@ public class KeyStoreManager {
     public void loadKeyStore() throws KeyStoreException, IOException{
         keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
 
-        try(FileInputStream fis = new FileInputStream(ResourceUtils.getFile("classpath:auth.keystore"))) {
+        try(InputStream fis = getClass().getResourceAsStream("/auth.keystore")) {
             keyStore.load(fis,password);
             keyAlias = keyStore.aliases().nextElement();
         } catch(Exception e){

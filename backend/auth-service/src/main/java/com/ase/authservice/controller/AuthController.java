@@ -30,11 +30,15 @@ public class AuthController {
         return ResponseEntity.ok("XRSF-Request");
     }
 
-
     @PostMapping
     public ResponseEntity<AuthResponse> login(@RequestHeader("Authorization") String authorization, HttpServletRequest request, HttpServletResponse response) throws Exception {
         log.warn("Atuh API id on. request:", request.getUserPrincipal());
-        return authService.authenticateUser(authorization, request, response);
+
+        try {
+            return authService.authenticateUser(authorization, request, response);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new AuthResponse("Invalid Login"), HttpStatus.UNAUTHORIZED);
+        }
     }
 
 
@@ -46,7 +50,7 @@ public class AuthController {
 
     @PostMapping(value = "/test")
     public ResponseEntity<UserDto> testAdd() {
-        return ResponseEntity.ok(authService.register(new AuthDto("", "test1", "test1", "bob", "bob", "bob@bob.bob", "user")));
+        return ResponseEntity.ok(authService.register(new AuthDto("", "test1", "bob", "bob", "bob@bob.bob", "user")));
     }
 
     @GetMapping(value = "/testtoken")

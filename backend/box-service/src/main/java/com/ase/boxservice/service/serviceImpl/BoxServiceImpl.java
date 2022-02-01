@@ -12,10 +12,10 @@ import com.ase.client.com.ase.contract.ResponseMessage;
 import com.ase.client.com.ase.contract.UserDto;
 import com.ase.client.entity.DeliveryStatus;
 import com.ase.client.entity.StatusDelivery;
-import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -108,20 +108,31 @@ public class BoxServiceImpl implements BoxService {
 
     @Override
     public ResponseMessage checkBox(String rfId, String boxId) {
-        UserDto userDto = userServiceClient.getByRfId(fixedCookie, rfId).getBody();
+        ResponseEntity<UserDto> userDtoResponseEntity = userServiceClient.getByRfId(fixedCookie, rfId);
+        if(userDtoResponseEntity == null){
+            responseMessage.setResponseMessage("User doesn't exist with rfid: " + rfId );
+            responseMessage.setResponseType(0);
+            return responseMessage;
+        }
+        UserDto userDto = userDtoResponseEntity.getBody();
         if(userDto == null){
-            responseMessage.setResponseMessage("User is null");
+            responseMessage.setResponseMessage("User doesn't exist with rfid: " + rfId);
             responseMessage.setResponseType(0);
             return responseMessage;
         }
         String userId = userDto.getId();
         BoxDto boxDto = getById(boxId);
+        if(boxDto == null){
+            responseMessage.setResponseMessage("Box doesn't exist with box ID: " + boxId);
+            responseMessage.setResponseType(0);
+            return responseMessage;
+        }
         if(boxDto.getStatus() == BoxStatus.inactive){
             responseMessage.setResponseMessage("Box is inactive!");
             responseMessage.setResponseType(0);
             return responseMessage;
         }
-        List<DeliveryClientDto> deliveryOnBoxDtoList = deliveryServiceClient.getAllDeliveriesByBoxId(fixedCookie,boxId).getBody();
+
         if(userDto.getRole().equals("deliverer")){
             List<DeliveryClientDto> deliveryDtoList = deliveryServiceClient.getAllDeliveriesByDelivererId(fixedCookie,userId).getBody();
             boolean deliveryAssignedToDeliverer = false;
@@ -148,7 +159,7 @@ public class BoxServiceImpl implements BoxService {
                 responseMessage.setResponseMessage("The box is not assigned to the deliverer");
                 responseMessage.setResponseType(0);
             }
-        }else if (userDto.getRole().equals("customer")) {
+        }else if (userDto.getRole().toLowerCase().equals("customer")) {
             List<DeliveryClientDto> deliveryDtoList = deliveryServiceClient.getAllDeliveriesByCustomerId(fixedCookie, userId).getBody();
             boolean deliveryAssignedToCustomer = false;
             for (DeliveryClientDto delivery : deliveryDtoList){
@@ -173,13 +184,14 @@ public class BoxServiceImpl implements BoxService {
                 responseMessage.setResponseMessage("THe box is not assigned to the customer");
                 responseMessage.setResponseType(0);
             }
-        }else if (userDto.getRole().equals("dispatcher")){
+        }else if (userDto.getRole().toLowerCase().equals("dispatcher")){
             responseMessage.setResponseMessage("UserId belongs to a dispatcher! ");
             responseMessage.setResponseType(0);
         }else {
             responseMessage.setResponseMessage("UserId belongs to no one! user Role is : " +userDto.getRole());
             responseMessage.setResponseType(0);
         }
+        List<DeliveryClientDto> deliveryOnBoxDtoList = deliveryServiceClient.getAllDeliveriesByBoxId(fixedCookie,boxId).getBody();
         changeBoxStatusOnCondition(deliveryOnBoxDtoList, boxId, boxDto);
         return responseMessage;
     }

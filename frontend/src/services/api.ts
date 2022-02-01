@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
+import { LOCAL_STORAGE_USER_DATA_KEY } from 'redux/slices/loggedUser/loggedUserSlice';
 
 /**
  * Constant variables
@@ -12,7 +13,7 @@ const API_URL: string = process.env.REACT_APP_API_URI ?? DEFAULT_API_URL;
 const routes = {
   // Auth
   login: '/auth',
-  xsrf: '/auth',
+  xsrf: '/',
   logout: '/auth/logout',
 
   // Delivery
@@ -35,7 +36,6 @@ const routes = {
   allCustomers: '/user/customer/all',
   allDispatchers: '/user/dispatcher/all',
   allDeliverers: '/user/deliverer/all',
-  // TODO: change
   user: (id: string) => `/user/${id}`,
   customer: (id: string) => `/user/customer/${id}`,
   customerDeliveries: (id: string) => `/delivery/all/customer/${id}`,
@@ -57,6 +57,12 @@ const routes = {
 type RestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'get' | 'post' | 'put' | 'delete';
 
 const errorHandler = (err: AxiosError, callback: (_res: AxiosResponse<any, any>) => void) => {
+  if (err.response && (err.response.status === 403)) {
+    window.location.href='/';
+    window.localStorage.removeItem(LOCAL_STORAGE_USER_DATA_KEY);
+    return;
+  }
+
   const errorResponse: AxiosResponse<any, any> = {
     data: err,
     status: 500,
