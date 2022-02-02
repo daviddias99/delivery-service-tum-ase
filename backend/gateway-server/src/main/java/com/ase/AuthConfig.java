@@ -25,8 +25,7 @@ public class AuthConfig {
     SecurityWebFilterChain SecurityWebFilterChain(ServerHttpSecurity http) {
         http
                 .addFilterBefore(filter, SecurityWebFiltersOrder.CSRF)
-                .cors()
-                .and()
+                .cors().disable()
                 .csrf(csrf -> csrf.csrfTokenRepository(CookieServerCsrfTokenRepository.withHttpOnlyFalse()))
                 .httpBasic().disable()
                 .authorizeExchange()
