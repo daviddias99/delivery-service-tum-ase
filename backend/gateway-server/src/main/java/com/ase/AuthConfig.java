@@ -25,7 +25,8 @@ public class AuthConfig {
     SecurityWebFilterChain SecurityWebFilterChain(ServerHttpSecurity http) {
         http
                 .addFilterBefore(filter, SecurityWebFiltersOrder.CSRF)
-                .cors().disable()
+                .cors()
+                .and()
                 .csrf(csrf -> csrf.csrfTokenRepository(CookieServerCsrfTokenRepository.withHttpOnlyFalse()))
                 .httpBasic().disable()
                 .authorizeExchange()
@@ -33,26 +34,6 @@ public class AuthConfig {
         return http.build();
     }
 
-    @Bean
-    public WebFluxConfigurer corsConfigurer(){
-        return new WebFluxConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-
-                registry.addMapping("/box/check")
-                        .allowedOrigins("*");
-
-
-                registry.addMapping("/**")
-                        .allowedOrigins("http://your-frontend-here.com")
-                        .allowedMethods("PUT", "GET", "POST", "DELETE")
-                        .allowedHeaders("header1", "header2", "header3")
-                        .exposedHeaders("header1", "header2")
-                        .allowCredentials(true).maxAge(3600);
-            }
-
-        };
-    }
 
 }
 
