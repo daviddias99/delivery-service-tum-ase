@@ -1,11 +1,15 @@
-image: maven:3.3.9-jdk-8
-
+image: maven:3-jdk-11
+variables:
+  MAVEN_OPTS: -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository
+  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
 
 cache:
   paths:
-    [.m2/repository]
+    - .m2/repository/
+    - target/
 
 before_script:
+  - echo $CI_PROJECT_DIR
   - cd $CI_PROJECT_DIR
 
 after_script:
@@ -19,7 +23,7 @@ stages:          # List of stages for jobs, and their order of execution
   - deploy
 
 
-frontend-service:build:
+frontend:build:
   stage: build
   image: node:latest
   script:
@@ -31,20 +35,25 @@ frontend-service:build:
     paths:
       - frontend/build
       - frontend/node_modules
-  # only:
-  #   changes:
-  #     - frontend/**/*
+    expire_in: 1 hour
+  only:
+    changes:
+      - frontend/**/*
 
 # build-jobs:       # This job runs in the build stage, which runs first.
-backend-service:build:  
+
+backend:build:  
   stage: build
   script:
-    - echo "Compiling the code"
+    - echo "Compiling the auth-service code"
     - cd backend/ && mvn clean compile
-    - echo "Compile complete"
+    - echo "Compile complete"  
+
   only:
     changes:
       - backend/**/*
+
+
 
 unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
@@ -58,41 +67,134 @@ lint-test-job:   # This job also runs in the test stage.
     - echo "Linting code... This will take about 10 seconds."
     - echo "No lint issues found in the project."
 
-backend-service:package:
+backend:package:
   stage: package
-  script: cd backend/ && mvn package -DskiptTests-true
+  image: maven:3-jdk-11
+  script:
+    - cd backend/ && mvn clean install
   artifacts:
     paths:
-      - backend/target/*.jar
-  # only:
-  #   changes:
-  #     - backend/**/*
+      - "backend/*/target/*.jar"
+    expire_in: 1 hour
+  only:
+    changes:
+      - backend/**/*
 
-frontend-service:publish:
+frontend:publish:
   stage: publish
   image: docker:19.03.12
+  services:
+    - docker:19.03.12-dind
   script:
     - cd frontend/
     - echo "CI registry " $CI_REGISTRY
-
+    - echo "CI registry user " $CI_REGISTRY_USER $CI_REGISTRY/$CI_PROJECT_LOCATION:$FRONTEND_IMAGE_NAME
+    
     - docker login -u $CI_REGISTRY_USER -p $CI_PASSWORD $CI_REGISTRY
+    - ls
+    - pwd
+    - dc
 
-    - docker build -t $FRONTEND_IMAGE_NAME:latest .
+    - docker build -t $FRONTEND_IMAGE_NAME .
 
     - docker image tag $FRONTEND_IMAGE_NAME $CI_REGISTRY/$CI_PROJECT_LOCATION:$FRONTEND_IMAGE_NAME
-
+    - echo "push directory. " $FRONTEND_IMAGE_NAME
     #push to container registry  - (under packages and registries in gitalab menu)
     - docker push $CI_REGISTRY/$CI_PROJECT_LOCATION:$FRONTEND_IMAGE_NAME
 
+    - echo "CI REGISTRY IMAGE " $CI_REGISTRY/$CI_PROJECT_LOCATION:$FRONTEND_IMAGE_NAME
+
+  only:
+    changes:
+      - frontend/**/*
+  variables:
+    FRONTEND_IMAGE_NAME : ase-frontend
+
+backend:publish:
+  stage: publish
+  image: docker:19.03.12
+  services:
+    - docker:19.03.12-dind
+
+  script:
+    - cd backend/
+    - echo "CI_REGISTRY " $CI_REGISTRY
+    - echo "CI registry user " $CI_REGISTRY_USER
+    - docker login -u $CI_REGISTRY_USER -p $CI_PASSWORD $CI_REGISTRY
+    
+    - docker build -t $AUTH_SERVICE:1.0 $AUTH_SERVICE/
+    - docker image tag $AUTH_SERVICE $CI_REGISTRY/$CI_PROJECT_LOCATION:$AUTH_SERVICE 
+    - docker push $CI_REGISTRY/$CI_PROJECT_LOCATION:$AUTH_SERVICE
+
+    - docker build -t $BOX_SERVICE:1.0 $BOX_SERVICE/
+    - docker image tag $BOX_SERVICE $CI_REGISTRY/$CI_PROJECT_LOCATION:$BOX_SERVICE 
+    - docker push $CI_REGISTRY/$CI_PROJECT_LOCATION:$BOX_SERVICE
+
+    - docker build -t $CONFIG_SERVER:1.0 $CONFIG_SERVER/
+    - docker image tag $CONFIG_SERVER $CI_REGISTRY/$CI_PROJECT_LOCATION:$CONFIG_SERVER 
+    - docker push $CI_REGISTRY/$CI_PROJECT_LOCATION:$CONFIG_SERVER
+
+    - docker build -t $DELIVERY_SERVICE:1.0 $DELIVERY_SERVICE/
+    - docker image tag $DELIVERY_SERVICE $CI_REGISTRY/$CI_PROJECT_LOCATION:$DELIVERY_SERVICE 
+    - docker push $CI_REGISTRY/$CI_PROJECT_LOCATION:$DELIVERY_SERVICE
+
+    - docker build -t $EUREKA_SERVER:1.0 $EUREKA_SERVER/
+    - docker image tag $EUREKA_SERVER $CI_REGISTRY/$CI_PROJECT_LOCATION:$EUREKA_SERVER 
+    - docker push $CI_REGISTRY/$CI_PROJECT_LOCATION:$EUREKA_SERVER
 
 
-  # only:
-  #   changes:
-  #     - frontend/**/*
+    - docker build -t $GATEWAY_SERVER:1.0 $GATEWAY_SERVER/
+    - docker image tag $GATEWAY_SERVER $CI_REGISTRY/$CI_PROJECT_LOCATION:$GATEWAY_SERVER 
+    - docker push $CI_REGISTRY/$CI_PROJECT_LOCATION:$GATEWAY_SERVER
+
+    - docker build -t $NOTIFICATION_SERVICE:1.0 $NOTIFICATION_SERVICE/
+    - docker image tag $NOTIFICATION_SERVICE $CI_REGISTRY/$CI_PROJECT_LOCATION:$NOTIFICATION_SERVICE 
+    - docker push $CI_REGISTRY/$CI_PROJECT_LOCATION:$NOTIFICATION_SERVICE
+
+
+  variables:
+    IMAGE_NAME: backend
+    AUTH_SERVICE : auth-service
+    BOX_SERVICE : box-service
+    CONFIG_SERVER : config-server
+    DELIVERY_SERVICE : delivery-service
+    EUREKA_SERVER : eureka-server
+    GATEWAY_SERVER : gateway-server
+    NOTIFICATION_SERVICE : notification-service
+  only:
+    changes:
+      - backend/**/*
+  
+
 
 
 deploy-job:      # This job runs in the deploy stage.
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
+  image : ubuntu:20.04
   script:
+    - echo "Start building docker compose"
     - echo "Deploying application..."
-    - echo "Application successfully deployed."
+    - 'which ssh-agent || (apt-get update -y && apt-get install openssh-client -y )'
+    - mkdir ~/.ssh && touch ~/.ssh/config
+    - echo -e "Host +\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - eval $(ssh-agent -s)
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+
+
+    - cat $AWS_PEM_KEY | tr -d '\r' | ssh-add -
+    - echo "AWS Host  " $AWS_USER_HOST
+    - scp -r $DOCKER_COMPOSE_FILE $AWS_USERHOST:~/
+    - scp -r $DOCKER_COMPOSE_MONGO $AWS_USERHOST:~/
+    - ssh $AWS_USER_HOST  " docker login -u $CI_USERNAME -p $CI_PASSWORD $CI_REGISTRY"
+    - ssh $AWS_USER_HOST "docker-compose -f $DOCKER_COMPOSE_MONGO pull && docker-compose -f $DOCKER_COMPOSE_MONGO up --force-recreate -d"
+
+    - ssh $AWS_USER_HOST "docker-compose -f $DOCKER_COMPOSE_FILE pull && docker-compose -f $DOCKER_COMPOSE_FILE up --force-recreate -d"
+
+  variables:
+    DOCKER_COMPOSE_FILE : docs/deployment-docker-compose.yml
+    DOCKER_COMPOSE_MONGO : docs/docker-compose.yml
+  # only:
+  #   changes:
+  #     - backend/**/*
+  #     - frontend/**/*

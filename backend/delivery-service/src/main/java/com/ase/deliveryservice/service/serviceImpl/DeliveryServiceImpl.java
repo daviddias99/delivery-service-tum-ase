@@ -131,13 +131,13 @@ public class DeliveryServiceImpl implements DeliveryService {
         Delivery delivery = deliveryRepository.findById(new ObjectId(id));
 
 
-
         if (delivery == null) {
             responseMessage.setResponseType(1);
             responseMessage.setResponseMessage("Delivery does not exist!");
         }
 
-
+        delivery = modelMapper.map(deliveryDto, Delivery.class);
+        deliveryRepository.save(delivery);
 
 
 

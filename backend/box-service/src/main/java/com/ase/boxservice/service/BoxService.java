@@ -19,5 +19,7 @@ public interface BoxService {
 
     BoxDto updateBox(BoxDto boxDto, String id);
 
-    ResponseMessage checkBox( String userId, String boxId);
+    ResponseMessage checkIfTheRfidIsValidForTheBox( String rfId, String boxId);
+
+    ResponseMessage closeBox( String rfId, String boxId);
 }
