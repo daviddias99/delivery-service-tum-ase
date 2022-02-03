@@ -31,9 +31,19 @@ public class BoxController {
         return ResponseEntity.ok(savedDto);
     }
 
-    @PostMapping(value = "/check")
+    @PostMapping(value = "/open")
+    public ResponseEntity<ResponseMessage> checkTheBox(@RequestBody UserAndBoxDto userAndBoxDto){
+        responseMessage = boxService.checkIfTheRfidIsValidForTheBox( userAndBoxDto.rfId, userAndBoxDto.boxId);
+        if (responseMessage.getResponseType() == 0) {
+            return ResponseEntity.badRequest().body(responseMessage);
+        }
+
+        return ResponseEntity.ok(responseMessage);
+    }
+
+    @PostMapping(value = "/close")
     public ResponseEntity<ResponseMessage> checkAndUpdateBox(@RequestBody UserAndBoxDto userAndBoxDto){
-        responseMessage = boxService.checkBox( userAndBoxDto.rfId, userAndBoxDto.boxId);
+        responseMessage = boxService.closeBox( userAndBoxDto.rfId, userAndBoxDto.boxId);
         if (responseMessage.getResponseType() == 0) {
             return ResponseEntity.badRequest().body(responseMessage);
         }
