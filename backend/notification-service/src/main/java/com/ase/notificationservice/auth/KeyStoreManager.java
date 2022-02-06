@@ -31,7 +31,7 @@ public class KeyStoreManager {
             e.printStackTrace();
         }
     }
-    
+
     protected PublicKey getPublicKey(){
         try{
             return keyStore.getCertificate(keyAlias).getPublicKey();

@@ -50,6 +50,17 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>auth.keystore</include>
+                    <include>bootstrap.yml</include>
+                </includes>
+            </resource>
+        </resources>
+
     </build>
 
 
