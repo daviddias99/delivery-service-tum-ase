@@ -131,42 +131,31 @@ public class BoxServiceImpl implements BoxService {
 
         if(userDto.getRole().equalsIgnoreCase("deliverer")){
             List<DeliveryClientDto> deliveryDtoList = deliveryServiceClient.getAllDeliveriesByDelivererId(fixedCookie,userId).getBody();
-            for (DeliveryClientDto delivery : deliveryDtoList){
-                if(delivery.getBox().getId().equals(boxId)){
-
-                    ArrayList<StatusDelivery> statusList = (ArrayList<StatusDelivery>) delivery.getStatusHistory();
-
-                    if (statusList.get(0).getDeliveryStatus() != DeliveryStatus.dispatched) {
-                        responseMessage.setResponseMessage("Bad delivery status! Status is not dispatched! It is " + statusList.get(0).getDeliveryStatus());
-                        responseMessage.setResponseType(0);
-                        return responseMessage;
-                    }
-                    responseMessage.setResponseMessage("Deliverer allowed to open!");
-                    responseMessage.setResponseType(1);
-                    return responseMessage;
-                }
+            List<DeliveryClientDto> filteredDeliveries = deliveryDtoList
+                    .stream()
+                    .filter(p -> p.getBox().getId().equals(boxId) && p.getStatusHistory().get(0).getDeliveryStatus().equals(DeliveryStatus.dispatched))
+                    .collect(Collectors.toList());
+            if(filteredDeliveries.size() == 0){
+                responseMessage.setResponseMessage("THe box is not assigned to the deliverer");
+                responseMessage.setResponseType(0);
+                return responseMessage;
             }
-            responseMessage.setResponseMessage("The box is not assigned to the deliverer");
-            responseMessage.setResponseType(0);
+            responseMessage.setResponseMessage("Deliverer allowed to open the box");
+            responseMessage.setResponseType(1);
 
         }else if (userDto.getRole().equalsIgnoreCase("customer")) {
             List<DeliveryClientDto> deliveryDtoList = deliveryServiceClient.getAllDeliveriesByCustomerId(fixedCookie, userId).getBody();
-            for (DeliveryClientDto delivery : deliveryDtoList){
-                if(delivery.getBox().getId().equals(boxId)){
-                    ArrayList<StatusDelivery> statusList = (ArrayList<StatusDelivery>) delivery.getStatusHistory();
-                    if (statusList.get(0).getDeliveryStatus() != DeliveryStatus.delivered) {
-                        responseMessage.setResponseMessage("Bad delivery status!Status is not delivered! it is " + statusList.get(0).getDeliveryStatus());
-                        responseMessage.setResponseType(0);
-                        return responseMessage;
-                    }
-                    responseMessage.setResponseMessage("Customer allowed to open the box");
-                    responseMessage.setResponseType(1);
-                    return responseMessage;
-                }
+            List<DeliveryClientDto> filteredDeliveries = deliveryDtoList
+                    .stream()
+                    .filter(p -> p.getBox().getId().equals(boxId) && p.getStatusHistory().get(0).getDeliveryStatus().equals(DeliveryStatus.delivered))
+                    .collect(Collectors.toList());
+            if(filteredDeliveries.size() == 0){
+                responseMessage.setResponseMessage("THe box is not assigned to the customer");
+                responseMessage.setResponseType(0);
+                return responseMessage;
             }
-            responseMessage.setResponseMessage("THe box is not assigned to the customer");
-            responseMessage.setResponseType(0);
-
+            responseMessage.setResponseMessage("customer allowed to open the box");
+            responseMessage.setResponseType(1);
         }else if (userDto.getRole().equalsIgnoreCase("dispatcher")){
             responseMessage.setResponseMessage("UserId belongs to a dispatcher! ");
             responseMessage.setResponseType(0);
