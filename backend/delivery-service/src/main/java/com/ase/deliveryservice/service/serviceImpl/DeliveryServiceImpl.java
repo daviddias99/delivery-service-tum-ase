@@ -95,8 +95,8 @@ public class DeliveryServiceImpl implements DeliveryService {
         deliveryDto.setStatusHistory(newDelivery.getStatusHistory());
         deliveryDto.setTrackingNumber(newDelivery.getTrackingNumber());
 
-        // Method call will be activated later:
-        // prepareSendEmail(deliveryDto); //prepare and send e-mail
+        // ethod call will be activated later:
+        prepareSendEmail(deliveryDto); //prepare and send e-mail
 
         return deliveryDto;
     }
@@ -146,9 +146,10 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     @Override
     public List<DeliveryDto> getAll() {
+
         log.warn("Get All is on");
-//        UserDto user = userServiceClient.getByUsername(fixedCookie,"erengulummmmmm").getBody();
-  //    log.warn("GetAll user:"+user.getFirstName());
+        //UserDto user = userServiceClient.getOne(service_cookie,"61bf5a99b2f2079579480d38").getBody();
+       //log.warn("GetAll user:"+user.getFirstName());
 
         List<Delivery> data = deliveryRepository.findAll();
         if (data.isEmpty())
@@ -159,6 +160,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     public boolean updateBoxStatus(DeliveryDto deliveryDto) {
         String boxId = deliveryDto.getBox().getId();
+        log.warn("DeliveryService:updateBoxStatus is on:"+deliveryDto.getBox().getName());
         BoxDto boxDto = boxServiceClient.getById(service_cookie,boxId).getBody();
 
         if(boxDto.getStatus().equals(BoxStatus.inactive)){
@@ -168,7 +170,7 @@ public class DeliveryServiceImpl implements DeliveryService {
         if(boxDto.getStatus().equals(BoxStatus.free)){
             boxDto.setStatus(BoxStatus.assigned);
         }
-        BoxDto updatedBox = boxServiceClient.updateBox(service_cookie,boxDto, boxId).getBody();
+        BoxDto updatedBox = boxServiceClient.updateBox(service_cookie, boxDto, boxId).getBody();
         if(updatedBox == null){
             return false;
         }
@@ -203,7 +205,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     public EmailDto prepareSendEmail(DeliveryDto deliveryDto) {
         EmailDto emailDto = new EmailDto();
         //SET THE COOKIE!
-        UserDto receiver = userServiceClient.getOne(null,deliveryDto.getCustomer().getId()).getBody();
+        UserDto receiver = userServiceClient.getOne(service_cookie,deliveryDto.getCustomer().getId()).getBody();
 
         if (receiver == null) {
             log.warn("The user is null. Id is probably wrong!");
@@ -211,7 +213,7 @@ public class DeliveryServiceImpl implements DeliveryService {
         }
 
         String header = "Information about your delivery ";
-        String content = "<p>Hi," + receiver.getFirstName() + receiver.getSurname() +
+        String content = "<p>Hi," + receiver.getFirstName() + " " +receiver.getSurname() +
                 "</p>"
                 + "<p>We've received your delivery. You can track your delivery with the following tracking-number: </p>"
                 + deliveryDto.getTrackingNumber() + "<p>Kind Regards</p>";
@@ -220,7 +222,7 @@ public class DeliveryServiceImpl implements DeliveryService {
         emailDto.setHeader(header);
         emailDto.setContent(content);
 
-        ResponseEntity<Boolean> emailResponse = notificationServiceClient.sendEmail(emailDto);
+        ResponseEntity<Boolean> emailResponse = notificationServiceClient.sendEmail(service_cookie,emailDto);
 
         if(emailResponse == null) {
             return null;
