@@ -30,15 +30,10 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception{
     http
-            //TODO: Enable CSRF
             .cors().disable()
             .csrf()
             .disable()
             .authorizeRequests()
-                .antMatchers("/auth/testtoken").authenticated()
-                .antMatchers("/auth/register").permitAll()
-                .antMatchers("/auth/permitAllTest").permitAll()
-                .antMatchers("/auth/logout").authenticated()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/**").authenticated()
 
