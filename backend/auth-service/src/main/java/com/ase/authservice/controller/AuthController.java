@@ -32,7 +32,7 @@ public class AuthController {
 
     @PostMapping
     public ResponseEntity<AuthResponse> login(@RequestHeader("Authorization") String authorization, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        log.warn("Atuh API id on. request:", request.getUserPrincipal());
+        log.warn("Atuh API id on. request: " + request.getUserPrincipal());
 
         try {
             return authService.authenticateUser(authorization, request, response);
@@ -41,12 +41,6 @@ public class AuthController {
         }
     }
 
-
-    @PostMapping(value = "/register")
-    public ResponseEntity<UserDto> register(@RequestBody AuthDto authDto) {
-        log.warn("Auth API: Register request is on");
-        return ResponseEntity.ok(authService.register(authDto));
-    }
 
     @GetMapping(value = "/testtoken")
     public ResponseEntity<String> checkToken() {
