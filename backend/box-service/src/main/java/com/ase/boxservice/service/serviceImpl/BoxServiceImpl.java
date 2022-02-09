@@ -249,6 +249,21 @@ public class BoxServiceImpl implements BoxService {
         return responseMessage;
     }
 
+    @Override
+    public ResponseMessage updateBoxStatus(String boxId) {
+        BoxDto boxDto = getById(boxId);
+        if(boxDto == null){
+            responseMessage.setResponseMessage("Box doesn't exist with box ID: " + boxId);
+            responseMessage.setResponseType(0);
+            return responseMessage;
+        }
+        List<DeliveryClientDto> deliveryOnBoxDtoList = deliveryServiceClient.getAllDeliveriesByBoxId(fixedCookie,boxId).getBody();
+        changeBoxStatusOnCondition(deliveryOnBoxDtoList, boxId, boxDto);
+        responseMessage.setResponseMessage("Box Status update successfully");
+        responseMessage.setResponseType(1);
+        return responseMessage;
+    }
+
     private void changeBoxStatusOnCondition(List<DeliveryClientDto> deliveryList, String boxId, BoxDto boxDto){
         BoxStatus status = BoxStatus.free;
         for(DeliveryClientDto delivery: deliveryList){

@@ -22,4 +22,6 @@ public interface BoxService {
     ResponseMessage checkIfTheRfidIsValidForTheBox( String rfId, String boxId);
 
     ResponseMessage closeBox( String rfId, String boxId);
+
+    ResponseMessage updateBoxStatus(String boxId);
 }
