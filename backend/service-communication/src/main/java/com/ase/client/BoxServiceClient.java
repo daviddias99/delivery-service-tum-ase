@@ -1,6 +1,7 @@
 package com.ase.client;
 
 import com.ase.client.com.ase.contract.BoxDto;
+import com.ase.client.com.ase.contract.ResponseMessage;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,4 +16,6 @@ public interface BoxServiceClient {
     @PutMapping(value = "/box/update/{id}")
     public ResponseEntity<BoxDto> updateBox(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody BoxDto boxDto, @PathVariable String id);
 
+    @PostMapping(value = "/box/updateboxstatus")
+    public ResponseEntity<ResponseMessage> updateBoxStatus(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody String boxId);
 }
