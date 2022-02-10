@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { updateSelectedBox, selectedBoxes } from 'redux/slices/box/boxesSlice';
+import {updateSelectedBox, selectedBoxes, boxesList, updateBoxes} from 'redux/slices/box/boxesSlice';
 import * as React from 'react';
 import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -11,6 +11,7 @@ import api from 'services/api';
 export const DeleteBox = () => {
   const [open, setOpen] = React.useState(false);
   const selected: Box[] = useSelector(selectedBoxes);
+  const boxes: Box[] = useSelector(boxesList);
   const dispatch = useDispatch();
   const handleClickOpen = () => {
     setOpen(true);
@@ -21,10 +22,18 @@ export const DeleteBox = () => {
   };
   const deleteClicked = () => {
     const selectedCopy = [...selected];
+    const index: number[] =[];
     selectedCopy.forEach(element => {
       api.deleteBox(element.id, () => {});
+      index.push(boxes.indexOf(element));
       dispatch(updateSelectedBox([]));
     });
+    const boxesCopy = [...boxes];
+    index.forEach(i => {
+      const element = boxesCopy[i];
+      boxesCopy[i]= {id: element.id, raspberryId: element.raspberryId, name: element.name, address: element.address, status: 'inactive'};
+    });
+    dispatch(updateBoxes(boxesCopy));
 
     handleClose();
   };

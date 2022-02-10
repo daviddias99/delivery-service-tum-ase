@@ -19,6 +19,7 @@ type User = {
 
 type Box = {
   id: string,
+  raspberryId: string,
   name: string,
   address: BoxAddress
   status: BoxStatus
