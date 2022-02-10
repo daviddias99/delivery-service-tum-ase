@@ -218,7 +218,8 @@ public class DeliveryServiceImpl implements DeliveryService {
         if(boxDto.getStatus().equals(BoxStatus.assigned)){
             List<Delivery> deliveries = deliveryRepository.getAllByBox_Id(boxId);
             for(Delivery delivery:deliveries){
-                if (!delivery.getCustomer().getId().equals(deliveryDto.getCustomer().getId())){
+                
+                if (!delivery.getStatusHistory().get(0).getDeliveryStatus().equals(DeliveryStatus.collected) && !delivery.getCustomer().getId().equals(deliveryDto.getCustomer().getId())){
                     log.warn("Box has assigned to other customer's delivery");
                     return false;
                 }
