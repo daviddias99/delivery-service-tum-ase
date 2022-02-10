@@ -1,8 +1,6 @@
 package com.ase.authservice.service;
 
-import com.ase.authservice.dto.AuthDto;
 import com.ase.authservice.dto.AuthResponse;
-import com.ase.client.com.ase.contract.UserDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;

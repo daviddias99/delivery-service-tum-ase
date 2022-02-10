@@ -7,7 +7,6 @@ import com.ase.authservice.entity.User;
 import com.ase.authservice.jwt.JwtUtil;
 import com.ase.authservice.repository.UserRepository;
 import com.ase.authservice.service.AuthService;
-import com.ase.client.com.ase.contract.UserDto;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
