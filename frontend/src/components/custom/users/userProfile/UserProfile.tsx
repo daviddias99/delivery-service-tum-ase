@@ -7,10 +7,10 @@ import {
   Box,
   Button, Dialog,
   DialogActions,
-  DialogContent,
+  DialogContent, DialogContentText,
   DialogTitle,
-  Divider,
-  IconButton
+  Divider, Grid,
+  IconButton, TextField
 } from '@mui/material';
 import {User} from '../../../../types';
 import {useSelector} from 'react-redux';
@@ -18,14 +18,44 @@ import {loggedUser} from '../../../../redux/slices/loggedUser/loggedUserSlice';
 import DeleteIcon from '@mui/icons-material/Delete';
 import api from '../../../../services/api';
 import {useNavigate} from 'react-router-dom';
+import EditIcon from '@mui/icons-material/Edit';
 
 
 
 const UserProfile = (props:any) => {
   const [open, setOpen] = useState(false);
-  const user:User = props.user;
+  const userInfo:User = props.user;
   const navigate = useNavigate();
+  const [user, setUser] = useState(userInfo);
   const signedInUser:User = useSelector(loggedUser);
+  const [firstName, setFirstName] = useState(user.firstName);
+  const [surname, setSurname] = useState(user.surname);
+  const [email, setEmail] = useState(user.email);
+  const [editOpen, setEditOpen] = useState(false);
+
+  const handleEditOpen = () => {
+    setEditOpen(true);
+  };
+
+  const handleEditClose = () => {
+    setEditOpen(false);
+  };
+
+  const handleEditClicked = () => {
+    const updateUserCallback = ( response: any) => {
+      if (response.status === 200) {
+        handleEditClose();
+        const updatedUser: User = {id: user.id, firstName: firstName, surname: surname, role: user.role, email: email};
+        setUser(updatedUser);
+      }
+
+    };
+    const updatedUser: User = {id: user.id, firstName: firstName, surname: surname, role: user.role, email: email};
+    api.updateUser(user.id, updatedUser, updateUserCallback);
+
+  };
+
+
   const handleOpen=() => {
     setOpen(true);
   };
@@ -74,6 +104,69 @@ const UserProfile = (props:any) => {
           </Dialog>
         </div>
         : <> </>}
+      <IconButton aria-label="delete" size="large" sx={{float: 'right'}} onClick={handleEditOpen}>
+        <EditIcon fontSize="large" />
+      </IconButton>
+      <Dialog open={editOpen} onClose={handleEditClose}>
+        <DialogTitle>Edit User Information</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Edit the following Cells.
+          </DialogContentText>
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                autoFocus
+                margin="dense"
+                id="firstName"
+                label="First Name"
+                type="name"
+                fullWidth
+                value={firstName}
+                onChange={(e) => setFirstName( e.target.value )}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                autoFocus
+                margin="dense"
+                id="surname"
+                label=" Address"
+                type="adress"
+                fullWidth
+                value={surname}
+                onChange={(e) => setSurname( e.target.value )}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                autoFocus
+                margin="dense"
+                id="email"
+                label=" Email"
+                type="co"
+                fullWidth
+                value={email}
+                onChange={(e) => setEmail( e.target.value )}
+                variant="outlined"
+              />
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleEditClose}>Cancel</Button>
+          <Button onClick={() => {
+            handleEditClicked();
+          }}
+          >
+            Edit
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Box sx={{marginTop: '45px'}}>
         <div style={{textAlign: 'center', fontSize: '30px'}} >
           {user.firstName}

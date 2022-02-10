@@ -14,6 +14,9 @@ public class Box {
     @MongoId(value = FieldType.OBJECT_ID)
     private String id;
 
+    @Field("raspberryId")
+    private String raspberryId;
+
     @Field("name")
     private String name;
 
