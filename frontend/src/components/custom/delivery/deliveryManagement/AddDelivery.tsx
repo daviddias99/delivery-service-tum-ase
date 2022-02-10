@@ -53,7 +53,7 @@ const AddDelivery = () => {
         return;
       }
 
-      dispatch(updateDeliveries([...list, response.data]));
+      dispatch(updateDeliveries([...list, response.data.deliveryDto]));
     };
 
     api.createDelivery(newDelivery, callback);
