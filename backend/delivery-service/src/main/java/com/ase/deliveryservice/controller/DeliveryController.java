@@ -40,7 +40,7 @@ public class DeliveryController {
         if(deliveryService.updateBoxStatus(deliveryDto) == false){
             log.warn("Box update to assigned failed");
             deliveryResponse.setDeliveryDto(null);
-            deliveryResponse.setResponseMessage("Box update to assigned failed");
+            deliveryResponse.setResponseMessage("Box assignment is failed. Box is inactive or it is assigned for other customer");
             return ResponseEntity.badRequest().body(deliveryResponse);
         }
 

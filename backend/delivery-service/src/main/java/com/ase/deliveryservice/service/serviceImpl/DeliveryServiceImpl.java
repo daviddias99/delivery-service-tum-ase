@@ -209,6 +209,21 @@ public class DeliveryServiceImpl implements DeliveryService {
             log.warn("Box is inactive");
             return false;
         }
+
+
+
+        if(boxDto.getStatus().equals(BoxStatus.assigned)){
+            List<Delivery> deliveries = deliveryRepository.getAllByBox_Id(boxId);
+            for(Delivery delivery:deliveries){
+                if (!delivery.getStatusHistory().contains(DeliveryStatus.collected) && !delivery.getCustomer().getId().equals(deliveryDto.getCustomer().getId())){
+                    log.warn("Box has assigned to other customer's delivery");
+                    return false;
+                }
+            }
+        }
+
+
+
         if(boxDto.getStatus().equals(BoxStatus.free)){
             boxDto.setStatus(BoxStatus.assigned);
         }
