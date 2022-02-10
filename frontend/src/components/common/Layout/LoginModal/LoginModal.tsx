@@ -81,11 +81,10 @@ const LoginModal = ({ open, setOpen }: LoginModalProps) => {
     };
 
     const xsrfHandler = (response: AxiosResponse<any, any>) => {
-      // if (response.status !== 200) {
-      //   setErrorText('Invalid credentials.');
-      //   return;
-      // }
-      // axios.defaults.headers.common['X'] = document.cookie.;
+      if (response.status !== 200) {
+        setErrorText('Invalid credentials.');
+        return;
+      }
       const xsrfToken = Cookie.get('XSRF-TOKEN');
       if (!xsrfToken) {
         return;
