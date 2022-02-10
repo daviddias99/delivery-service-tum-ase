@@ -31,8 +31,6 @@ const AddBox = () => {
     const newBoxData = { raspberryId: raspberryId, name: name, address: { addressLine1: address, addressLine2: co, city: city, postalCode: postalCode } };
 
     const callback = (response: AxiosResponse<any, any>) => {
-      console.log('zebi inside');
-
       if (response.status !== 200) {
         setError('An error occured and the box was not created');
         return;
@@ -44,7 +42,6 @@ const AddBox = () => {
       dispatch(updateBoxes([...list, {...response.data, status: 'free'}]));
       handleClose();
     };
-    console.log('zebi');
     api.createBox(newBoxData, callback);
   };
 
