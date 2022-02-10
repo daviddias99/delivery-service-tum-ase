@@ -26,7 +26,7 @@ const EditBox = ({ initialData }: { initialData: any }) => {
 
   const EditClicked = () => {
     // copy the value from the store to change them.
-    const newBox: any = { id: initialData.id, status: initialData.status };
+    const newBox: any = { id: initialData.id, raspberryId: initialData.raspberryId, status: initialData.status };
     const addressInfo = { ...initialData.address };
 
     newBox.name = formData.name;

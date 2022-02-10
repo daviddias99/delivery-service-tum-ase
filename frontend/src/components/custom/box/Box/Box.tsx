@@ -8,9 +8,10 @@ import EditBox from './EditBox/EditBox';
 import BoxAddress from 'components/common/BoxAddress/BoxAddress';
 import { useSelector } from 'react-redux';
 import { boxDeliveries, boxInfo } from 'redux/slices/box/boxSlice';
+import {Box} from '../../../../types';
 
 const BoxComponent = () => {
-  const box = useSelector(boxInfo);
+  const box: Box = useSelector(boxInfo);
   const deliveries = useSelector(boxDeliveries);
   return (
     <div id="box" >
@@ -27,6 +28,7 @@ const BoxComponent = () => {
           postalCode: box.address.postalCode,
           status: box.status,
           id: box.id,
+          raspberryId: box.raspberryId,
         }}
         />
         <Chip className="boxStatus" size="small" label={toUpperCase(box.status)} color={getBoxStatusColor(box.status)} />

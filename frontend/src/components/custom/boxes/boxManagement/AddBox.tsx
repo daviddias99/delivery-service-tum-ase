@@ -12,6 +12,7 @@ const AddBox = () => {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState('');
   const [name, setName] = useState(' ');
+  const [raspberryId, setRasberryId] = useState(' ');
   const [address, setAdress] = useState(' ');
   const [co, setCo] = useState(' ');
   const [city, setCity] = useState(' ');
@@ -27,9 +28,10 @@ const AddBox = () => {
   const dispatch = useDispatch();
 
   const AddClicked = () => {
-    const newBoxData = { name: name, address: { addressLine1: address, addressLine2: co, city: city, postalCode: postalCode } };
+    const newBoxData = { raspberryId: raspberryId, name: name, address: { addressLine1: address, addressLine2: co, city: city, postalCode: postalCode } };
 
     const callback = (response: AxiosResponse<any, any>) => {
+      console.log('zebi inside');
 
       if (response.status !== 200) {
         setError('An error occured and the box was not created');
@@ -42,7 +44,7 @@ const AddBox = () => {
       dispatch(updateBoxes([...list, {...response.data, status: 'free'}]));
       handleClose();
     };
-
+    console.log('zebi');
     api.createBox(newBoxData, callback);
   };
 
@@ -127,6 +129,20 @@ const AddBox = () => {
                 fullWidth
                 value={postalCode}
                 onChange={(e) => setPostalCode(e.target.value)}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                autoFocus
+                margin="dense"
+                id="name"
+                label="Rasberry Pi"
+                type="name"
+                fullWidth
+                value={raspberryId}
+                onChange={(e) => setRasberryId(e.target.value)}
                 variant="outlined"
               />
             </Grid>
