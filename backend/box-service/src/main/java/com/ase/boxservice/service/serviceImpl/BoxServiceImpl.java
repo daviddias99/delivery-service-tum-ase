@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service(value = "boxService")
 public class BoxServiceImpl implements BoxService {
@@ -130,42 +131,31 @@ public class BoxServiceImpl implements BoxService {
 
         if(userDto.getRole().equalsIgnoreCase("deliverer")){
             List<DeliveryClientDto> deliveryDtoList = deliveryServiceClient.getAllDeliveriesByDelivererId(fixedCookie,userId).getBody();
-            for (DeliveryClientDto delivery : deliveryDtoList){
-                if(delivery.getBox().getId().equals(boxId)){
-
-                    ArrayList<StatusDelivery> statusList = (ArrayList<StatusDelivery>) delivery.getStatusHistory();
-
-                    if (statusList.get(0).getDeliveryStatus() != DeliveryStatus.dispatched) {
-                        responseMessage.setResponseMessage("Bad delivery status! Status is not dispatched! It is " + statusList.get(0).getDeliveryStatus());
-                        responseMessage.setResponseType(0);
-                        return responseMessage;
-                    }
-                    responseMessage.setResponseMessage("Deliverer allowed to open!");
-                    responseMessage.setResponseType(1);
-                    return responseMessage;
-                }
+            List<DeliveryClientDto> filteredDeliveries = deliveryDtoList
+                    .stream()
+                    .filter(p -> p.getBox().getId().equals(boxId) && p.getStatusHistory().get(0).getDeliveryStatus().equals(DeliveryStatus.dispatched))
+                    .collect(Collectors.toList());
+            if(filteredDeliveries.size() == 0){
+                responseMessage.setResponseMessage("THe box is not assigned to the deliverer");
+                responseMessage.setResponseType(0);
+                return responseMessage;
             }
-            responseMessage.setResponseMessage("The box is not assigned to the deliverer");
-            responseMessage.setResponseType(0);
+            responseMessage.setResponseMessage("Deliverer allowed to open the box");
+            responseMessage.setResponseType(1);
 
         }else if (userDto.getRole().equalsIgnoreCase("customer")) {
             List<DeliveryClientDto> deliveryDtoList = deliveryServiceClient.getAllDeliveriesByCustomerId(fixedCookie, userId).getBody();
-            for (DeliveryClientDto delivery : deliveryDtoList){
-                if(delivery.getBox().getId().equals(boxId)){
-                    ArrayList<StatusDelivery> statusList = (ArrayList<StatusDelivery>) delivery.getStatusHistory();
-                    if (statusList.get(0).getDeliveryStatus() != DeliveryStatus.delivered) {
-                        responseMessage.setResponseMessage("Bad delivery status!Status is not delivered! it is " + statusList.get(0).getDeliveryStatus());
-                        responseMessage.setResponseType(0);
-                        return responseMessage;
-                    }
-                    responseMessage.setResponseMessage("Customer allowed to open the box");
-                    responseMessage.setResponseType(1);
-                    return responseMessage;
-                }
+            List<DeliveryClientDto> filteredDeliveries = deliveryDtoList
+                    .stream()
+                    .filter(p -> p.getBox().getId().equals(boxId) && p.getStatusHistory().get(0).getDeliveryStatus().equals(DeliveryStatus.delivered))
+                    .collect(Collectors.toList());
+            if(filteredDeliveries.size() == 0){
+                responseMessage.setResponseMessage("THe box is not assigned to the customer");
+                responseMessage.setResponseType(0);
+                return responseMessage;
             }
-            responseMessage.setResponseMessage("THe box is not assigned to the customer");
-            responseMessage.setResponseType(0);
-
+            responseMessage.setResponseMessage("customer allowed to open the box");
+            responseMessage.setResponseType(1);
         }else if (userDto.getRole().equalsIgnoreCase("dispatcher")){
             responseMessage.setResponseMessage("UserId belongs to a dispatcher! ");
             responseMessage.setResponseType(0);
@@ -203,17 +193,18 @@ public class BoxServiceImpl implements BoxService {
 
         if(userDto.getRole().equalsIgnoreCase("deliverer")){
             List<DeliveryClientDto> deliveryDtoList = deliveryServiceClient.getAllDeliveriesByDelivererId(fixedCookie,userId).getBody();
-            boolean deliveryAssignedToDeliverer = false;
-            for (DeliveryClientDto delivery : deliveryDtoList){
+            List<DeliveryClientDto> filteredDeliveries = deliveryDtoList
+                    .stream()
+                    .filter(p -> p.getBox().getId().equals(boxId) && p.getStatusHistory().get(0).getDeliveryStatus().equals(DeliveryStatus.dispatched))
+                    .collect(Collectors.toList());
+            if(filteredDeliveries.size() == 0){
+                responseMessage.setResponseMessage("THe box is not assigned to the deliverer");
+                responseMessage.setResponseType(0);
+                return responseMessage;
+            }
+            for (DeliveryClientDto delivery : filteredDeliveries){
                 if(delivery.getBox().getId().equals(boxId)){
-                    deliveryAssignedToDeliverer = true;
                     ArrayList<StatusDelivery> statusList = (ArrayList<StatusDelivery>) delivery.getStatusHistory();
-
-                    if (statusList.get(0).getDeliveryStatus() != DeliveryStatus.dispatched) {
-                        responseMessage.setResponseMessage("Bad delivery status! Status is not dispatched! It is " + statusList.get(0).getDeliveryStatus());
-                        responseMessage.setResponseType(0);
-                        return responseMessage;
-                    }
                     final Date date = new Date();
                     StatusDelivery status = new StatusDelivery(DeliveryStatus.delivered, date.toInstant().toString());
                     statusList.add(0, status);
@@ -223,34 +214,26 @@ public class BoxServiceImpl implements BoxService {
                     responseMessage.setResponseType(1);
                 }
             }
-            if (!deliveryAssignedToDeliverer){
-                responseMessage.setResponseMessage("The box is not assigned to the deliverer");
-                responseMessage.setResponseType(0);
-            }
         }else if (userDto.getRole().equalsIgnoreCase("customer")) {
             List<DeliveryClientDto> deliveryDtoList = deliveryServiceClient.getAllDeliveriesByCustomerId(fixedCookie, userId).getBody();
-            boolean deliveryAssignedToCustomer = false;
-            for (DeliveryClientDto delivery : deliveryDtoList){
-                if(delivery.getBox().getId().equals(boxId)){
-                    deliveryAssignedToCustomer = true;
+            List<DeliveryClientDto> filteredDeliveries = deliveryDtoList
+                    .stream()
+                    .filter(p -> p.getBox().getId().equals(boxId) && p.getStatusHistory().get(0).getDeliveryStatus().equals(DeliveryStatus.delivered))
+                    .collect(Collectors.toList());
+            if(filteredDeliveries.size() == 0){
+                responseMessage.setResponseMessage("THe box is not assigned to the customer");
+                responseMessage.setResponseType(0);
+                return responseMessage;
+            }
+            for (DeliveryClientDto delivery : filteredDeliveries){
                     ArrayList<StatusDelivery> statusList = (ArrayList<StatusDelivery>) delivery.getStatusHistory();
-                    if (statusList.get(0).getDeliveryStatus() != DeliveryStatus.delivered) {
-                        responseMessage.setResponseMessage("Bad delivery status!Status is not delivered! it is " + statusList.get(0).getDeliveryStatus());
-                        responseMessage.setResponseType(0);
-                        return responseMessage;
-                    }
                     final Date date = new Date();
                     StatusDelivery status = new StatusDelivery(DeliveryStatus.collected, date.toInstant().toString());
                     statusList.add(0, status);
                     delivery.setStatusHistory(statusList);
                     deliveryServiceClient.updateDelivery(fixedCookie, delivery, delivery.getId());
-                    responseMessage.setResponseMessage("changed from delivered to collected");
+                    responseMessage.setResponseMessage("Delivery status updated from delivered to collected");
                     responseMessage.setResponseType(1);
-                }
-            }
-            if (deliveryAssignedToCustomer == false){
-                responseMessage.setResponseMessage("THe box is not assigned to the customer");
-                responseMessage.setResponseType(0);
             }
         }else if (userDto.getRole().equalsIgnoreCase("dispatcher")){
             responseMessage.setResponseMessage("UserId belongs to a dispatcher! ");
@@ -266,21 +249,34 @@ public class BoxServiceImpl implements BoxService {
         return responseMessage;
     }
 
+    @Override
+    public ResponseMessage updateBoxStatus(String boxId) {
+        BoxDto boxDto = getById(boxId);
+        if(boxDto == null){
+            responseMessage.setResponseMessage("Box doesn't exist with box ID: " + boxId);
+            responseMessage.setResponseType(0);
+            return responseMessage;
+        }
+        List<DeliveryClientDto> deliveryOnBoxDtoList = deliveryServiceClient.getAllDeliveriesByBoxId(fixedCookie,boxId).getBody();
+        changeBoxStatusOnCondition(deliveryOnBoxDtoList, boxId, boxDto);
+        responseMessage.setResponseMessage("Box Status update successfully");
+        responseMessage.setResponseType(1);
+        return responseMessage;
+    }
+
     private void changeBoxStatusOnCondition(List<DeliveryClientDto> deliveryList, String boxId, BoxDto boxDto){
-        boolean ifBoxFree = true;
+        BoxStatus status = BoxStatus.free;
         for(DeliveryClientDto delivery: deliveryList){
             ArrayList<StatusDelivery> statusList = (ArrayList<StatusDelivery>) delivery.getStatusHistory();
-            if (!(statusList.get(0).getDeliveryStatus().equals(DeliveryStatus.collected)) ) {
-                ifBoxFree = false;
+            if (statusList.get(0).getDeliveryStatus().equals(DeliveryStatus.delivered)) {
+                status = BoxStatus.active;
                 break;
+            } else if (statusList.get(0).getDeliveryStatus().equals(DeliveryStatus.ordered) || statusList.get(0).getDeliveryStatus().equals(DeliveryStatus.dispatched)) {
+                status = BoxStatus.assigned;
             }
         }
-
-        if((boxDto.getStatus().equals(BoxStatus.active) || boxDto.getStatus().equals(BoxStatus.assigned))  && ifBoxFree){
-            boxDto.setStatus(BoxStatus.free);
-            updateBox(boxDto, boxId);
-        }else if (boxDto.getStatus().equals(BoxStatus.free) && !ifBoxFree){
-            boxDto.setStatus(BoxStatus.active);
+        if(!status.equals(boxDto.getStatus())) {
+            boxDto.setStatus(status);
             updateBox(boxDto, boxId);
         }
     }

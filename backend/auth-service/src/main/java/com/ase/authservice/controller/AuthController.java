@@ -32,7 +32,7 @@ public class AuthController {
 
     @PostMapping
     public ResponseEntity<AuthResponse> login(@RequestHeader("Authorization") String authorization, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        log.warn("Atuh API id on. request:", request.getUserPrincipal());
+        log.warn("Atuh API id on. request: " + request.getUserPrincipal());
 
         try {
             return authService.authenticateUser(authorization, request, response);
@@ -41,17 +41,6 @@ public class AuthController {
         }
     }
 
-
-    @PostMapping(value = "/register")
-    public ResponseEntity<UserDto> register(@RequestBody AuthDto authDto) {
-        log.warn("Auth API: Register request is on");
-        return ResponseEntity.ok(authService.register(authDto));
-    }
-
-    @PostMapping(value = "/test")
-    public ResponseEntity<UserDto> testAdd() {
-        return ResponseEntity.ok(authService.register(new AuthDto("", "test1", "bob", "bob", "bob@bob.bob", "user")));
-    }
 
     @GetMapping(value = "/testtoken")
     public ResponseEntity<String> checkToken() {
@@ -67,10 +56,5 @@ public class AuthController {
             e.printStackTrace();
             return new ResponseEntity<>("bad token!", HttpStatus.FORBIDDEN);
         }
-    }
-
-    @GetMapping(value = "/testpermitall")
-    public ResponseEntity<String> permitAll() {
-        return ResponseEntity.ok("connection OK");
     }
 }

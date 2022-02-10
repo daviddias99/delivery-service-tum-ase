@@ -53,6 +53,16 @@ public class BoxController {
         return ResponseEntity.ok(responseMessage);
     }
 
+    @PostMapping(value = "/updateboxstatus")
+    public ResponseEntity<ResponseMessage> updateBoxStatus(@RequestHeader(value = "Cookie", required = true) String cookie,@RequestBody String boxId){
+        responseMessage = boxService.updateBoxStatus(boxId);
+        if (responseMessage.getResponseType() == 0) {
+            return ResponseEntity.badRequest().body(responseMessage);
+        }
+
+        return ResponseEntity.ok(responseMessage);
+    }
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<BoxDto> getById ( @RequestHeader(value = "Cookie", required = true) String cookie, @PathVariable String id){
         if(id.length() !=24) //mongo object id size is 24. If length is different than no need to go to service

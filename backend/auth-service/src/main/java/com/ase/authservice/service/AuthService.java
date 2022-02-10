@@ -12,13 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface AuthService extends UserDetailsService {
 
-    UserDto register(AuthDto user);
-
-    public ResponseEntity<AuthResponse> authenticateUser(String authorization,
+    ResponseEntity<AuthResponse> authenticateUser(String authorization,
                                                    HttpServletRequest request, HttpServletResponse response) throws Exception;
 
-    public void setAuthenticationToken(Authentication auth);
+    void setAuthenticationToken(Authentication auth);
 
-    public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) throws Exception;
+    ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 }

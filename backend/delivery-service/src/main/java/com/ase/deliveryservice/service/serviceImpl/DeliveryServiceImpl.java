@@ -171,15 +171,19 @@ public class DeliveryServiceImpl implements DeliveryService {
     public DeliveryClientDto updateDelivery(DeliveryDto deliveryDto, String id) {
 
         Delivery delivery = deliveryRepository.findById(new ObjectId(id));
-
-
+        String initialBoxId = delivery.getBox().getId();
+        String finalBoxId = deliveryDto.getBox().getId();
         if (delivery == null) {
             responseMessage.setResponseType(1);
             responseMessage.setResponseMessage("Delivery does not exist!");
         }
 
         delivery = modelMapper.map(deliveryDto, Delivery.class);
+
         deliveryRepository.save(delivery);
+        boxServiceClient.updateBoxStatus(service_cookie, initialBoxId);
+        boxServiceClient.updateBoxStatus(service_cookie, finalBoxId);
+
 
 
 

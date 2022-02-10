@@ -78,18 +78,6 @@ public class AuthServiceImpl implements AuthService {
         return list;
     }
 
-    @Override
-    @Transactional
-    public UserDto register(AuthDto authDto) {
-        log.warn("Auth Service: Register method is on");
-        User tempUser = modelMapper.map(authDto, User.class);
-        log.warn("Auth Service: Mapper works fine");
-        tempUser.setRole("user");
-        tempUser = userRepository.save(tempUser);
-        log.warn("Auth Service: Repo works fine");
-        return modelMapper.map(tempUser, UserDto.class);
-    }
-
 
 
     public ResponseEntity<AuthResponse> authenticateUser(String authorization,
@@ -155,9 +143,9 @@ public class AuthServiceImpl implements AuthService {
         }
         else{
             Cookie jwtCookie = null;
-            for(int i = 0; i < cookies.length; i++){
-                if(cookies[i].getName().equals("jwt")){
-                    jwtCookie = cookies[i];
+            for(Cookie cookie : cookies){
+                if(cookie.getName().equals("jwt")){
+                    jwtCookie = cookie;
                     break;
                 }
             }
