@@ -6,12 +6,15 @@ import com.ase.boxservice.entity.BoxStatus;
 import com.ase.boxservice.repository.BoxRepository;
 import com.ase.boxservice.service.BoxService;
 import com.ase.client.DeliveryServiceClient;
+import com.ase.client.NotificationServiceClient;
 import com.ase.client.UserServiceClient;
 import com.ase.client.com.ase.contract.DeliveryClientDto;
+import com.ase.client.com.ase.contract.EmailDto;
 import com.ase.client.com.ase.contract.ResponseMessage;
 import com.ase.client.com.ase.contract.UserDto;
 import com.ase.client.entity.DeliveryStatus;
 import com.ase.client.entity.StatusDelivery;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service(value = "boxService")
 public class BoxServiceImpl implements BoxService {
     @Autowired
@@ -39,6 +43,9 @@ public class BoxServiceImpl implements BoxService {
 
     @Autowired
     private DeliveryServiceClient deliveryServiceClient;
+
+    @Autowired
+    private NotificationServiceClient notificationServiceClient;
 
     @Autowired
     ResponseMessage responseMessage;
@@ -198,7 +205,7 @@ public class BoxServiceImpl implements BoxService {
                     .filter(p -> p.getBox().getId().equals(boxId) && p.getStatusHistory().get(0).getDeliveryStatus().equals(DeliveryStatus.dispatched))
                     .collect(Collectors.toList());
             if(filteredDeliveries.size() == 0){
-                responseMessage.setResponseMessage("THe box is not assigned to the deliverer");
+                responseMessage.setResponseMessage("The box is not assigned to the deliverer");
                 responseMessage.setResponseType(0);
                 return responseMessage;
             }
@@ -211,6 +218,9 @@ public class BoxServiceImpl implements BoxService {
                     delivery.setStatusHistory(statusList);
                     deliveryServiceClient.updateDelivery(fixedCookie, delivery, delivery.getId());
                     responseMessage.setResponseMessage("Changed from dispatched to delivered!");
+
+                    prepareSendEmail(delivery,DeliveryStatus.delivered);
+
                     responseMessage.setResponseType(1);
                 }
             }
@@ -233,6 +243,10 @@ public class BoxServiceImpl implements BoxService {
                     delivery.setStatusHistory(statusList);
                     deliveryServiceClient.updateDelivery(fixedCookie, delivery, delivery.getId());
                     responseMessage.setResponseMessage("Delivery status updated from delivered to collected");
+
+                    prepareSendEmail(delivery,DeliveryStatus.collected);
+
+
                     responseMessage.setResponseType(1);
             }
         }else if (userDto.getRole().equalsIgnoreCase("dispatcher")){
@@ -280,4 +294,45 @@ public class BoxServiceImpl implements BoxService {
             updateBox(boxDto, boxId);
         }
     }
+
+
+    @Override
+    public EmailDto prepareSendEmail(DeliveryClientDto deliveryDto, DeliveryStatus deliveryStatus) {
+        EmailDto emailDto = new EmailDto();
+        //SET THE COOKIE!
+        UserDto receiver = userServiceClient.getOne(fixedCookie,deliveryDto.getCustomer().getId()).getBody();
+
+        if (receiver == null) {
+            log.warn("The user is null. Id is probably wrong!");
+            return null;
+        }
+
+
+
+        String header = "Update about your Delivery Status ";
+        String content="<p>Hi," + receiver.getFirstName() + " " +receiver.getSurname();
+        if(deliveryStatus.equals(DeliveryStatus.delivered)){
+            content +=   "</p>" + "<p>Your delivery is delivered to box. You can pick it up! </p>" + deliveryDto.getTrackingNumber() + "<p>Kind Regards</p>";
+
+        }
+        if(deliveryStatus.equals(DeliveryStatus.collected)){
+            content +=   "</p>" + "<p>Your delivery is picked up! Thank you for choosing us!  </p>" + deliveryDto.getTrackingNumber() + "<p>Kind Regards</p>";
+
+        }
+
+        emailDto.setReceiver(receiver.getEmail());
+        emailDto.setHeader(header);
+        emailDto.setContent(content);
+
+        ResponseEntity<Boolean> emailResponse = notificationServiceClient.sendEmail(fixedCookie,emailDto);
+
+        if(emailResponse == null) {
+            return null;
+        }
+
+        return emailDto;
+    }
+
+
+
 }
