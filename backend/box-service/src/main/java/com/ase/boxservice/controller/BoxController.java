@@ -5,7 +5,6 @@ import com.ase.boxservice.dto.BoxDto;
 import com.ase.boxservice.dto.UserAndBoxDto;
 import com.ase.boxservice.service.BoxService;
 import com.ase.client.com.ase.contract.ResponseMessage;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/box")
-@Slf4j
 public class BoxController {
 
     @Autowired

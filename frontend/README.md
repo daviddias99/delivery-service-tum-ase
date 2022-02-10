@@ -30,6 +30,9 @@ REACT_APP_API_URI=http://localhost:8000 # URI for the backend API
 - `Router.tsx` and `routes.ts` are related to the routes in the webapp.
 - Import `services/api` to call backend API endpoints (you need to define them there first).
 - The `pages` folder contains components that are single-used and represent different pages (they usually make API calls and construct a page using other components).
+- The `types` directory contains type definitions for User, Box and Delivery, to aid Typescript
+- The `redux` folder contains the different slices used by Redux
+- 
 
 ## Available Scripts
 

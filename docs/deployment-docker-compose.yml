@@ -66,7 +66,10 @@ services:
     links:
       - ase-mongo-server
     depends_on:
-      - ase-eureka-server
+      - ase-user-service
+      - ase-auth-service
+      - ase-box-service
+      - ase-notification-service
     networks:
       - asedelivery
     environment:
@@ -164,7 +167,7 @@ services:
     environment:
       EUREKA_SERVICE_URL: http://ase-eureka-server:8500
       SERVER_PORT: 8088
-      FRONTEND_URL: http://ase-frontend:81
+      FRONTEND_URL: http://localhost:3000
     ports:
       - '8088:8088'
 
@@ -180,4 +183,4 @@ services:
     depends_on:
       - ase-gateway-server
     ports:
-      - "81:3000"
+      - "3000:3000"

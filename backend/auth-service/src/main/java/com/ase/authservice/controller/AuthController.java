@@ -1,10 +1,8 @@
 package com.ase.authservice.controller;
 
-import com.ase.authservice.dto.AuthDto;
 import com.ase.authservice.dto.AuthResponse;
 import com.ase.authservice.service.AuthService;
 
-import com.ase.client.com.ase.contract.UserDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
