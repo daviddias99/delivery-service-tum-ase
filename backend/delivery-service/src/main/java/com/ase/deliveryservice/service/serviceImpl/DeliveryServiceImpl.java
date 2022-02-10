@@ -276,6 +276,7 @@ public class DeliveryServiceImpl implements DeliveryService {
         }
 
         String header = "Information about your delivery ";
+
         String content = "<p>Hi," + receiver.getFirstName() + " " +receiver.getSurname() +
                 "</p>"
                 + "<p>We've received your delivery. You can track your delivery with the following tracking-number: </p>"
