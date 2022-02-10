@@ -18,4 +18,9 @@ public interface BoxServiceClient {
 
     @PostMapping(value = "/box/updateboxstatus")
     public ResponseEntity<ResponseMessage> updateBoxStatus(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody String boxId);
+
+
+    @GetMapping(value = "/box/service-call/{id}")
+    public ResponseEntity<BoxDto> getBoxByIdServiceCall (@RequestHeader(value = "Cookie", required = true) String cookie, @PathVariable String id);
+
 }
