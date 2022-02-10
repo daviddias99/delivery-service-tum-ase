@@ -18,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -67,6 +68,47 @@ public class DeliveryServiceImpl implements DeliveryService {
         }
 
         return newTrackingId;
+    }
+
+    @Override
+    public ResponseMessage validateCredentials(DeliveryDto deliveryDto) {
+
+        ResponseMessage respMessage = new ResponseMessage();
+        //Normally we can put if statements to the end bring them together by using AND operation.
+        // However, since we avoid service calls as much possible, i put conditional statements right after the service call
+        log.warn("Customer getOne");
+        UserDto customer = userServiceClient.getByIdServiceCall(service_cookie,deliveryDto.getCustomer().getId()).getBody();
+        if(customer==null){
+            respMessage.setResponseType(0);
+            respMessage.setResponseMessage("Customer can't be found");
+            return respMessage;
+        }
+        log.warn("Deliverer getOne");
+        UserDto deliverer = userServiceClient.getByIdServiceCall(service_cookie,deliveryDto.getDeliverer().getId()).getBody();
+        if(deliverer==null){
+            respMessage.setResponseType(0);
+            respMessage.setResponseMessage("Deliverer can't be found");
+            return respMessage;
+        }
+        log.warn("Dispatcher getOne");
+        UserDto dispatcher = userServiceClient.getByIdServiceCall(service_cookie,deliveryDto.getDispatcher().getId()).getBody();
+        if(dispatcher==null){
+            respMessage.setResponseType(0);
+            respMessage.setResponseMessage("Dispatcher can't be found");
+            return respMessage;
+        }
+        log.warn("BoxDto getById");
+        BoxDto boxDto = boxServiceClient.getBoxByIdServiceCall(service_cookie,deliveryDto.getBox().getId()).getBody();
+        if(boxDto==null){
+            respMessage.setResponseType(0);
+            respMessage.setResponseMessage("Box can't be found");
+            return respMessage;
+        }
+
+
+        respMessage.setResponseMessage("Successfully validated");
+        respMessage.setResponseType(1);
+        return respMessage;
     }
 
     // RETURN STATUS AND MESSAGE INSTEAD OF DTO!!!!
@@ -176,6 +218,9 @@ public class DeliveryServiceImpl implements DeliveryService {
         }
         return true;
     }
+
+
+
 
     @Override
     public List<DeliveryClientDto> getAllByDelivererId(String delivererId) {

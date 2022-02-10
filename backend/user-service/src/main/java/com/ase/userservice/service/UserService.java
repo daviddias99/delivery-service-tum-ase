@@ -19,11 +19,12 @@ public interface UserService {
     List<UserDto> getAll();
 
 
-
     Boolean deleteUser(String id);
 
 
     UserDto updateUser(UserDto user,String id);
 
     List<UserDto> getAllByRole(String role);
+
+
 }

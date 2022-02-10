@@ -19,6 +19,9 @@ public interface UserServiceClient {
     public ResponseEntity<UserDto> getByRfId(@RequestHeader(value = "Cookie", required = true) String cookie,@PathVariable String rfId);
 
 
+    @GetMapping(value = "/user/service-call/{id}")
+    public ResponseEntity<UserDto> getByIdServiceCall(@RequestHeader(value = "Cookie", required = true) String cookie,@PathVariable String id);
+
 
 
 }

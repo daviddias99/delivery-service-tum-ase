@@ -4,6 +4,7 @@ import com.ase.client.com.ase.contract.DeliveryClientDto;
 import com.ase.deliveryservice.dto.DeliveryDto;
 import com.ase.client.com.ase.contract.ResponseMessage;
 
+import com.ase.deliveryservice.dto.DeliveryResponse;
 import com.ase.deliveryservice.service.DeliveryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,15 +25,29 @@ public class DeliveryController {
     private ResponseMessage responseMessage;
 
     @PostMapping(value = "/add")
-    public ResponseEntity<DeliveryDto> addDelivery(@RequestBody DeliveryDto deliveryDto) {
+    public ResponseEntity<DeliveryResponse> addDelivery(@RequestBody DeliveryDto deliveryDto) {
 
         log.warn("add method is up");
+        DeliveryResponse deliveryResponse = new DeliveryResponse();
+
+        responseMessage = deliveryService.validateCredentials(deliveryDto);
+        if (responseMessage.getResponseType()==0){
+            deliveryResponse.setDeliveryDto(null);
+            deliveryResponse.setResponseMessage(responseMessage.getResponseMessage());
+            return ResponseEntity.badRequest().body(deliveryResponse);
+        }
+
         if(deliveryService.updateBoxStatus(deliveryDto) == false){
             log.warn("Box update to assigned failed");
-            return ResponseEntity.badRequest().body(null);
+            deliveryResponse.setDeliveryDto(null);
+            deliveryResponse.setResponseMessage("Box update to assigned failed");
+            return ResponseEntity.badRequest().body(deliveryResponse);
         }
+
         DeliveryDto deliveryDto1 = deliveryService.save(deliveryDto);
-        return ResponseEntity.ok(deliveryDto1);
+        deliveryResponse.setDeliveryDto(deliveryDto1);
+        deliveryResponse.setResponseMessage("Delivery Successfully created!");
+        return ResponseEntity.ok(deliveryResponse);
 
     }
 
@@ -48,6 +63,8 @@ public class DeliveryController {
     @GetMapping(value = "/{deliveryId}")
     public ResponseEntity<DeliveryDto> getOne(@PathVariable String deliveryId) {
         log.warn("GetOne controller is on");
+
+        //get user; if null: return bad request handle this in delivery service
 
         return ResponseEntity.ok(deliveryService.getById(deliveryId));
     }
@@ -92,6 +109,9 @@ public class DeliveryController {
 
     @GetMapping(value = "track/{trackingNumber}")
     public ResponseEntity<DeliveryDto> getByTrackingId(@PathVariable String trackingNumber) {
+        DeliveryDto deliveryDto= deliveryService.getByTrackingNumber(trackingNumber);
+        if(deliveryDto==null)
+            return ResponseEntity.badRequest().body(null);
         return ResponseEntity.ok(deliveryService.getByTrackingNumber(trackingNumber));
     }
 
