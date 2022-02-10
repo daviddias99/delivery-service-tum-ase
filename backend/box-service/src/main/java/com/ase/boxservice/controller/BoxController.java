@@ -65,6 +65,8 @@ public class BoxController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<BoxDto> getById ( @RequestHeader(value = "Cookie", required = true) String cookie, @PathVariable String id){
+        if(id.length() !=24) //mongo object id size is 24. If length is different than no need to go to service
+            return ResponseEntity.badRequest().body(null);
         return ResponseEntity.ok(boxService.getById(id));
     }
 
@@ -86,6 +88,14 @@ public class BoxController {
             return ResponseEntity.badRequest().body(null);
 
         return ResponseEntity.ok(updatedDto);
+    }
+
+
+    @GetMapping(value = "/service-call/{id}")
+    public ResponseEntity<BoxDto> getBoxByIdServiceCall ( @RequestHeader(value = "Cookie", required = true) String cookie, @PathVariable String id){
+        if(id.length() !=24) //mongo object id size is 24. If length is different than no need to go to service
+            return ResponseEntity.ok(null);
+        return ResponseEntity.ok(boxService.getById(id));
     }
 
 }

@@ -27,19 +27,16 @@ public class UserServiceImpl implements UserService {
 
 
 
+
   @Override
-  public UserDto getById(String id) {
+  public UserDto getById(String id){
 
-    if (!userRepository.existsById(new ObjectId(id)).booleanValue()) return null;
-
-    User tempUser = userRepository.findById(new ObjectId(id));
-
-    if (tempUser == null) {
+    if (!userRepository.existsById(new ObjectId(id)).booleanValue()){
       log.warn("user can't be found");
       return null;
     }
 
-
+    User tempUser = userRepository.findById(new ObjectId(id));
 
     return modelMapper.map(tempUser, UserDto.class);
   }

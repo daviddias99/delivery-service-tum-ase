@@ -13,6 +13,8 @@ public interface DeliveryService {
 
     String createTrackingId();
 
+    ResponseMessage validateCredentials(DeliveryDto deliveryDto);
+
     public DeliveryDto getById(String id);
 
     public DeliveryDto getByTrackingNumber(String TrackingNumber);

@@ -38,11 +38,13 @@ public class UserController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserDto> getOne(@PathVariable String id) {
         log.warn("User:getOne method is on. ID:"+id);
-        System.out.println("reached the get request");
+        if(id.length() !=24) //mongo object id size is 24. If length is different than no need to go to service
+            return ResponseEntity.badRequest().body(null);
         UserDto user = userService.getById(id);
+        /*
         if(user==null)
             return ResponseEntity.badRequest().body(null);
-
+*/
         return ResponseEntity.ok(user);
     }
 
@@ -154,5 +156,20 @@ public class UserController {
             return ResponseEntity.badRequest().body(userDto);
         return ResponseEntity.ok(userDto);
     }
+
+    @GetMapping(value = "/service-call/{id}")
+    public ResponseEntity<UserDto> getByIdServiceCall(@PathVariable String id) {
+        log.warn("User:getOne method is on. ID:"+id);
+        if(id.length() !=24) //mongo object id size is 24. If length is different than no need to go to service
+            return ResponseEntity.ok(null);
+        UserDto user = userService.getById(id);
+        /*
+        if(user==null)
+            return ResponseEntity.badRequest().body(null);
+*/
+        return ResponseEntity.ok(user);
+    }
+
+
 
 }
