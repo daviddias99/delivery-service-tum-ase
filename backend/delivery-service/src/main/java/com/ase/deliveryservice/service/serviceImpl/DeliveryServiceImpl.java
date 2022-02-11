@@ -347,6 +347,29 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
 
+    @Override
+    public Boolean hasDelivererActiveDeliveries(String delivererId) {
+
+        if(!deliveryRepository.existsByCustomerId(delivererId)){
+            return false;
+        }
+        List<Delivery> deliveries = deliveryRepository.getAllByDeliverer_Id(delivererId);
+        for(Delivery del:deliveries){
+
+            if(!del.getStatusHistory().get(0).getDeliveryStatus().equals(DeliveryStatus.collected) ){
+                return true;
+            }
+
+        }
+        return false;
+
+
+    }
+
+
+
+
+
 
     @Override
     public DeliveryDto getByTrackingNumber(String trackingNumber) {

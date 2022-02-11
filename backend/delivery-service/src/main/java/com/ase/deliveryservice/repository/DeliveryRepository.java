@@ -33,7 +33,7 @@ public interface DeliveryRepository extends MongoRepository<Delivery,String> {
 
     public List<Delivery> getByCustomerId(String id);
 
-
+    public List<Delivery> existsByDelivererId(String id);
 
 }
 
