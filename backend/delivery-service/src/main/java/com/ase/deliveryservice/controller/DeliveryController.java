@@ -83,7 +83,8 @@ public class DeliveryController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<ResponseMessage> deletebyId(@PathVariable String id) {
 
-        responseMessage = deliveryService.deleteDelivery(id);
+        DeliveryDto delivery = deliveryService.getById(id);
+        responseMessage = deliveryService.deleteDelivery(delivery, id);
 
         if (responseMessage.getResponseType() == 0) {
             return ResponseEntity.badRequest().body(responseMessage);
@@ -150,7 +151,7 @@ public class DeliveryController {
     @GetMapping(value="/active/{id}")
     public ResponseEntity<Boolean> hasDelivererActiveDeliveries(@RequestHeader(value = "Cookie", required = true) String cookie, @PathVariable String id){
 
-        Boolean isExists = deliveryService.hasPendingDelivery(id);
+        Boolean isExists = deliveryService.hasDelivererActiveDeliveries(id);
 
         return ResponseEntity.ok(isExists);
     }

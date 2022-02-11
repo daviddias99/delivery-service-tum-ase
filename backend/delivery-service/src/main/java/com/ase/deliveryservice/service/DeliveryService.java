@@ -19,7 +19,7 @@ public interface DeliveryService {
 
     public DeliveryDto getByTrackingNumber(String TrackingNumber);
 
-    public ResponseMessage deleteDelivery(String id);
+    public ResponseMessage deleteDelivery(DeliveryDto deliveryDto, String id);
 
     DeliveryDto updateDelivery(DeliveryDto deliveryDto, String id);
 

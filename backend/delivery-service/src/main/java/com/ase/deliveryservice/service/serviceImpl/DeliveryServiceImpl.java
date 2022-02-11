@@ -151,10 +151,12 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
-    public ResponseMessage deleteDelivery(String id) {
+    public ResponseMessage deleteDelivery(DeliveryDto deliveryDto, String id) {
         ObjectId objectId = new ObjectId(id);
+        
         if (deliveryRepository.existsById(objectId).booleanValue()) {
             deliveryRepository.deleteById(objectId);
+            boxServiceClient.updateBoxStatus(service_cookie, deliveryDto.getBox().getId());
             responseMessage.setResponseType(1);
             responseMessage.setResponseMessage("Delivery is deleted!");
         } else {
@@ -350,7 +352,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     public Boolean hasDelivererActiveDeliveries(String delivererId) {
 
-        if(!deliveryRepository.existsByCustomerId(delivererId)){
+        if(!deliveryRepository.existsByDelivererId(delivererId)){
             return false;
         }
         List<Delivery> deliveries = deliveryRepository.getAllByDeliverer_Id(delivererId);
