@@ -232,7 +232,7 @@ deploy-job:      # This job runs in the deploy stage.
     GATEWAY_SERVER : gateway-server
     NOTIFICATION_SERVICE : notification-service
     USER_SERVICE : user-service
-  # only:
-  #   changes:
-  #     - backend/**/*
-  #     - frontend/**/*
+  only:
+    changes:
+      - backend/**/*
+      - frontend/**/*
