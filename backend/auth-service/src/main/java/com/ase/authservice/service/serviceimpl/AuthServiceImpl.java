@@ -92,7 +92,7 @@ public class AuthServiceImpl implements AuthService {
         // get user by given email
         UserDetails user = loadUserByUsername(email);
         if (user == null) {
-            return new ResponseEntity<>(new AuthResponse("Email or password is incorrect"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new AuthResponse("User does not exist!"), HttpStatus.UNAUTHORIZED);
         }
 
         // authenticate using authManager and token of email and password
@@ -116,11 +116,11 @@ public class AuthServiceImpl implements AuthService {
                 return new ResponseEntity<>(new AuthResponse(modelMapper.map(tempUser, AuthDto.class), "Login Successful"), HttpStatus.OK);
             }
             else{
-                return new ResponseEntity<>(new AuthResponse("Email or password is incorrect"), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new AuthResponse("Email or password is incorrect"), HttpStatus.UNAUTHORIZED);
             }
         } catch (BadCredentialsException e){
             e.printStackTrace();
-            return new ResponseEntity<>(new AuthResponse("Email or password is incorrect"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new AuthResponse("Email or password is incorrect"), HttpStatus.UNAUTHORIZED);
         } catch (Exception ex){
             ex.printStackTrace();
             return new ResponseEntity<>(new AuthResponse("Internal Server Error"), HttpStatus.INTERNAL_SERVER_ERROR);
