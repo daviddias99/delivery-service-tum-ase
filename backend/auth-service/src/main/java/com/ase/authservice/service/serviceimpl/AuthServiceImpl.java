@@ -89,6 +89,11 @@ public class AuthServiceImpl implements AuthService {
         String email = decoded.split(":", 2)[0];
         String password = decoded.split(":", 2)[1];
 
+
+        if(email.equals("deleted")){
+            return new ResponseEntity<>(new AuthResponse("Invalid Credentials!"), HttpStatus.UNAUTHORIZED);
+        }
+
         // get user by given email
         UserDetails user = loadUserByUsername(email);
         if (user == null) {

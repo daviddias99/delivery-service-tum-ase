@@ -18,6 +18,7 @@ const routes = {
 
   // Delivery
   delivery: (id: string) => `/delivery/${id}`,
+  deleteDelivery: (id: string) => `/delivery/${id}`,
   updateDelivery: (id: string) => `/delivery/update/${id}`,
   updateUser: (id:string) => `/user/update/${id}`,
   deliveryByTracking: (id: string) => `/delivery/track/${id}`,
@@ -152,6 +153,9 @@ const api = {
   },
   getDelivery: (id: string, callback: (_res: AxiosResponse<any, any>) => void) => {
     request(routes.delivery(id), 'get', null, callback);
+  },
+  deleteDelivery: (id: string, callback: (_res: AxiosResponse<any, any>) => void) => {
+    request(routes.deleteDelivery(id), 'delete', null, callback);
   },
   createDelivery: (data: any, callback: (_res: AxiosResponse<any, any>) => void) => {
     request(routes.createDelivery, 'post', data, callback);
