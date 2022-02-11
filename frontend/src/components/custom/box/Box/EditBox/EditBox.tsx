@@ -35,7 +35,6 @@ const EditBox = ({ initialData }: { initialData: any }) => {
     addressInfo.city = formData.city;
     addressInfo.postalCode = formData.postalCode;
     newBox.address = addressInfo;
-
     const callback = (data: AxiosResponse<any, any>) => {
       if (data.status !== 200) {
         return;
@@ -56,7 +55,7 @@ const EditBox = ({ initialData }: { initialData: any }) => {
             Edit the following Cells.
           </DialogContentText>
           <Grid container spacing={3}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={20} sm={20}>
               <TextField
                 required
                 autoFocus
@@ -67,61 +66,6 @@ const EditBox = ({ initialData }: { initialData: any }) => {
                 fullWidth
                 value={formData.name}
                 onChange={(e) => handleFormDataChange({ name: e.target.value })}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                autoFocus
-                margin="dense"
-                id="adress"
-                label=" Address"
-                type="adress"
-                fullWidth
-                value={formData.address}
-                onChange={(e) => handleFormDataChange({ address: e.target.value })}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="co"
-                label=" Co"
-                type="co"
-                fullWidth
-                value={formData.co}
-                onChange={(e) => handleFormDataChange({ co: e.target.value })}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                autoFocus
-                margin="dense"
-                id="city"
-                label=" City"
-                type="city"
-                fullWidth
-                value={formData.city}
-                onChange={(e) => handleFormDataChange({ city: e.target.value })}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                autoFocus
-                margin="dense"
-                id="postalCode"
-                label=" Postal Code"
-                type="postalCode"
-                fullWidth
-                value={formData.postalCode}
-                onChange={(e) => handleFormDataChange({ postalCode: e.target.value })}
                 variant="outlined"
               />
             </Grid>

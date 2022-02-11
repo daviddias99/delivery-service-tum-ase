@@ -21,7 +21,7 @@ public interface DeliveryService {
 
     public ResponseMessage deleteDelivery(String id);
 
-    DeliveryClientDto updateDelivery(DeliveryDto deliveryDto, String id);
+    DeliveryDto updateDelivery(DeliveryDto deliveryDto, String id);
 
     public List<DeliveryDto> getAll();
 
@@ -38,6 +38,8 @@ public interface DeliveryService {
     public EmailDto prepareSendEmail(DeliveryDto deliveryDto);
 
     public ResponseMessage dispatch(String id);
+
+    Boolean hasPendingDelivery(String customerId);
 }
 
 

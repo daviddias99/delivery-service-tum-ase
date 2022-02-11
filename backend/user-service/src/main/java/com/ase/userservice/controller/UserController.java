@@ -23,15 +23,13 @@ public class UserController {
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Boolean> deletebyId (@PathVariable String id) {
-        UserDto userDto = userService.getById(id);
-        userDto.setEmail("deleted");
-        userDto.setRfId("deleted");
-        userDto.setFirstName("deleted");
-        userDto.setSurname("deleted");
-        UserDto userUpdated = userService.updateUser(userDto,id);
-        if(userUpdated==null)
-            return ResponseEntity.badRequest().body(false);
-        return ResponseEntity.ok(true);
+        Boolean isDeleted= userService.deleteUser(id);
+
+        if(isDeleted)
+            return ResponseEntity.ok(true);
+
+        return ResponseEntity.badRequest().body(false);
+
     }
 
 

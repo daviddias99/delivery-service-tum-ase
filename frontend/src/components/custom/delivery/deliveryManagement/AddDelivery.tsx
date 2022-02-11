@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button } from '@mui/material';
+import {Alert, Button, Snackbar} from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import DeliveryForm from './DeliveryForm';
 import { useState } from 'react';
@@ -13,6 +13,8 @@ import { AxiosResponse } from 'axios';
 const AddDelivery = () => {
   const user = useSelector(loggedUser);
   const [open, setOpen] = useState(false);
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [additionError, setAdditionError] = useState('');
 
   const handleClickOpen = () => {
@@ -50,17 +52,35 @@ const AddDelivery = () => {
     const callback = (response: AxiosResponse<any, any>) => {
       if (response.status !== 200) {
         setAdditionError('Could not create delivery');
+        setError(true);
         return;
+      } else if (response.status === 200) {
+        setSuccess(true);
       }
-
       dispatch(updateDeliveries([...list, response.data.deliveryDto]));
     };
 
     api.createDelivery(newDelivery, callback);
   };
+  const handleError = () => {
+    setError(false);
+  };
 
+  const handleSuccess = () => {
+    setSuccess(false);
+  };
   return (
     <div style={{ display: 'inline-block' }}>
+      <Snackbar open={error} autoHideDuration={6000} onClose={handleError}>
+        <Alert severity="error" sx={{ width: '100%' }}>
+          This is a error message! Could not create the delivery.
+        </Alert>
+      </Snackbar>
+      <Snackbar open={success} autoHideDuration={6000} onClose={handleSuccess}>
+        <Alert severity="success" sx={{ width: '100%' }}>
+          Delivery successfully added.
+        </Alert>
+      </Snackbar>
       <Button variant="contained" color="success" sx={{ mr: 6 }} startIcon={<AddIcon />} onClick={handleClickOpen}>
         Create delivery
       </Button>

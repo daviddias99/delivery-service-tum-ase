@@ -52,12 +52,23 @@ public class DeliveryController {
     }
 
     @PutMapping(value = "/update/{id}")
-    public ResponseEntity<DeliveryClientDto> updateDelivery(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody DeliveryDto deliveryDto, @PathVariable String id) {
-        DeliveryClientDto updatedDto = deliveryService.updateDelivery(deliveryDto, id);
+    public ResponseEntity<DeliveryResponse> updateDelivery(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody DeliveryDto deliveryDto, @PathVariable String id) {
+        DeliveryResponse deliveryResponse = new DeliveryResponse();
+
+        responseMessage = deliveryService.validateCredentials(deliveryDto);
+        if (responseMessage.getResponseType()==0){
+            deliveryResponse.setDeliveryDto(null);
+            deliveryResponse.setResponseMessage(responseMessage.getResponseMessage());
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        DeliveryDto updatedDto = deliveryService.updateDelivery(deliveryDto, id);
         if (updatedDto == null)
             return ResponseEntity.badRequest().body(null);
 
-        return ResponseEntity.ok(updatedDto);
+        deliveryResponse.setDeliveryDto(updatedDto);
+        deliveryResponse.setResponseMessage("Delivery Successfully updated!");
+        return ResponseEntity.ok(deliveryResponse);
     }
 
     @GetMapping(value = "/{deliveryId}")
@@ -126,4 +137,14 @@ public class DeliveryController {
 
         return ResponseEntity.ok(responseMessage);
     }
+
+    @GetMapping(value="/pending/{id}")
+    public ResponseEntity<Boolean> hasPendingDelivery(@RequestHeader(value = "Cookie", required = true) String cookie, @PathVariable String id){
+
+        Boolean isExists = deliveryService.hasPendingDelivery(id);
+
+        return ResponseEntity.ok(isExists);
+    }
+
+
 }

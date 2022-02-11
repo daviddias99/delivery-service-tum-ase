@@ -1,3 +1,43 @@
 [
-
+  {
+    "_id": {
+      "$oid": "61bf5771c97b65ccce150b74"
+    },
+    "trackingId": "aa0973a7-312a-54db-b1d5-130ed474921c",
+    "dispatcher": {
+      "id":"61bf5a9999c953002403fe1e",
+      "name": "Dora"
+    },
+    "box": {
+      "id": "61bf075a8eacfd14e5630547",
+      "name": "Garching"
+    },
+    "deliverer": {
+      "id":"61bf5a997939d10e8eb5efda",
+      "name": "Jerome"
+    },
+    "customer": {
+      "id":"61bf5a990b34662c837c4001",
+      "name": "Erik"
+    },
+    "statusHistory": [
+      {
+        "deliveryStatus": "collected",
+        "statusUpdate": "2021-11-19T22:39:10+02:00"
+      },
+      {
+        "deliveryStatus": "delivered",
+        "statusUpdate": "2021-11-18T22:39:10+02:00"
+      },
+      {
+        "deliveryStatus": "dispatched",
+        "statusUpdate": "2021-11-17T22:39:10+02:00"
+      },
+      {
+        "deliveryStatus": "ordered",
+        "statusUpdate": "2021-11-16T22:39:10+02:00"
+      }
+    ],
+    "description": "Your package from the ASE department store."
+  }
 ]

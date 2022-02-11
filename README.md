@@ -12,39 +12,40 @@ are authorized to unlock the box. The Customers are informed when their delivery
 picked up successfully_
 
 
-## Getting Started 
-1. We used Spring Cloud Netflix **Eureka** as a discovery server, **Spring Cloud Gateway** to build an API gateway, **FeignClient** for inter-service communication and Config Server for all configurations.
-2. Maven is used for comprehension tool in order to manage backend project.
-3. Whole system is dockerized and docker file is located in doc folder
+## Information
 
+The system follows a microservice architecture, and it's C4 container diagrams can be found in `contribution/`. We can split the system into frontend, backend and device.
 
-### Usage
-The best way to run the whole system (both front-end and backend) is with IDEs or by using Docker.
-If you want to run the backend in your local, you need to have Maven and JDK11+.  If you run it on the local, then you should follow order below:
-1. Run Config Server and compose the docker-compose.yml file in doc folder
-2. Run Eureka and Gateway Server and Auth Service
-3. From now on you can run any other services.
+Information on the contribution of each team member can be found in the `contribution.pdf` file under the `contribution` folder.
 
-If you want to run the whole system in docker:
-1. Build root module to create all .jar files
-2. Go to docs folder
-3. Run the command: docker-compose deployment-docker-compose up -d
-4. The config container must be run first, as the config service has all the required configuration. Then database and Eureka-server containers should be run.
-5. All remaining containers can be run together after completing the previous step.
+## Description
 
-## Architecture
+The device code, is located in a different repository. Please visit this [link](https://gitlab.lrz.de/ase-21-22/team-20/ase-box) for information on how to run the box code. 
 
-Our system consists of the following modules:
-- **config-server** - This module uses Spring Cloud Config Server to store all configurations in backend system.
-- **gateway-server** - Spring Cloud Gateway acts as a gateway in out system.
-- **discovery-server** - We use Netflix Eureka as a  discovery server.
-- **user-service** - This module allows to perform CRUD operation and other business-realated ops on user database
-- **auth-service** - This module is responsible from the security of the system.
-- **box-service**  - This module allows to perform CRUD operation and other business-realated ops on box collection
-- **delivery-service** - This module allows to perform CRUD operation and other business-realated ops on delivery collection
-- **notification-service** - It is implemented to send e-mails to customers
-- **service-communication** - This FeignClient module is created to provide communication between microservices. 
+The frontend code (user interface) is located in the `frontend` directory. Instructions on how to compile and run it manually can be found in the `README` file on the `frontend` directory.
 
- Following image illustrates the basic architecture of the whole system
+The backend code (microservices) can be found in the `backend` direcotry. Instructions on how to compile and run it manually can be found in the `README` file on the `backend` directory
 
-<img src="https://i.postimg.cc/4dMBFhWx/Microservices-Diagram-Page-2-1.jpg"><br/>
+The `docs` directory contains docker-compose files as well as database seeds.
+
+## Running the database
+
+To start only the database (for example, for local development), run the `docker-compose up` command on the `docs` folder.
+
+## Running the project using docker
+
+1. Ensure that the `.env` file in `frontend` is configured with the correct backend URL
+2. Package the backend services by running `mvn package` on the `backend` directory
+3. Build containers by running the `docker-compose -f deployment-docker-compose.yml build` command
+4. Run system by issuing the following commands* (wait for services to boot before issuing next command) in the `docs` directory:
+   1. `docker-compose -f deployment-docker-compose.yml up ase-mongo-server`
+   2. `docker-compose -f deployment-docker-compose.yml up ase-config-server`
+   3. `docker-compose -f deployment-docker-compose.yml up ase-eureka-server`
+   4. `docker-compose -f deployment-docker-compose.yml up ase-delivery-service` (this will turn on all other services because we purposefuly made this one depend on all others)
+   5. `docker-compose -f deployment-docker-compose.yml up ase-frontend`
+5. Access frontend application in `http://localhost:3000`
+6. The database can be seeded using the seeds in `docs/seeds`. Ex: `mongoimport --db mongo-ase-db --collection delivery --drop --jsonArray --file ./delivery_seed.json`. The database names are `mongo-ase-db` and `mongo-ase-user`, the collections are `delivery`, `boxes` and `users`
+
+Note that environment variables can also be configured in the docker-compose files.
+
+*Usually a `docker-compose up` command is enough, however, since services have a certain order of boot up, we can't ensure it using only the  `depends_on` clause. This is because docker compose only checks for container startup, and not if the spring boot service is fully loaded.
