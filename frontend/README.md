@@ -32,7 +32,7 @@ REACT_APP_API_URI=http://localhost:8000 # URI for the backend API
 - The `pages` folder contains components that are single-used and represent different pages (they usually make API calls and construct a page using other components).
 - The `types` directory contains type definitions for User, Box and Delivery, to aid Typescript
 - The `redux` folder contains the different slices used by Redux
-- 
+- The `nginx` folder contains configuration files used for deploying the application in an nginx instance
 
 ## Available Scripts
 
