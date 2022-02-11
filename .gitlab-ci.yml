@@ -218,10 +218,10 @@ deploy-job:      # This job runs in the deploy stage.
 
     - ssh $AWS_USERHOST "docker-compose -f docker-compose.yml pull && docker-compose -f docker-compose.yml up --force-recreate -d"
 
-    - ssh $AWS_USERHOST "docker-compose -f deployment-docker-compose.yml pull && docker-compose -f deployment-docker-compose.yml up --force-recreate -d"
+    - ssh $AWS_USERHOST "docker-compose -f deployment-docker-compose-cd.yml pull && docker-compose -f deployment-docker-compose-cd.yml up --force-recreate -d"
 
   variables:
-    DOCKER_COMPOSE_FILE : docs/deployment-docker-compose.yml
+    DOCKER_COMPOSE_FILE : docs/deployment-docker-compose-cd.yml
     DOCKER_COMPOSE_MONGO : docs/docker-compose.yml
     FRONTEND_IMAGE_NAME : ase-frontend
     AUTH_SERVICE : auth-service
