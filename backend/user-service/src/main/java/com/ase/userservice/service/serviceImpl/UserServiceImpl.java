@@ -1,5 +1,7 @@
 package com.ase.userservice.service.serviceImpl;
 
+import com.ase.client.BoxServiceClient;
+import com.ase.client.DeliveryServiceClient;
 import com.ase.client.com.ase.contract.ResponseMessage;
 import com.ase.userservice.dto.RegistrationDto;
 import com.ase.userservice.entity.User;
@@ -10,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,9 +27,9 @@ public class UserServiceImpl implements UserService {
 
   @Autowired private UserRepository userRepository;
   @Autowired private ModelMapper modelMapper;
+  @Autowired private DeliveryServiceClient deliveryServiceClient;
 
-
-
+  private final String service_cookie = "jwt=eyJhbGciOiJSUzI1NiJ9.eyJyb2xlcyI6W3sicm9sZSI6IlJPTEVfQk9YIn1dLCJzdWIiOiJCT1giLCJpc3MiOiJhc2VEZWxpdmVyeSIsImlhdCI6MTY0MjAwNTE2OCwiZXhwIjo0MDcyMzUxMjQxfQ.UHdagX4q4DD-3rZd9XoDChRZ926iN0WSqibuXZqI4B3TS5T1PT_Vz1UN_UzpQFxTDWd1Cze7Kj67veeWWA4ZOyHY14At_IHVdcVZqZF2ezxwrKXNKOeHZB7_gFtHqc27uscjf6CbckpCcgnML9r857BMNlOO3kf--Tz1pyYlK-jJzz6sj_sSW1RNln6MZmi6_K59vZryemvFkth4cukKzUkwsNzOu6H2nJtY0Cqhqp5OPKf1QOEKRUgE_aX6EBVf8598aFp3YNoUU9y8HravhiMKV1Y9jDt89sIn_Mf86wpAAnk-zkRAeWdPLvHQRNwRarGWYkBrZb9qZcdCz-AJ1g";
 
   @Override
   public UserDto getById(String id){
@@ -84,12 +87,28 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public Boolean deleteUser(String id) {
-    if (userRepository.existsById(new ObjectId(id)).booleanValue()) {
-      userRepository.deleteById(id);
-      return true;
-    } else {
-      return false;
+    if (userRepository.existsById(new ObjectId(id))) {
+
+      Boolean hasPendingDelivery = deliveryServiceClient.hasPendingDelivery(service_cookie, id).getBody();
+
+      if(hasPendingDelivery)
+        return false;
+
+      UserDto userDto = getById(id);
+      userDto.setEmail("deleted");
+      userDto.setRfId("deleted");
+      userDto.setFirstName("deleted");
+      userDto.setSurname("deleted");
+      UserDto userUpdated = updateUser(userDto,id);
+      if(userUpdated!=null)
+        return true;
+
     }
+    return false;
+
+
+
+
   }
 
   @Override

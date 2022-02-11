@@ -324,6 +324,31 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
+    public Boolean hasPendingDelivery(String customerId) {
+
+        if(!deliveryRepository.existsByCustomerId(customerId)){
+            return false;
+        }
+        List<Delivery> customerDeliveries = deliveryRepository.getAllByCustomer_Id(customerId);
+        int num_deliveries = customerDeliveries.size();
+        int del_ind =0;
+        for(Delivery del:customerDeliveries){
+
+            if(del.getStatusHistory().get(0).getDeliveryStatus().equals(DeliveryStatus.collected) ){
+                del_ind +=1;
+
+            }
+            if(del_ind==num_deliveries)
+                return false;
+        }
+        return true;
+
+
+    }
+
+
+
+    @Override
     public DeliveryDto getByTrackingNumber(String trackingNumber) {
         Delivery delivery = deliveryRepository.getByTrackingNumber(trackingNumber);
 
