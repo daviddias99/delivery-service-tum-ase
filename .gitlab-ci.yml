@@ -128,34 +128,38 @@ backend:publish:
     - echo "CI registry user " $CI_REGISTRY_USER
     - docker login -u $CI_REGISTRY_USER -p $CI_PASSWORD $CI_REGISTRY
     
-    - docker build -t $AUTH_SERVICE:1.0 $AUTH_SERVICE/
+    - docker build -t $AUTH_SERVICE:latest $AUTH_SERVICE/
     - docker image tag $AUTH_SERVICE $CI_REGISTRY/$CI_PROJECT_LOCATION:$AUTH_SERVICE 
     - docker push $CI_REGISTRY/$CI_PROJECT_LOCATION:$AUTH_SERVICE
 
-    - docker build -t $BOX_SERVICE:1.0 $BOX_SERVICE/
+    - docker build -t $BOX_SERVICE:latest $BOX_SERVICE/
     - docker image tag $BOX_SERVICE $CI_REGISTRY/$CI_PROJECT_LOCATION:$BOX_SERVICE 
     - docker push $CI_REGISTRY/$CI_PROJECT_LOCATION:$BOX_SERVICE
 
-    - docker build -t $CONFIG_SERVER:1.0 $CONFIG_SERVER/
+    - docker build -t $CONFIG_SERVER:latest $CONFIG_SERVER/
     - docker image tag $CONFIG_SERVER $CI_REGISTRY/$CI_PROJECT_LOCATION:$CONFIG_SERVER 
     - docker push $CI_REGISTRY/$CI_PROJECT_LOCATION:$CONFIG_SERVER
 
-    - docker build -t $DELIVERY_SERVICE:1.0 $DELIVERY_SERVICE/
+    - docker build -t $DELIVERY_SERVICE:latest $DELIVERY_SERVICE/
     - docker image tag $DELIVERY_SERVICE $CI_REGISTRY/$CI_PROJECT_LOCATION:$DELIVERY_SERVICE 
     - docker push $CI_REGISTRY/$CI_PROJECT_LOCATION:$DELIVERY_SERVICE
 
-    - docker build -t $EUREKA_SERVER:1.0 $EUREKA_SERVER/
+    - docker build -t $EUREKA_SERVER:latest $EUREKA_SERVER/
     - docker image tag $EUREKA_SERVER $CI_REGISTRY/$CI_PROJECT_LOCATION:$EUREKA_SERVER 
     - docker push $CI_REGISTRY/$CI_PROJECT_LOCATION:$EUREKA_SERVER
 
 
-    - docker build -t $GATEWAY_SERVER:1.0 $GATEWAY_SERVER/
+    - docker build -t $GATEWAY_SERVER:latest $GATEWAY_SERVER/
     - docker image tag $GATEWAY_SERVER $CI_REGISTRY/$CI_PROJECT_LOCATION:$GATEWAY_SERVER 
     - docker push $CI_REGISTRY/$CI_PROJECT_LOCATION:$GATEWAY_SERVER
 
-    - docker build -t $NOTIFICATION_SERVICE:1.0 $NOTIFICATION_SERVICE/
+    - docker build -t $NOTIFICATION_SERVICE:latest $NOTIFICATION_SERVICE/
     - docker image tag $NOTIFICATION_SERVICE $CI_REGISTRY/$CI_PROJECT_LOCATION:$NOTIFICATION_SERVICE 
     - docker push $CI_REGISTRY/$CI_PROJECT_LOCATION:$NOTIFICATION_SERVICE
+
+    - docker build -t $USER_SERVICE:latest $USER_SERVICE/
+    - docker image tag $USER_SERVICE $CI_REGISTRY/$CI_PROJECT_LOCATION:$USER_SERVICE 
+    - docker push $CI_REGISTRY/$CI_PROJECT_LOCATION:$USER_SERVICE
 
 
   variables:
@@ -167,6 +171,7 @@ backend:publish:
     EUREKA_SERVER : eureka-server
     GATEWAY_SERVER : gateway-server
     NOTIFICATION_SERVICE : notification-service
+    USER_SERVICE : user-service
   only:
     changes:
       - backend/**/*
@@ -180,32 +185,53 @@ deploy-job:      # This job runs in the deploy stage.
   script:
     - echo "Start building docker compose"
     - echo "Deploying application..."
-    - 'which ssh-agent || (apt-get update -y && apt-get install openssh-client -y )'
+    - 'which ssh-agent || (apt-get update -y && apt-get install openssh-client git-core -y )'
     - mkdir ~/.ssh && touch ~/.ssh/config
-    - echo -e "Host +\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - chmod 644 ~/.ssh
+    - ssh-keyscan -t rsa gitlab.lrz.de >> ~/.ssh/known_hosts
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     - eval $(ssh-agent -s)
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
 
 
-    - cat $AWS_PEM_KEY | tr -d '\r' | ssh-add -
+
+    - cat $AWS_PEM_KEY | ssh-add -
     - echo "AWS Host  " $AWS_USER_HOST
     - echo "DOCKER COMPOSE FILE "  $DOCKER_COMPOSE_FILE
     - cat $DOCKER_COMPOSE_FILE | head -10
     - pwd
+    - ls 
+    - chmod 777 $DOCKER_COMPOSE_FILE
     - ls -l docs/
-    - chmod -R 777 $DOCKER_COMPOSE_FILE
-    - ls -l docs/
-    - scp $DOCKER_COMPOSE_FILE ubuntu@ec2-34-229-221-46.compute-1.amazonaws.com:/home/ubuntu/
+    - echo "running scp command"
+    - scp -r $DOCKER_COMPOSE_FILE $AWS_USERHOST:/home/ubuntu/
     - scp $DOCKER_COMPOSE_MONGO $AWS_USERHOST:/home/ubuntu/
-    - ssh $AWS_USER_HOST  " docker login -u $CI_USERNAME -p $CI_PASSWORD $CI_REGISTRY"
-    - ssh $AWS_USER_HOST "docker-compose -f $DOCKER_COMPOSE_MONGO pull && docker-compose -f $DOCKER_COMPOSE_MONGO up --force-recreate -d"
+    - ssh $AWS_USERHOST  "docker login -u $CI_USERNAME -p $CI_PASSWORD $CI_REGISTRY"
+    - ssh $AWS_USERHOST "docker pull $CI_REGISTRY/$CI_PROJECT_LOCATION:$FRONTEND_IMAGE_NAME || true"
+    - ssh $AWS_USERHOST "docker pull $CI_REGISTRY/$CI_PROJECT_LOCATION:$AUTH_SERVICE || true"
+    - ssh $AWS_USERHOST "docker pull $CI_REGISTRY/$CI_PROJECT_LOCATION:$BOX_SERVICE || true"
+    - ssh $AWS_USERHOST "docker pull $CI_REGISTRY/$CI_PROJECT_LOCATION:$CONFIG_SERVER || true"
+    - ssh $AWS_USERHOST "docker pull $CI_REGISTRY/$CI_PROJECT_LOCATION:$DELIVERY_SERVICE || true"
+    - ssh $AWS_USERHOST "docker pull $CI_REGISTRY/$CI_PROJECT_LOCATION:$GATEWAY_SERVER || true"
+    - ssh $AWS_USERHOST "docker pull $CI_REGISTRY/$CI_PROJECT_LOCATION:$EUREKA_SERVER || true"
+    - ssh $AWS_USERHOST "docker pull $CI_REGISTRY/$CI_PROJECT_LOCATION:$NOTIFICATION_SERVICE || true"
+    - ssh $AWS_USERHOST "docker pull $CI_REGISTRY/$CI_PROJECT_LOCATION:$USER_SERVICE || true"
 
-    - ssh $AWS_USER_HOST "docker-compose -f $DOCKER_COMPOSE_FILE pull && docker-compose -f $DOCKER_COMPOSE_FILE up --force-recreate -d"
+    - ssh $AWS_USERHOST "docker-compose -f docker-compose.yml pull && docker-compose -f docker-compose.yml up --force-recreate -d"
+
+    - ssh $AWS_USERHOST "docker-compose -f deployment-docker-compose.yml pull && docker-compose -f deployment-docker-compose.yml up --force-recreate -d"
 
   variables:
     DOCKER_COMPOSE_FILE : docs/deployment-docker-compose.yml
     DOCKER_COMPOSE_MONGO : docs/docker-compose.yml
+    FRONTEND_IMAGE_NAME : ase-frontend
+    AUTH_SERVICE : auth-service
+    BOX_SERVICE : box-service
+    CONFIG_SERVER : config-server
+    DELIVERY_SERVICE : delivery-service
+    EUREKA_SERVER : eureka-server
+    GATEWAY_SERVER : gateway-server
+    NOTIFICATION_SERVICE : notification-service
+    USER_SERVICE : user-service
   # only:
   #   changes:
   #     - backend/**/*
