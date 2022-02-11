@@ -21,7 +21,7 @@ public interface DeliveryService {
 
     public ResponseMessage deleteDelivery(String id);
 
-    DeliveryClientDto updateDelivery(DeliveryDto deliveryDto, String id);
+    DeliveryDto updateDelivery(DeliveryDto deliveryDto, String id);
 
     public List<DeliveryDto> getAll();
 

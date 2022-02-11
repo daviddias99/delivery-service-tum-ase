@@ -167,7 +167,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
-    public DeliveryClientDto updateDelivery(DeliveryDto deliveryDto, String id) {
+    public DeliveryDto updateDelivery(DeliveryDto deliveryDto, String id) {
 
         Delivery delivery = deliveryRepository.findById(new ObjectId(id));
         String initialBoxId = delivery.getBox().getId();
@@ -184,9 +184,7 @@ public class DeliveryServiceImpl implements DeliveryService {
         boxServiceClient.updateBoxStatus(service_cookie, finalBoxId);
 
 
-
-
-        return modelMapper.map(deliveryDto, DeliveryClientDto.class);
+        return deliveryDto;
     }
 
     @Override
@@ -218,9 +216,7 @@ public class DeliveryServiceImpl implements DeliveryService {
         if(boxDto.getStatus().equals(BoxStatus.assigned)){
             List<Delivery> deliveries = deliveryRepository.getAllByBox_Id(boxId);
             for(Delivery delivery:deliveries){
-                
-                if (!delivery.getStatusHistory().get(0).getDeliveryStatus().equals(DeliveryStatus.collected) && !delivery.getCustomer().getId().equals(deliveryDto.getCustomer().getId())){
-                    log.warn("Box has assigned to other customer's delivery");
+                if (!delivery.getStatusHistory().equals(DeliveryStatus.collected) && !delivery.getCustomer().getId().equals(deliveryDto.getCustomer().getId())){                    log.warn("Box has assigned to other customer's delivery");
                     return false;
                 }
             }
