@@ -25,4 +25,8 @@ public interface DeliveryServiceClient {
     public ResponseEntity<Boolean> hasPendingDelivery(@RequestHeader(value = "Cookie", required = true) String cookie, @PathVariable String id);
 
 
+    @GetMapping(value="/active/{id}")
+    public ResponseEntity<Boolean> hasDelivererActiveDeliveries(@RequestHeader(value = "Cookie", required = true) String cookie, @PathVariable String id);
+
+
 }

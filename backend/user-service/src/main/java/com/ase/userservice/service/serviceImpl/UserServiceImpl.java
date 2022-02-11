@@ -88,14 +88,28 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public Boolean deleteUser(String id) {
-    if (userRepository.existsById(new ObjectId(id))) {
+    if (!userRepository.existsById(new ObjectId(id)))
+      return false;
+
+    UserDto userDto = getById(id);
+    if(userDto.getRole().equals("CUSTOMER")){
 
       Boolean hasPendingDelivery = deliveryServiceClient.hasPendingDelivery(service_cookie, id).getBody();
 
       if(hasPendingDelivery)
         return false;
+    }
 
-      UserDto userDto = getById(id);
+    if(userDto.getRole().equals("DELIVERER")){
+
+      Boolean hasActiveDeliveries = deliveryServiceClient.hasDelivererActiveDeliveries(service_cookie, id).getBody();
+
+      if(hasActiveDeliveries)
+        return false;
+    }
+
+
+
       userDto.setEmail("deleted");
       userDto.setRfId("deleted");
       userDto.setFirstName("deleted");
@@ -104,7 +118,6 @@ public class UserServiceImpl implements UserService {
       if(userUpdated!=null)
         return true;
 
-    }
     return false;
 
 

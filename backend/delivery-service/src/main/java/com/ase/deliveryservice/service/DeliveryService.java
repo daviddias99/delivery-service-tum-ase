@@ -40,6 +40,8 @@ public interface DeliveryService {
     public ResponseMessage dispatch(String id);
 
     Boolean hasPendingDelivery(String customerId);
+
+    Boolean hasDelivererActiveDeliveries(String delivererId);
 }
 
 
