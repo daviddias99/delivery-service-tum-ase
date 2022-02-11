@@ -21,11 +21,11 @@ public interface DeliveryServiceClient {
     @PutMapping(value = "/delivery/update/{id}")
     public ResponseEntity<DeliveryClientDto> updateDelivery(@RequestHeader(value = "Cookie", required = true) String cookie, @RequestBody DeliveryClientDto deliveryDto, @PathVariable String id);
 
-    @GetMapping(value="delivery/pending/{id}")
+    @GetMapping(value="/delivery/pending/{id}")
     public ResponseEntity<Boolean> hasPendingDelivery(@RequestHeader(value = "Cookie", required = true) String cookie, @PathVariable String id);
 
 
-    @GetMapping(value="/active/{id}")
+    @GetMapping(value="/delivery/active/{id}")
     public ResponseEntity<Boolean> hasDelivererActiveDeliveries(@RequestHeader(value = "Cookie", required = true) String cookie, @PathVariable String id);
 
 
