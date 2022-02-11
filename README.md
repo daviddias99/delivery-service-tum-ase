@@ -49,3 +49,7 @@ To start only the database (for example, for local development), run the `docker
 Note that environment variables can also be configured in the docker-compose files.
 
 *Usually a `docker-compose up` command is enough, however, since services have a certain order of boot up, we can't ensure it using only the  `depends_on` clause. This is because docker compose only checks for container startup, and not if the spring boot service is fully loaded.
+
+## Project Demo
+
+You can see our demo [here](https://www.youtube.com/watch?v=fGUQT8dX-JA&ab_channel=gallowmere99)
