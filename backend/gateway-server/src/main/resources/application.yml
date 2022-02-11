@@ -42,7 +42,7 @@ spring:
 
 
 app:
-  address: ${FRONTEND_URL:localhost:3000}
+  address: ${FRONTEND_URL:http://localhost:3000}
 
 server:
   port: 8088

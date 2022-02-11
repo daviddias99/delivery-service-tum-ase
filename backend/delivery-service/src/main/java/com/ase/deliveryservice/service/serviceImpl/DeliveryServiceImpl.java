@@ -215,7 +215,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 
 
 
-        if(boxDto.getStatus().equals(BoxStatus.assigned)){
+        if(boxDto.getStatus().equals(BoxStatus.assigned) || boxDto.getStatus().equals(BoxStatus.active)){
             List<Delivery> deliveries = deliveryRepository.getAllByBox_Id(boxId);
             for(Delivery delivery:deliveries){
                 
