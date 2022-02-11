@@ -150,7 +150,7 @@ public class UserServiceImpl implements UserService {
   @Override
   public UserDto updateUser(UserDto tempUser, String id) {
     User dbUser = userRepository.findById(new ObjectId(id));
-    if (!dbUser.getEmail().equals(tempUser.getEmail())
+    if (!tempUser.getEmail().equals("deleted") && dbUser.getEmail().equals(tempUser.getEmail())
         && userRepository
             .existsByEmail(tempUser.getEmail().toLowerCase())
             .booleanValue()) { // check if e-mail
