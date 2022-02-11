@@ -29,6 +29,10 @@ public interface DeliveryRepository extends MongoRepository<Delivery,String> {
 
     public Boolean existsById(ObjectId id);
 
+    public Boolean existsByCustomerId(String id);
+
+    public List<Delivery> getByCustomerId(String id);
+
 
 
 }

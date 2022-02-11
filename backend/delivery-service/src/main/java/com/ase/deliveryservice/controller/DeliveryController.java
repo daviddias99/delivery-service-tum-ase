@@ -137,4 +137,14 @@ public class DeliveryController {
 
         return ResponseEntity.ok(responseMessage);
     }
+
+    @GetMapping(value="/pending/{id}")
+    public ResponseEntity<Boolean> hasPendingDelivery(@RequestHeader(value = "Cookie", required = true) String cookie, @PathVariable String id){
+
+        Boolean isExists = deliveryService.hasPendingDelivery(id);
+
+        return ResponseEntity.ok(isExists);
+    }
+
+
 }
