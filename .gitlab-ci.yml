@@ -60,12 +60,18 @@ unit-test-job:   # This job runs in the test stage.
   script:
     - echo "Running unit tests... This will take about 60 seconds."
     - echo "Code coverage is 90%"
+  only:
+    changes:
+      - backend/**/*
 
 lint-test-job:   # This job also runs in the test stage.
   stage: test    # It can run at the same time as unit-test-job (in parallel).
   script:
-    - echo "Linting code... This will take about 10 seconds."
+    - echo "Linting code doesnt work... This will take about 10 seconds."
     - echo "No lint issues found in the project."
+  only:
+    changes:
+      - backend/**/*
 
 backend:package:
   stage: package
@@ -184,8 +190,14 @@ deploy-job:      # This job runs in the deploy stage.
 
     - cat $AWS_PEM_KEY | tr -d '\r' | ssh-add -
     - echo "AWS Host  " $AWS_USER_HOST
-    - scp -r $DOCKER_COMPOSE_FILE $AWS_USERHOST:~/
-    - scp -r $DOCKER_COMPOSE_MONGO $AWS_USERHOST:~/
+    - echo "DOCKER COMPOSE FILE "  $DOCKER_COMPOSE_FILE
+    - cat $DOCKER_COMPOSE_FILE | head -10
+    - pwd
+    - ls -l docs/
+    - chmod -R 777 $DOCKER_COMPOSE_FILE
+    - ls -l docs/
+    - scp $DOCKER_COMPOSE_FILE ubuntu@ec2-34-229-221-46.compute-1.amazonaws.com:/home/ubuntu/
+    - scp $DOCKER_COMPOSE_MONGO $AWS_USERHOST:/home/ubuntu/
     - ssh $AWS_USER_HOST  " docker login -u $CI_USERNAME -p $CI_PASSWORD $CI_REGISTRY"
     - ssh $AWS_USER_HOST "docker-compose -f $DOCKER_COMPOSE_MONGO pull && docker-compose -f $DOCKER_COMPOSE_MONGO up --force-recreate -d"
 
