@@ -1,8 +1,8 @@
 [
   {"_id": {"$oid": "61bf5a9999c953002403fe1e"}, "rfId": "a", "firstName": "Dora", "surname": "Garrett","password": "password", "email": "dGarret9@mail.com", "role":"DISPATCHER"},
   {"_id": {"$oid": "61bf5a994c0ae4a3a2ec4a8f"}, "rfId": "b",  "firstName": "Esther", "surname": "Tran","password": "password", "email": "superEsther@mail.com", "role":"DISPATCHER"},
-  {"_id": {"$oid": "61bf5a99fc3362a39034518c"}, "rfId": "592741410948", "firstName": "Christopher", "surname": "Salazar","password": "password", "email": "everybodyHatesChris@mail.com", "role":"CUSTOMER"},
+  {"_id": {"$oid": "61bf5a99fc3362a39034518c"}, "rfId": "592741410947", "firstName": "Christopher", "surname": "Salazar","password": "password", "email": "everybodyHatesChris@mail.com", "role":"CUSTOMER"},
   {"_id": {"$oid": "61bf5a99b2f2079579480d38"}, "rfId": "111111410948",  "firstName": "Troy", "surname": "Moody","password": "password", "email": "notFromHSM@mail.com", "role":"CUSTOMER"},
-  {"_id": {"$oid": "61bf5a997939d10e8eb5efda"}, "rfId": "523825505285",  "firstName": "Jerome", "surname": "Clark","password": "password", "email": "jTaylorSwiftLover@mail.com", "role":"DELIVERER"},
+  {"_id": {"$oid": "61bf5a997939d10e8eb5efda"}, "rfId": "523825505284",  "firstName": "Jerome", "surname": "Clark","password": "password", "email": "jTaylorSwiftLover@mail.com", "role":"DELIVERER"},
   {"_id": {"$oid": "61bf5a990b34662c837c4001"}, "rfId": "111111505285",  "firstName": "Erik", "surname": "Boone","password": "password", "email": "ericWithAK@mail.com", "role":"DELIVERER"}
 ]
