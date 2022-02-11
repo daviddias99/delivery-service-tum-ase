@@ -20,6 +20,7 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service(value = "userService")
@@ -81,7 +82,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public List<UserDto> getAll() {
-    List<User> data = userRepository.findAll();
+    List<User> data = userRepository.findAll().stream().filter(p -> !p.getRfId().equals("deleted")).collect(Collectors.toList());
     return Arrays.asList(modelMapper.map(data, UserDto[].class));
   }
 
@@ -168,7 +169,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public List<UserDto> getAllByRole(String role) {
-    List<User> users = userRepository.findAllByRole(role);
+    List<User> users = userRepository.findAllByRole(role).stream().filter(p -> !p.getRfId().equals("deleted")).collect(Collectors.toList());
     return Arrays.asList(modelMapper.map(users, UserDto[].class));
   }
 

@@ -89,10 +89,15 @@ public class AuthServiceImpl implements AuthService {
         String email = decoded.split(":", 2)[0];
         String password = decoded.split(":", 2)[1];
 
+
+        if(email.equals("deleted")){
+            return new ResponseEntity<>(new AuthResponse("Invalid Credentials!"), HttpStatus.UNAUTHORIZED);
+        }
+
         // get user by given email
         UserDetails user = loadUserByUsername(email);
         if (user == null) {
-            return new ResponseEntity<>(new AuthResponse("Email or password is incorrect"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new AuthResponse("User does not exist!"), HttpStatus.UNAUTHORIZED);
         }
 
         // authenticate using authManager and token of email and password
@@ -116,11 +121,11 @@ public class AuthServiceImpl implements AuthService {
                 return new ResponseEntity<>(new AuthResponse(modelMapper.map(tempUser, AuthDto.class), "Login Successful"), HttpStatus.OK);
             }
             else{
-                return new ResponseEntity<>(new AuthResponse("Email or password is incorrect"), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new AuthResponse("Email or password is incorrect"), HttpStatus.UNAUTHORIZED);
             }
         } catch (BadCredentialsException e){
             e.printStackTrace();
-            return new ResponseEntity<>(new AuthResponse("Email or password is incorrect"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new AuthResponse("Email or password is incorrect"), HttpStatus.UNAUTHORIZED);
         } catch (Exception ex){
             ex.printStackTrace();
             return new ResponseEntity<>(new AuthResponse("Internal Server Error"), HttpStatus.INTERNAL_SERVER_ERROR);
