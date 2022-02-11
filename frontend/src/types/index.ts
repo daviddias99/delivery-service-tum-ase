@@ -15,6 +15,7 @@ type User = {
   surname: string,
   role: UserRole,
   email: string,
+  rfId: string
 };
 
 type Box = {

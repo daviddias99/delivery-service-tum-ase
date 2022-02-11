@@ -45,12 +45,12 @@ const UserProfile = (props:any) => {
     const updateUserCallback = ( response: any) => {
       if (response.status === 200) {
         handleEditClose();
-        const updatedUser: User = {id: user.id, firstName: firstName, surname: surname, role: user.role, email: email};
+        const updatedUser: User = {id: user.id, firstName: firstName, surname: surname, role: user.role, email: email, rfId: user.rfId};
         setUser(updatedUser);
       }
 
     };
-    const updatedUser: User = {id: user.id, firstName: firstName, surname: surname, role: user.role, email: email};
+    const updatedUser: User = {id: user.id, firstName: firstName, surname: surname, role: user.role, email: email, rfId: user.rfId};
     api.updateUser(user.id, updatedUser, updateUserCallback);
 
   };
