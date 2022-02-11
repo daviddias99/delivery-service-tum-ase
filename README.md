@@ -36,13 +36,13 @@ To start only the database (for example, for local development), run the `docker
 
 1. Ensure that the `.env` file in `frontend` is configured with the correct backend URL
 2. Package the backend services by running `mvn package` on the `backend` directory
-3. Build containers by running the `docker-compose -f deployment-docker-compose.yml build` command
-4. Run system by issuing the following commands* (wait for services to boot before issuing next command) in the `docs` directory:
-   1. `docker-compose -f deployment-docker-compose.yml up ase-mongo-server`
-   2. `docker-compose -f deployment-docker-compose.yml up ase-config-server`
-   3. `docker-compose -f deployment-docker-compose.yml up ase-eureka-server`
-   4. `docker-compose -f deployment-docker-compose.yml up ase-delivery-service` (this will turn on all other services because we purposefuly made this one depend on all others)
-   5. `docker-compose -f deployment-docker-compose.yml up ase-frontend`
+3. Build containers by running the `docker-compose -f docs/deployment-docker-compose.yml build` command
+4. Run system by issuing the following commands* (wait for services to boot before issuing next command):
+   1. `docker-compose -f docs/deployment-docker-compose.yml up ase-mongo-server`
+   2. `docker-compose -f docs/deployment-docker-compose.yml up ase-config-server`
+   3. `docker-compose -f docs/deployment-docker-compose.yml up ase-eureka-server`
+   4. `docker-compose -f docs/deployment-docker-compose.yml up ase-delivery-service` (this will turn on all other services because we purposefuly made this one depend on all others)
+   5. `docker-compose -f docs/deployment-docker-compose.yml up ase-frontend`
 5. Access frontend application in `http://localhost:3000`
 6. The database can be seeded using the seeds in `docs/seeds`. Ex: `mongoimport --db mongo-ase-db --collection delivery --drop --jsonArray --file ./delivery_seed.json`. The database names are `mongo-ase-db` and `mongo-ase-user`, the collections are `delivery`, `boxes` and `users`
 

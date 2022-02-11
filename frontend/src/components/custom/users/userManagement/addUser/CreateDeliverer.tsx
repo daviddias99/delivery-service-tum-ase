@@ -46,7 +46,7 @@ const CreateDeliverer = () => {
 
 
   const confirmClicked = () => {
-    const newDeliverer = { firstName: firstName, surname: surname, password: 'password', email: email};
+    const newDeliverer = { firstName: firstName, surname: surname, password: 'password', email: email, rfId: RFID};
     const callback = (response: AxiosResponse<any, any>) => {
       if (response.status !== 200) {
         setError(true);

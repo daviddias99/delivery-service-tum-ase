@@ -151,10 +151,8 @@ public class UserServiceImpl implements UserService {
   @Override
   public UserDto updateUser(UserDto tempUser, String id) {
     User dbUser = userRepository.findById(new ObjectId(id));
-    if (!tempUser.getEmail().equals("deleted") && dbUser.getEmail().equals(tempUser.getEmail())
-        && userRepository
-            .existsByEmail(tempUser.getEmail().toLowerCase())
-            .booleanValue()) { // check if e-mail
+    User emailUser = userRepository.findByEmail(tempUser.getEmail());
+    if (!tempUser.getEmail().equals("deleted") && dbUser.getEmail().equals(tempUser.getEmail()) && !emailUser.getId().equals(dbUser.getId())) { // check if e-mail
       // is already used
       // by another user
       return null;
@@ -163,6 +161,7 @@ public class UserServiceImpl implements UserService {
     dbUser.setSurname(tempUser.getSurname());
     dbUser.setFirstName(tempUser.getFirstName());
     dbUser.setEmail(tempUser.getEmail().toLowerCase());
+    dbUser.setRfId(tempUser.getRfId());
     userRepository.save(dbUser);
     return tempUser;
   }
