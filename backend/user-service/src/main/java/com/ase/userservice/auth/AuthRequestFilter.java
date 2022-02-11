@@ -31,16 +31,14 @@ public class AuthRequestFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        //TODO: fix nullptr issue if no cookies attached
         Cookie[] cookies = request.getCookies();
-        if (cookies == null) {
-            response.sendError(HttpStatus.BAD_REQUEST.value(), "No Cookies Found");
-        }
         Cookie cookie = null;
 
-        for (int i = 0; i < cookies.length; i++) {
-            if (cookies[i].getName().equals("jwt")) {
-                cookie = cookies[i];
+        if(cookies != null) {
+            for (int i = 0; i < cookies.length; i++) {
+                if (cookies[i].getName().equals("jwt")) {
+                    cookie = cookies[i];
+                }
             }
         }
 
@@ -59,7 +57,8 @@ public class AuthRequestFilter extends OncePerRequestFilter {
 
 
         if (cookie == null) {
-            response.sendError(HttpStatus.BAD_REQUEST.value(), "No JWT Cookie Found");
+            response.sendError(HttpStatus.UNAUTHORIZED.value(), "No JWT Cookie Found");
+            return;
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null ||
