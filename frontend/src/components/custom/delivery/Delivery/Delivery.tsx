@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Chip from '@mui/material/Chip';
 import { Delivery, Box, User } from 'types';
-import { Grid } from '@mui/material';
+import {Grid, IconButton} from '@mui/material';
 
 import BoxAddress from 'components/common/BoxAddress/BoxAddress';
 import DeliveryStatusStepper from '../DeliveryStatusStepper/DeliveryStatusStepper';
@@ -17,11 +17,14 @@ import EditDelivery from '../deliveryManagement/EditDelivery';
 import TrackingInfo from './TrackingInfo';
 import { loggedUser } from 'redux/slices/loggedUser/loggedUserSlice';
 import api from 'services/api';
+import DeleteIcon from '@mui/icons-material/Delete';
+import {useNavigate} from 'react-router-dom';
 
 
 const canSeeTrackingInfo = (user: User, delivery: Delivery) => {
   return user && (user.role === 'DISPATCHER' || (user.role === 'DELIVERER' && delivery.deliverer.id === user.id));
 };
+
 
 const DeliveryComponent = () => {
 
@@ -30,6 +33,7 @@ const DeliveryComponent = () => {
   const [tagStatus, setTagStatus] = React.useState(delivery.statusHistory[0].deliveryStatus);
   const box: Box = useSelector(boxInfo);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   React.useEffect(
     () => {
@@ -37,6 +41,10 @@ const DeliveryComponent = () => {
       setTagStatus(delivery.statusHistory[0].deliveryStatus);
     },
     [delivery, dispatch]);
+  const deleteClicked = () => {
+    api.deleteDelivery(delivery.id, () => {});
+    navigate('/delivery/');
+  };
 
   return (
     <div id="delivery" >
@@ -45,13 +53,17 @@ const DeliveryComponent = () => {
         <span>
           {delivery.id}
         </span>
+        {delivery.statusHistory[0].deliveryStatus === 'ordered' && user.role === 'DISPATCHER'? (
+          <IconButton aria-label="delete" size="large" sx={{float: 'right'}} onClick={deleteClicked}>
+            <DeleteIcon color="error" fontSize="large" />
+          </IconButton>
+        ): (<></>)}
         {user && user.role === 'DISPATCHER' && delivery.statusHistory[0].deliveryStatus === 'ordered' && <EditDelivery />}
         <Chip className="boxStatus" size="small" label={toUpperCase(tagStatus)} sx={{ backgroundColor: getDeliveryStatusColor(tagStatus) }} />
       </h3>
       <h6 className="subTitle">
         {`Tracking code: ${delivery.trackingNumber}`}
       </h6>
-
       <Grid container spacing={1}>
         <Grid item xs={12} md={6}>
           <Grid container>
