@@ -1,5 +1,22 @@
 # ASE Delivery Service
 
+**2021/2022** - 5th Year, 1st Semester (Exchange Semester at [TUM](https://www.tum.de/))
+
+**Course:** *Advanced Topics of Software Engineering* ([ASE](https://wwwmatthes.in.tum.de/pages/c9ulr7t9nrqs/Advanced-Topics-of-Software-Engineering))
+
+**Authors:** Achraf Aroua, David Silva ([daviddias99](https://github.com/daviddias99)), Erem Gülum, Ruilin Qi, Xavier George
+
+---
+
+**Description:** *See bellow* (see `/docs` folder for the complete specification)
+**Technologies:** Spring (Boot, Security, Cloud Gateway,...), Netflix Eureka, React, Redux, Mongodb, Python
+
+**Skills:** System design, object oriented programming, hardware programming, web-development, microservice architecture, project management
+
+**Grade:** ??/20 (converted from 1.0 in [TUM Grading](https://www.ph.tum.de/academics/faq/grading/?language=en))
+
+---
+
 We have implemented a pick-up station (aka. pack station) delivery service as part of the Advanced Software Engineering term project.
 
 _In this system, each customer who orders items is assigned a box at a pick-up station. The service then
@@ -10,7 +27,7 @@ or customer can unlock a box, each deliverer and customer is given an RFID tag f
 pick-up box has an RFID scanner to read the RFID tag from a deliverer or customer and determine if they
 are authorized to unlock the box. The Customers are informed when their delivery is created, delivered, or
 picked up successfully_
-
+(see `/docs` folder for the complete specification)
 
 ## Information
 
