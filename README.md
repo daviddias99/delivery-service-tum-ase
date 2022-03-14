@@ -9,7 +9,7 @@
 ---
 
 **Description:** *See bellow* (see `/docs` folder for the complete specification)
-**Technologies:** Spring (Boot, Security, Cloud Gateway,...), Netflix Eureka, React, Redux, Mongodb, Python
+**Technologies:** Spring (Boot, Security, Cloud Gateway,...), Netflix Eureka, React, Redux, Mongodb, Python, Typescript
 
 **Skills:** System design, object oriented programming, hardware programming, web-development, microservice architecture, project management
 
