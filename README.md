@@ -13,7 +13,7 @@
 
 **Skills:** System design, object oriented programming, hardware programming, web-development, microservice architecture, project management
 
-**Grade:** ??/20 (converted from 1.0 in [TUM Grading](https://www.ph.tum.de/academics/faq/grading/?language=en))
+**Grade:** ??/20 (converted from ?? in [TUM Grading](https://www.ph.tum.de/academics/faq/grading/?language=en))
 
 ---
 
