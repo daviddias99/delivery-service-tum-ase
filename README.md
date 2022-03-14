@@ -43,11 +43,13 @@ The frontend code (user interface) is located in the `frontend` directory. Instr
 
 The backend code (microservices) can be found in the `backend` direcotry. Instructions on how to compile and run it manually can be found in the `README` file on the `backend` directory
 
-The `docs` directory contains docker-compose files as well as database seeds.
+The `docker` directory contains docker-compose files as well as database seeds.
+
+The box code is located in the `box` directory. Please note that this folder used to be it's own repository and is meant to be run on a Raspberry Pi with a specific hardware setup.
 
 ## Running the database
 
-To start only the database (for example, for local development), run the `docker-compose up` command on the `docs` folder.
+To start only the database (for example, for local development), run the `docker-compose up` command on the `docker` folder.
 
 ## Running the project using docker
 
