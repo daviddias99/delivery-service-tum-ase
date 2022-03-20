@@ -20,7 +20,7 @@ spring:
           auth: 'true'
     host: smtp.gmail.com
     username: asedeliveryy@gmail.com
-    password: ***REMOVED***
+    password: REDACTED
     port: '587'
     smtp:
       ssl:
